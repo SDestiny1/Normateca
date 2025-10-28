@@ -1,8 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class loginController extends Controller
 {
@@ -18,37 +18,30 @@ class loginController extends Controller
             'password' => 'required'
         ]);
 
-        // 🔐 Credenciales estáticas sin base de datos
-        $users = [
-            'admin@cesun.edu.mx' => [
-                'password' => 'admin123',
-                'role' => 'admin'
-            ],
-            'usuario@cesun.edu.mx' => [
-                'password' => 'usuario123',
-                'role' => 'usuario'
-            ],
-        ];
+        // Buscar el usuario en la base de datos
+        $user = DB::table('Usuarios')
+            ->where('email', $request->_id)
+            ->first();
 
-        $email = $request->_id;
-        $password = $request->password;
-
-        if (isset($users[$email]) && $users[$email]['password'] === $password) {
-            // Guardar datos de sesión
-            session([
-                'user' => [
-                    'email' => $email,
-                    'role' => $users[$email]['role']
-                ]
-            ]);
-
-            // Redirigir según el rol
-            return $users[$email]['role'] === 'admin'
-                ? redirect()->route('admin.landing')
-                : redirect()->route('usuario.landing');
+        // Si no existe el usuario o la contraseña no coincide
+        if (!$user || $user->contrasena !== $request->password) {
+            return back()->withErrors(['login_error' => 'Credenciales incorrectas.']);
         }
 
-        return back()->withErrors(['login_error' => 'Credenciales incorrectas.']);
+        // Guardar sesión con datos reales
+        session([
+            'user' => [
+                'email' => $user->email,
+                'role' => $user->rol
+            ]
+        ]);
+
+        // Redirigir según el rol
+        if ($user->rol === 'admin') {
+            return redirect()->route('admin.landing');
+        } else {
+            return redirect()->route('usuario.landing');
+        }
     }
 
     public function logout()

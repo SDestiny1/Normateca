@@ -187,15 +187,16 @@
                     <i class="fas fa-sign-in-alt mr-2"></i>
                     Ingresar
                 </button>
+
+                <div class="mt-4">
+                <a href="{{ route('google.login') }}"
+                class="w-full flex items-center justify-center bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-100 transition-all duration-300">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5 mr-2" alt="Google">
+                    Iniciar sesión con Google
+                </a>
+            </div>
             </form>
     
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center mt-4">
-            <p class="text-white/50 text-xs">
-                <span class="text-secondary font-semibold">Departamento de Planeación y Gestión de Calidad</span>
-            </p>
         </div>
     </div>
 

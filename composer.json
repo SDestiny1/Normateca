@@ -8,12 +8,11 @@
         "php": "^8.0.2",
         "cloudinary-labs/cloudinary-laravel": "^2.1",
         "guzzlehttp/guzzle": "^7.2",
-        "jenssegers/mongodb": "^3.9",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
+        "laravel/socialite": "^5.23",
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "3.1.47",
-        "mongodb/mongodb": "^1.21",
         "phpoffice/phpspreadsheet": "^1.29"
     },
     "require-dev": {

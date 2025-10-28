@@ -8,6 +8,7 @@ use App\Http\Controllers\indicadoresController;
 use App\Http\Controllers\normatividadController;
 use App\Http\Controllers\procesosController;
 use App\Http\Controllers\loginController;
+use App\Http\Controllers\Auth\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,40 +23,20 @@ use App\Http\Controllers\loginController;
 
 Route::get('/login', [loginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [loginController::class, 'login'])->name('login.post');
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-
-// Vistas por rol
 Route::get('/admin', function () {
-    if (session('user')['role'] !== 'admin') {
-        return redirect()->route('login');
-    }
-    return view('admin.dashboard');
-})->name('admin.dashboard');
-
-Route::get('/usuario', function () {
-    if (session('user')['role'] !== 'usuario') {
-        return redirect()->route('login');
-    }
-    return view('usuario.dashboard');
-})->name('usuario.dashboard');
-
-// 🧩 Nueva ruta para el landing del admin
-Route::get('/admin/landing', function () {
-    if (!session()->has('user') || session('user')['role'] !== 'admin') {
-        return redirect()->route('login');
-    }
-    return view('admin.landing'); // vista: resources/views/admin/landing.blade.php
+    return view('admin.landing');
 })->name('admin.landing');
 
-Route::get('/usuario/landing', function () {
-    if (!session()->has('user') || session('user')['role'] !== 'usuario') {
-        return redirect()->route('login');
-    }
-    return view('usuario.landing'); // vista: resources/views/admin/landing.blade.php
+
+Route::get('/usuario', function () {
+    return view('usuario.landing');
 })->name('usuario.landing');
 
 // Estructura organizacional
