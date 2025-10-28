@@ -1,16 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\CalendarioController;
-use App\Http\Controllers\NoticiaController;
-use App\Http\Controllers\BecaController;
+use App\Http\Controllers\calendarioController;
+use App\Http\Controllers\estructuraController;
+use App\Http\Controllers\formatoController;
+use App\Http\Controllers\indicadoresController;
+use App\Http\Controllers\normatividadController;
+use App\Http\Controllers\procesosController;
+use App\Http\Controllers\loginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,64 +19,106 @@ use App\Http\Controllers\BecaController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/login', [loginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [loginController::class, 'login'])->name('login.post');
+
 Route::get('/', function () {
-    return view('landing');
+    return redirect()->route('login');
 });
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Vistas por rol
+Route::get('/admin', function () {
+    if (session('user')['role'] !== 'admin') {
+        return redirect()->route('login');
+    }
+    return view('admin.dashboard');
+})->name('admin.dashboard');
 
-Route::resource('students', controller: StudentController::class);
+Route::get('/usuario', function () {
+    if (session('user')['role'] !== 'usuario') {
+        return redirect()->route('login');
+    }
+    return view('usuario.dashboard');
+})->name('usuario.dashboard');
 
-Route::resource('teachers', controller: TeacherController::class);
-Route::post('/importar-docentes', [TeacherController::class, 'import'])->name('teachers.import');
+// 🧩 Nueva ruta para el landing del admin
+Route::get('/admin/landing', function () {
+    if (!session()->has('user') || session('user')['role'] !== 'admin') {
+        return redirect()->route('login');
+    }
+    return view('admin.landing'); // vista: resources/views/admin/landing.blade.php
+})->name('admin.landing');
 
-Route::resource('posts', PostController::class);
-Route::patch('/posts/{post}/toggle-status', [PostController::class, 'toggleStatus'])
-    ->name('posts.toggle-status');
-Route::get('/posts/{id}/details', [PostController::class, 'details'])->name('posts.details');
+Route::get('/usuario/landing', function () {
+    if (!session()->has('user') || session('user')['role'] !== 'usuario') {
+        return redirect()->route('login');
+    }
+    return view('usuario.landing'); // vista: resources/views/admin/landing.blade.php
+})->name('usuario.landing');
 
+// Estructura organizacional
+Route::get('/estructura', function () {
+    $role = session('user')['role'] ?? null;
 
-Route::resource('groups', GroupController::class);
+    if ($role === 'admin') {
+        return view('admin.EstructuraOrg.index');
+    } elseif ($role === 'usuario') {
+        return view('usuario.EstructuraOrg.index');
+    } else {
+        return redirect()->route('login');
+    }
+})->name('estructura.index');
 
-Route::put('/settings', [App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
+// Formatos
+Route::get('/formato', function () {
+    $role = session('user')['role'] ?? null;
 
-Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    if ($role === 'admin') {
+        return view('admin.Formato.index');
+    } elseif ($role === 'usuario') {
+        return view('usuario.Formato.index');
+    } else {
+        return redirect()->route('login');
+    }
+})->name('formatos.index');
 
-Route::get('/calendario', [CalendarioController::class, 'index'])->name('calendario.index')->middleware('auth');
-Route::post('/calendario', [CalendarioController::class, 'store'])->name('calendario.store')->middleware('auth');
-Route::get('/plantilla-calendario', function () {
-    return response()->download(storage_path('app/public/plantillas/plantilla_calendario.csv'));
-})->name('plantilla.calendario')->middleware('auth');
-Route::post('/calendario/importar', [CalendarioController::class, 'importar'])->name('calendario.importar')->middleware('auth');
-Route::delete('/calendario/{year}/{eventIndex}', [CalendarioController::class, 'destroy'])->middleware('auth');
-Route::patch('/calendario/{year}/{eventIndex}', [CalendarioController::class, 'update'])->middleware('auth');
+// Indicadores
+Route::get('/indicadores', function () {
+    $role = session('user')['role'] ?? null;
 
-Route::prefix('noticias')->group(function () {
-    Route::get('/', [NoticiaController::class, 'index'])->name('noticias.index');
-    Route::get('/crear', [NoticiaController::class, 'create'])->name('noticias.create');
-    Route::post('/', [NoticiaController::class, 'store'])->name('noticias.store');
-    Route::get('/{id}/editar', [NoticiaController::class, 'edit'])->name('noticias.edit');
-    Route::put('/{id}', [NoticiaController::class, 'update'])->name('noticias.update');
-    Route::patch('/{id}/toggle-status', [NoticiaController::class, 'toggleStatus'])->name('noticias.toggle-status');
-    Route::delete('/{id}', [NoticiaController::class, 'destroy'])->name('noticias.destroy');
-});
+    if ($role === 'admin') {
+        return view('admin.Indicadores.index');
+    } elseif ($role === 'usuario') {
+        return view('usuario.Indicadores.index');
+    } else {
+        return redirect()->route('login');
+    }
+})->name('indicadores.index');
 
-// En routes/web.php
-Route::post('/students/import', [StudentController::class, 'import'])
-    ->name('students.import')
-    ->middleware('auth'); // Asegúrate de que el usuario esté autenticado
+// Normatividad
+Route::get('/normatividad', function () {
+    $role = session('user')['role'] ?? null;
 
-Route::get('/becas', [BecaController::class, 'index'])->name('becas.index');
-Route::get('/becas/create', [BecaController::class, 'create'])->name('becas.create');
-Route::post('/becas', [BecaController::class, 'store'])->name('becas.store');
-Route::get('/becas/{id}', [BecaController::class, 'show'])->name('becas.show');
+    if ($role === 'admin') {
+        return view('admin.Normatividad.index');
+    } elseif ($role === 'usuario') {
+        return view('usuario.Normatividad.index');
+    } else {
+        return redirect()->route('login');
+    }
+})->name('normatividad.index');
 
-Route::get('/teachers/{teacher}/schedule/create', [TeacherController::class, 'createSchedule'])
-    ->name('teachers.schedule.create')
-    ->middleware('can:edit teachers');
-Route::post('/teachers/{teacher}/assign-schedule', [TeacherController::class, 'assignSchedule'])->name('teachers.assignSchedule');
-Route::post('/teachers/assign-schedule', [TeacherController::class, 'assignSchedule'])->name('teachers.assignSchedule');
+// Procesos
+Route::get('/procesos', function () {
+    $role = session('user')['role'] ?? null;
+
+    if ($role === 'admin') {
+        return view('admin.Procesos.index');
+    } elseif ($role === 'usuario') {
+        return view('usuario.Procesos.index');
+    } else {
+        return redirect()->route('login');
+    }
+})->name('procesos.index');

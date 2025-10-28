@@ -43,11 +43,11 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
-               'mongodb' => [
-                'driver' => 'mongodb',
-                'dsn' => env('DB_DSN'),
-                'database' => env('DB_DATABASE'),
-            ],
+        'mongodb' => [
+        'driver' => 'mongodb',
+        'dsn' => env('DB_DSN'),
+        'database' => env('DB_DATABASE'),
+        ],
 
         'mysql' => [
             'driver' => 'mysql',

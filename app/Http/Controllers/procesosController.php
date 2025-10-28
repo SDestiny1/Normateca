@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class calendarioController extends Controller
+class procesosController extends Controller
 {
     public function index()
     {
-        return view('calendarios.index');
+        return view('Procesos.index');
     }
 }
