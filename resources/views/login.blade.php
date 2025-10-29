@@ -13,6 +13,9 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 --> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
         tailwind.config = {
@@ -111,13 +114,24 @@
                 <p class="text-white/70 text-xs">Accede a tu cuenta</p>
             </div>
 
-            @if ($errors->any())
-                <div class="mb-3 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
-                    <div class="flex items-center">
-                        <i class="fas fa-exclamation-triangle text-red-400 mr-2 text-xs"></i>
-                        <span class="text-red-200 text-xs">{{ $errors->first() }}</span>
-                    </div>
-                </div>
+            @if (session('error'))
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Acceso Denegado',
+                    text: '{{ session('error') }}',
+                    confirmButtonText: 'Entendido',
+                    confirmButtonColor: '#d33',
+                    background: '#fff',
+                    color: '#333',
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                });
+            </script>
             @endif
 
             <form method="POST" action="{{ route('login.post') }}" class="space-y-4">

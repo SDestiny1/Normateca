@@ -14,7 +14,6 @@ class User extends Authenticatable
 
     protected $hidden = ['contrasena'];
 
-    // ⚠️ Laravel usa 'password' por defecto, así que se la redefinimos
     public function getAuthPassword()
     {
         return $this->contrasena;

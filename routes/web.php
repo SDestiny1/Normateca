@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\calendarioController;
 use App\Http\Controllers\estructuraController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\normatividadController;
 use App\Http\Controllers\procesosController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\documentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,12 +34,11 @@ Route::get('/', function () {
 
 Route::get('/admin', function () {
     return view('admin.landing');
-})->name('admin.landing');
-
+})->name('admin.landing') ->middleware('rol:admin');
 
 Route::get('/usuario', function () {
     return view('usuario.landing');
-})->name('usuario.landing');
+})->name('usuario.landing' )->middleware('rol:usuario');
 
 // Estructura organizacional
 Route::get('/estructura', function () {
@@ -103,3 +104,11 @@ Route::get('/procesos', function () {
         return redirect()->route('login');
     }
 })->name('procesos.index');
+
+Route::get('/admin', [documentController::class, 'index'])->name('admin.landing');
+Route::get('/admin/create', [documentController::class, 'create'])->name('admin.create');
+Route::post('/admin', [documentController::class, 'store'])->name('admin.store');
+Route::get('/admin/{codigo}', [documentController::class, 'show'])->name('admin.show');
+Route::delete('/admin/{codigo}', [documentController::class, 'destroy'])->name('admin.destroy');
+
+Route::post('/admin', [App\Http\Controllers\SeccionController::class, 'store'])->name('admin.store');

@@ -4,18 +4,21 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class RolMiddleware
 {
     public function handle(Request $request, Closure $next, $rol)
     {
-        if (!Auth::check()) {
-            return redirect('/login');
+        $user = session('user');
+
+        // Si no hay usuario en sesión
+        if (!$user) {
+            return redirect('/login')->with('error', 'Debes iniciar sesión para acceder.');
         }
 
-        if (Auth::user()->rol !== $rol) {
-            abort(403, 'No tienes permiso para acceder a esta página.');
+        // Si el rol no coincide
+        if ($user['role'] !== $rol) {
+            return redirect('/login')->with('error', 'No tienes permiso para acceder a esta página.');
         }
 
         return $next($request);

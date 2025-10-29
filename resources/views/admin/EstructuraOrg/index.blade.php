@@ -18,7 +18,7 @@
   <link href="../../assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="../../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="../../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
   <!-- Main CSS File -->
@@ -116,7 +116,7 @@
 
 <body class="index-page">
 
-  <header id="header" class="header d-flex align-items-center fixed-top">
+    <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="#" class="logo d-flex align-items-center me-auto">
@@ -125,10 +125,9 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-
           <li><a href="{{ route('admin.landing') }}" class="">Inicio</a></li>
         <li class="nav-item dropdown">
-          <a href="{{ route('estructura.index') }}" class="nav-link active">Estructura Organizacional</a>
+          <a href="{{ route('estructura.index') }}" class="nav-link">Estructura Organizacional</a>
         </li>
           <li class="nav-item dropdown">
             <a href="{{ route('normatividad.index') }}" class="nav-link">Normatividad</a>
@@ -150,12 +149,12 @@
 
   <main class="main">
 
-<!-- Hero Section -->
+<!-- ==== Hero Section ==== -->
 <section id="hero" class="hero section">
   <img src="../../assets/img/Mesa de trabajo 1-80.jpg" alt="" class="img-fluid w-100">
 </section>
 
-<!-- Links rápidos (centrados y con ancho contenido) -->
+<!-- ==== Links rápidos ==== -->
 <div class="container my-5">
   <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col">
@@ -194,8 +193,8 @@
   </div>
 </div>
 
-<!-- ==== Secciones (más anchas) ==== -->
-<div class="container-fluid px-5 my-5"> <!-- 👈 container-fluid + padding lateral -->
+<!-- ==== Secciones ==== -->
+<div class="container-fluid px-5 my-5">
   <div id="procesos" class="section-anchor mb-5">
     <div class="d-flex justify-content-between align-items-center">
       <h3 class="mb-2">Procesos</h3>
@@ -231,11 +230,12 @@
 
 
 </div>
+
+<!-- ==== Footer ==== -->
 <footer id="footer" class="footer dark-background">
 
   <div class="container footer-top">
 
-    <!-- Normateca centrado -->
     <div class="row">
       <div class="col-12 text-center footer-about">
         <a href="#" class="logo d-flex align-items-center justify-content-center">
@@ -244,7 +244,6 @@
       </div>
     </div>
 
-    <!-- Coordinador y Jefe en una sola línea -->
     <div class="row justify-content-center mt-4">
       <div class="col-md-5 footer-links text-center">
         <h4>Coordinador de Desarrollo Organizacional</h4>
@@ -286,8 +285,8 @@
 <script>
   const DATA = {
     Procesos: [
-      { title:'Manual de Procedimientos', area:'Procesos', type:'Procedimiento', urlPreview:'https://drive.google.com/file/d/1j9h6sSY-kN9Fq5IeaFgEJ0rYpQRUTdPi/preview', urlEdit:'https://drive.google.com/file/d/1j9h6sSY-kN9Fq5IeaFgEJ0rYpQRUTdPi/edit' },
-      { title:'Metodología para elaborar Manual de Procedimientos', area:'Procesos', type:'Procedimiento', urlPreview:'#', urlEdit:'#' }
+      { title:'Manual de Procedimientos', area:'Procesos', type:'Procedimiento', urlPreview:'https://drive.google.com/file/d/1j9h6sSY-kN9Fq5IeaFgEJ0rYpQRUTdPi/preview', urlEdit:'https://drive.google.com/file/d/1j9h6sSY-kN9Fq5IeaFgEJ0rYpQRUTdPi/edit', archivo:'/storage/pdfs/MANUAL_DE_PROCEDIMIENTOS_CESUN_2021.pdf' },
+      { title:'Metodología para elaborar Manual de Procedimientos', area:'Procesos', type:'Procedimiento', urlPreview:'', urlEdit:'' }
     ],
     Rectoria: [
       { title:'Elaboración del Informe Anual de labores', area:'Rectoria', type:'Informe', urlPreview:'#', urlEdit:'#' }
@@ -304,6 +303,49 @@
     ]
   };
 
+/* ------------------ Helper para render de un item ------------------ */
+function renderItemMarkup(it) {
+  const archivoAttr = it.archivo ? encodeURI(it.archivo) : '';
+  const tienePreview = it.urlPreview && it.urlPreview !== '#';
+
+  const linkDestino = tienePreview ? it.urlPreview : '#';
+
+  const previewIcon = archivoAttr
+    ? `<button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="${archivoAttr}" title="Ver documento local">
+         <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
+       </button>`
+    : '';
+
+  const editLink = it.urlEdit && it.urlEdit !== '#'
+    ? `<a href="${it.urlEdit}" target="_blank" class="text-secondary ms-2" title="Abrir en Drive">
+         <i class="bi bi-link-45deg fs-5"></i>
+       </a>`
+    : '';
+
+  return `
+    <li class="list-group-item doc-container d-flex justify-content-between align-items-start">
+      <div>
+        <div class="d-flex align-items-center gap-2">
+          <a href="${linkDestino}" target="_blank"
+             class="fw-semibold text-decoration-none ${tienePreview ? '' : 'text-muted'}"
+             data-preview="${it.urlPreview || ''}"
+             data-edit="${it.urlEdit || ''}"
+             data-area="${it.area || ''}"
+             data-type="${it.type || ''}"
+             data-archivo="${archivoAttr}">
+            ${it.title}
+          </a>
+          ${previewIcon}
+        </div>
+        <div class="doc-meta">${it.area || ''}${it.type ? ' · ' + it.type : ''}</div>
+      </div>
+      ${editLink}
+    </li>
+  `;
+}
+
+
+/* ------------------ Render de listas ------------------ */
 function renderList(id, items){
   const ul = document.getElementById(id);
   ul.innerHTML = items.map((i, idx)=>{
@@ -318,113 +360,126 @@ function renderList(id, items){
           </button>
         </li>
         <ul class="list-group list-group-flush subsection-items collapsible" id="${subsectionId}">
-          ${i.items.map(it=>`
-            <li class="list-group-item sub-item doc-container d-flex justify-content-between">
-              <div>
-                <div class="d-flex align-items-center">
-                  <a href="${it.urlEdit}" target="_blank"
-                     class="fw-semibold"
-                     data-preview="${it.urlPreview}" data-edit="${it.urlEdit}"
-                     data-area="${it.area||''}" data-type="${it.type||''}">
-                    ${it.title}
-                  </a>
-                  ${it.urlPreview && it.urlPreview !== '#' ? '<i class="bi bi-file-earmark-text text-secondary ms-2"></i>' : ''}
-                </div>
-                <div class="doc-meta">${it.area||''} ${it.type? ' · '+it.type:''}</div>
-              </div>
-              <a href="${it.urlEdit}" target="_blank" class="text-secondary ms-2" title="Abrir en Drive">
-                <i class="bi bi-link-45deg fs-5"></i>
-              </a>
-            </li>
-          `).join('')}
+          ${i.items.map(it => renderItemMarkup(it)).join('')}
         </ul>
       `;
     } else {
-      return `
-        <li class="list-group-item doc-container d-flex justify-content-between">
-          <div>
-            <div class="d-flex align-items-center">
-              <a href="${i.urlEdit}" target="_blank"
-                 class="fw-semibold"
-                 data-preview="${i.urlPreview}" data-edit="${i.urlEdit}"
-                 data-area="${i.area||''}" data-type="${i.type||''}">
-                ${i.title}
-              </a>
-              ${i.urlPreview && i.urlPreview !== '#' ? '<i class="bi bi-file-earmark-text text-secondary ms-2"></i>' : ''}
-            </div>
-            <div class="doc-meta">${i.area||''} ${i.type? ' · '+i.type:''}</div>
-          </div>
-          <a href="${i.urlEdit}" target="_blank" class="text-secondary ms-2" title="Abrir en Drive">
-            <i class="bi bi-link-45deg fs-5"></i>
-          </a>
-        </li>
-      `;
+      return renderItemMarkup(i);
     }
   }).join('');
 }
 
-  renderList('listProcesos', DATA.Procesos);
-  renderList('listRectoria', DATA.Rectoria);
-  renderList('listDireccion', DATA.Direccion);
+renderList('listProcesos', DATA.Procesos);
+renderList('listRectoria', DATA.Rectoria);
+renderList('listDireccion', DATA.Direccion);
 
-  // Toggle secciones
-  document.addEventListener("click", e=>{
-    if(e.target.closest(".toggle-btn")){
-      const btn = e.target.closest(".toggle-btn");
-      const targetId = btn.dataset.target;
-      const el = document.getElementById(targetId);
-      const arrow = btn.querySelector(".arrow");
-      const label = btn.querySelector(".label");
-      if(el){
-        el.classList.toggle("hidden");
-        const hidden = el.classList.contains("hidden");
-        label.textContent = hidden ? "Mostrar" : "Ocultar";
-        arrow.classList.toggle("up", hidden);
-        arrow.classList.toggle("down", !hidden);
-      }
-    }
-  });
-
-  // Preview flotante
-  const globalPreview = document.getElementById("globalPreview");
-  document.addEventListener("mouseover", e=>{
-    const el = e.target.closest(".doc-container a.fw-semibold");
+/* ------------------ Toggle secciones ------------------ */
+document.addEventListener("click", e=>{
+  if(e.target.closest(".toggle-btn")){
+    const btn = e.target.closest(".toggle-btn");
+    const targetId = btn.dataset.target;
+    const el = document.getElementById(targetId);
+    const arrow = btn.querySelector(".arrow");
+    const label = btn.querySelector(".label");
     if(el){
+      el.classList.toggle("hidden");
+      const hidden = el.classList.contains("hidden");
+      label.textContent = hidden ? "Mostrar" : "Ocultar";
+      arrow.classList.toggle("up", hidden);
+      arrow.classList.toggle("down", !hidden);
+    }
+  }
+});
+
+/* ------------------ Abrir modal cuando se haga click en .open-pdf ------------------ */
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.open-pdf');
+  if(btn){
+    const encoded = btn.dataset.archivo || '';
+    const ruta = encoded ? decodeURI(encoded) : '';
+    if(ruta) abrirPDFModal(ruta);
+  }
+});
+
+/* ------------------ Preview flotante ------------------ */
+const globalPreview = document.getElementById("globalPreview");
+document.addEventListener("mouseover", e => {
+  const el = e.target.closest(".doc-container a.fw-semibold");
+  if (el) {
+    const previewURL = el.dataset.preview;
+    if (previewURL && previewURL !== "#") {
       globalPreview.querySelector(".doc-title").textContent = el.textContent;
-      globalPreview.querySelector(".doc-frame").src = el.dataset.preview !== "#" ? el.dataset.preview : "";
+      globalPreview.querySelector(".doc-frame").src = previewURL;
       globalPreview.querySelector(".doc-info").textContent =
-        (el.dataset.area||"") + (el.dataset.type? " · "+el.dataset.type:"");
+        (el.dataset.area || "") + (el.dataset.type ? " · " + el.dataset.type : "");
       const rect = el.getBoundingClientRect();
-      globalPreview.style.top = (rect.bottom + window.scrollY + 5) + "px";
-      globalPreview.style.left = (rect.left + window.scrollX) + "px";
+      globalPreview.style.top = rect.bottom + window.scrollY + 5 + "px";
+      globalPreview.style.left = rect.left + window.scrollX + "px";
       globalPreview.style.display = "block";
+    } else {
+      globalPreview.style.display = "none";
     }
-  });
-  document.addEventListener("mouseout", e=>{
-    const el = e.target.closest(".doc-container a.fw-semibold");
-    if(el){
-      setTimeout(()=>{ if(!globalPreview.matches(":hover")) globalPreview.style.display="none"; },50);
-    }
-  });
-  globalPreview.addEventListener("mouseleave", ()=>{ globalPreview.style.display="none"; });
+  }
+});
+
+document.addEventListener("mouseout", e=>{
+  const el = e.target.closest(".doc-container a.fw-semibold");
+  if(el){
+    setTimeout(()=>{ if(!globalPreview.matches(":hover")) globalPreview.style.display="none"; },50);
+  }
+});
+globalPreview.addEventListener("mouseleave", ()=>{ globalPreview.style.display="none"; });
+
+/* ------------------ Apertura y limpieza del modal PDF ------------------ */
+function abrirPDFModal(rutaPDF) {
+  const viewer = document.getElementById('pdfViewer');
+  viewer.src = rutaPDF;
+
+  const modalEl = document.getElementById('pdfModal');
+  const bsModal = new bootstrap.Modal(modalEl);
+  bsModal.show();
+
+  function onHidden() {
+    viewer.src = '';
+    modalEl.removeEventListener('hidden.bs.modal', onHidden);
+  }
+  modalEl.addEventListener('hidden.bs.modal', onHidden);
+}
 </script>
+
+
+<!-- Modal de vista de PDF -->
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pdfModalLabel">Vista del Documento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body p-0">
+        <iframe id="pdfViewer" src="" width="100%" height="600px" style="border:none;"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/php-email-form/validate.js"></script>
+  <script src="../assets/vendor/aos/aos.js"></script>
+  <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
   <!-- Main JS File -->
-  <script src="../../assets/js/main.js"></script>
-
-  <!-- Botón flotante para volver arriba -->
-<button id="btnScrollTop" class="scroll-top-btn">
-  <i class="bi bi-arrow-up"></i>
-</button>
-
-<script>
-  const scrollBtn = document.getElementById('btnScrollTop');
-  window.addEventListener('scroll', () => {
-    scrollBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
-  });
-  scrollBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-</script>
+  <script src="../assets/js/main.js"></script>
 
 </body>
 </html>
