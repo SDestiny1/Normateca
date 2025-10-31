@@ -22,6 +22,94 @@
 
   <!-- Main CSS File -->
   <link href="../../assets/css/main.css" rel="stylesheet">
+
+  <style>
+    :root { --brand: #0b5ed7; }
+    .hero{
+      background: radial-gradient(60% 100% at 70% 10%, rgba(13,110,253,.12), transparent 60%),
+                  linear-gradient(120deg, rgba(13,110,253,.18), rgba(102,16,242,.12));
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .list-hover .list-group-item{ transition: background-color .15s ease; }
+    .list-hover .list-group-item:hover{ background-color: rgba(13,110,253,.06); }
+    .section-anchor{ scroll-margin-top: 6rem; }
+
+    .subsection-title {
+      background-color: #f8f9fa;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .sub-item { padding-left: 2rem; }
+
+    .doc-container a.fw-semibold {
+      color: #0d6efd;               
+      text-decoration: underline;   
+      text-underline-offset: 2px;   
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .doc-container a.fw-semibold:hover {
+      color: #0a58ca;              
+      text-decoration: underline; 
+    }
+
+    .toggle-btn {
+      border: none; background: none; color: var(--brand);
+      font-size: 0.9rem; cursor: pointer;
+      display: flex; align-items: center; gap: 0.25rem;
+      transition: color 0.2s ease;
+    }
+    .toggle-btn:hover { color: #084298; }
+
+    .arrow { display: inline-block; transition: transform 0.3s ease; }
+    .arrow.down { transform: rotate(0deg); }
+    .arrow.up { transform: rotate(180deg); }
+
+    .collapsible { max-height: 2000px; overflow: hidden; transition: max-height 0.4s ease-in-out; }
+    .collapsible.hidden { max-height: 0; }
+
+    /* ---- Preview flotante ---- */
+    #globalPreview {
+      display: none; position: absolute; width: 360px; background: #fff; border: 1px solid #ddd;
+      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; z-index: 9999;
+    }
+    #globalPreview .doc-title { font-size: 14px; font-weight: 600; color: #1a73e8; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    #globalPreview .doc-title::before { content: "📄"; font-size: 16px; }
+    #globalPreview .doc-frame { width: 100%; height: 200px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; }
+    #globalPreview .doc-info { font-size: 12px; color: #555; line-height: 1.4; }
+    .doc-container { cursor: pointer; }
+    .doc-meta { font-size: 14px; color: #666; margin-top: 4px; }
+
+    /* ---- Botón flotante "Volver arriba" ---- */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--brand);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 1050;
+}
+.scroll-top-btn:hover {
+  background-color: #084298;
+  transform: translateY(-3px);
+}
+.scroll-top-btn i {
+  font-size: 1.3rem;
+}
+
+  </style>
+
 </head>
 
 <body class="index-page">
@@ -57,7 +145,7 @@
     </div>
   </header>
 
-  <main class="main">
+    <main class="main">
 
     <!-- Hero Section -->
     <section id="hero" class="hero section">
@@ -66,28 +154,70 @@
 
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about section">
-
-      <div class="container">
-
-        <div class="row gy-4">
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <h3>Introduccion</h3>
-            <img src="../../assets/img/about.jpg" class="img-fluid rounded-4 mb-4" alt="Gestión Estudiantil">
-            <p>En este sentido, en la Dirección Administrativa se creó el Departamento de Planeación y Gestión de Calidad, el cual tiene un mecanismo denominado Normateca Interna, cuyo objetivo es la difusión de la normatividad y disposiciones administrativas internas que se aprueben por el Rector.</p>
-          </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
-            <div class="content ps-0 ps-lg-5">
-              <p>
-                Desde 2019, se planteó en el Plan de Desarrollo Institucional 2020-2027, como una de las estrategias previstas el eje de Gestión Institucional con el objetivo de Implementar un Sistema de Gestión de la Calidad basado en estándares nacionales e internacionales para la acreditación y certificación institucional lo cual permitirá el desarrollar mecanismos para evitar la sobreregulación y asegurar la simplificación del marco normativo interno y de atención al estudiante; por lo que se hizo necesario contar con una herramienta de coordinación interna en cada unidad administrativa de CESUN Universidad, que contribuya a la simplificación de disposiciones administrativas que regulan la operación y funcionamiento interno de éstas.              </p>
-              <div class="position-relative mt-4">
-                <img src="../../assets/img/about-2.jpg" class="img-fluid rounded-4" alt="Plataforma Educativa">
+    <!---- Links rápidos ---->
+    <div class="container my-5">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <a class="card h-100 text-decoration-none shadow-sm" href="#procesos">
+            <div class="card-body d-flex align-items-center gap-3">
+              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+              <div>
+                <h5 class="mb-1">------------------</h5>
+                <div class="text-secondary small">-----------------</div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
-
+        <div class="col">
+          <a class="card h-100 text-decoration-none shadow-sm" href="#rectoria">
+            <div class="card-body d-flex align-items-center gap-3">
+              <i class="bi bi-journal-text fs-2 text-primary"></i>
+              <div>
+                <h5 class="mb-1">---------------------</h5>
+                <div class="text-secondary small">----------------------</div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col">
+          <a class="card h-100 text-decoration-none shadow-sm" href="#direccion">
+            <div class="card-body d-flex align-items-center gap-3">
+              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+              <div>
+                <h5 class="mb-1">---------------</h5>
+                <div class="text-secondary small">-------------------</div>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
+    </div>
 
-    </section>
+ <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/php-email-form/validate.js"></script>
+  <script src="../assets/vendor/aos/aos.js"></script>
+  <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="../assets/js/main.js"></script>
+
+  <!-- Formulario para agreagar documentos -->
+  <div class=" ">
+      <div> </div>
+      
+  </div>
+
+</body>
+</html>
+

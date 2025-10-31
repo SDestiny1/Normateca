@@ -66,28 +66,43 @@
 
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about section">
-
-      <div class="container">
-
-        <div class="row gy-4">
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <h3>Introduccion</h3>
-            <img src="../../assets/img/about.jpg" class="img-fluid rounded-4 mb-4" alt="Gestión Estudiantil">
-            <p>En este sentido, en la Dirección Administrativa se creó el Departamento de Planeación y Gestión de Calidad, el cual tiene un mecanismo denominado Normateca Interna, cuyo objetivo es la difusión de la normatividad y disposiciones administrativas internas que se aprueben por el Rector.</p>
-          </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
-            <div class="content ps-0 ps-lg-5">
-              <p>
-                Desde 2019, se planteó en el Plan de Desarrollo Institucional 2020-2027, como una de las estrategias previstas el eje de Gestión Institucional con el objetivo de Implementar un Sistema de Gestión de la Calidad basado en estándares nacionales e internacionales para la acreditación y certificación institucional lo cual permitirá el desarrollar mecanismos para evitar la sobreregulación y asegurar la simplificación del marco normativo interno y de atención al estudiante; por lo que se hizo necesario contar con una herramienta de coordinación interna en cada unidad administrativa de CESUN Universidad, que contribuya a la simplificación de disposiciones administrativas que regulan la operación y funcionamiento interno de éstas.              </p>
-              <div class="position-relative mt-4">
-                <img src="../../assets/img/about-2.jpg" class="img-fluid rounded-4" alt="Plataforma Educativa">
+    <!-- Links rapidos -->
+     <div class="container my-5">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <a class="card h-100 text-decoration-none shadow-sm" href="#">
+            <div class="card-body d-flex align-items-center gap-3">
+              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+              <div>
+                <h5 class="mb-1">--------------------</h5>
+                <div class="text-secondary small">---------------------</div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
-
+        <div class="col">
+          <a class="card h-100 text-decoration-none shadow-sm" href="">
+            <div class="card-body d-flex align-items-center gap-3">
+              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+              <div>
+                <h5 class="mb-1">-----------------------</h5>
+                <div class="text-secondary small">-------------------------</div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col">
+          <a class="card h-100 text-decoration-none shadow-sm" href="">
+            <div class="card-body d-flex align-items-center gap-3">
+              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+                <div>
+                  <h5 class="mb-1">----------------------</h5>
+                  <div class="text-secondary small">------------------------</div>
+                </div>
+            </div>
+          </a>
+        </div>
       </div>
+     </div>
 
-    </section>
+   

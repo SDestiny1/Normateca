@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Docs;
 use App\Models\Category;
 use App\Models\Section;
-use App\Models\Subseccion;
 use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
@@ -34,7 +33,7 @@ class DocumentController extends Controller
         $documento->categoria_id = $request->categoria_id;
         $documento->seccion_id = $request->seccion_id;
         $documento->subseccion_id = $request->subseccion_id;
-        $documento->usuario_id = Auth::user()->email; // se guarda el correo de quien lo sube
+        $documento->usuario_id = Auth::user()->email;
 
         if ($request->hasFile('archivoAdjunto')) {
             $path = $request->file('archivoAdjunto')->store('documentos', 'public');
@@ -49,14 +48,14 @@ class DocumentController extends Controller
     }
 
     // Endpoint para dependencias dinámicas
-public function getSecciones($categoriaID)
-    {
-        return response()->json(
-            Section::where('categoriaID', $categoriaID)
-                ->whereNull('seccionPadreID')
-                ->get()
-        );
-    }
+    public function getSecciones($categoriaID)
+        {
+            return response()->json(
+                Section::where('categoriaID', $categoriaID)
+                    ->whereNull('seccionPadreID')
+                    ->get()
+            );
+        }
 
     public function getSubsecciones($seccionID)
     {

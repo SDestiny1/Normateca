@@ -45,7 +45,7 @@
         }
         
         .bg-primary {
-            background-color: #003892ff; /* Guinda sólido */
+            background-color: #003892ff;
         }
         
         .glass-effect {
@@ -60,12 +60,12 @@
         }
         
         .btn-primary {
-            background-color: #B78E4A; /* Dorado sólido */
+            background-color: #B78E4A; 
             transition: all 0.3s ease;
         }
         
         .btn-primary:hover {
-            background-color: #A67D3F; /* Dorado más oscuro en hover */
+            background-color: #A67D3F;
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(183, 142, 74, 0.3);
         }
@@ -97,7 +97,7 @@
 </head>
 <body class="min-h-screen bg-primary flex items-center justify-center p-4">
     <div class="w-full max-w-sm">
-        <!-- Logo y Título -->
+
         <div class="text-center mb-4">
             <a href="/" class="inline-block">
                 <div class="logo-container inline-block mb-2">

@@ -41,18 +41,17 @@
     }
     .sub-item { padding-left: 2rem; }
 
-    /* Estilo de enlaces de documentos */
     .doc-container a.fw-semibold {
-      color: #0d6efd;               /* Azul de Bootstrap */
-      text-decoration: underline;   /* Subrayado como link */
-      text-underline-offset: 2px;   /* Pequeño espacio entre texto y línea */
+      color: #0d6efd;              
+      text-decoration: underline;
+      text-underline-offset: 2px;
       font-weight: 600;
       transition: color 0.2s ease;
     }
 
     .doc-container a.fw-semibold:hover {
-      color: #0a58ca;              /* Azul más oscuro al hover */
-      text-decoration: underline;  /* Mantener subrayado */
+      color: #0a58ca;              
+      text-decoration: underline; 
     }
 
     .toggle-btn {
@@ -70,7 +69,7 @@
     .collapsible { max-height: 2000px; overflow: hidden; transition: max-height 0.4s ease-in-out; }
     .collapsible.hidden { max-height: 0; }
 
-    /* ==== Preview flotante ==== */
+    /* ---- Preview flotante ---- */
     #globalPreview {
       display: none; position: absolute; width: 360px; background: #fff; border: 1px solid #ddd;
       border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; z-index: 9999;
@@ -82,7 +81,7 @@
     .doc-container { cursor: pointer; }
     .doc-meta { font-size: 14px; color: #666; margin-top: 4px; }
 
-    /* ==== Botón flotante "Volver arriba" ==== */
+    /* ---- Botón flotante "Volver arriba" ---- */
 .scroll-top-btn {
   position: fixed;
   bottom: 25px;
@@ -149,12 +148,12 @@
 
   <main class="main">
 
-<!-- ==== Hero Section ==== -->
+<!---- Hero Section ---->
 <section id="hero" class="hero section">
   <img src="../../assets/img/Mesa de trabajo 1-80.jpg" alt="" class="img-fluid w-100">
 </section>
 
-<!-- ==== Links rápidos ==== -->
+<!---- Links rápidos ---->
 <div class="container my-5">
   <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col">
@@ -193,7 +192,7 @@
   </div>
 </div>
 
-<!-- ==== Secciones ==== -->
+<!---- Secciones ---->
 <div class="container-fluid px-5 my-5">
   <div id="procesos" class="section-anchor mb-5">
     <div class="d-flex justify-content-between align-items-center">
@@ -231,7 +230,7 @@
 
 </div>
 
-<!-- ==== Footer ==== -->
+<!---- Footer ---->
 <footer id="footer" class="footer dark-background">
 
   <div class="container footer-top">
@@ -274,7 +273,7 @@
 
 </footer>
 
-<!-- ==== Preview flotante ==== -->
+<!---- Preview flotante ---->
 <div id="globalPreview">
   <div class="doc-title"></div>
   <iframe class="doc-frame" frameborder="0"></iframe>
@@ -448,7 +447,7 @@ function abrirPDFModal(rutaPDF) {
 </script>
 
 
-<!-- Modal de vista de PDF -->
+<!---- Modal de vista de PDF ---->
 <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
@@ -462,13 +461,13 @@ function abrirPDFModal(rutaPDF) {
     </div>
   </div>
 </div>
-  <!-- Scroll Top -->
+  <!---- Scroll Top ---->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Preloader -->
+  <!---- Preloader ---->
   <div id="preloader"></div>
 
-  <!-- Vendor JS Files -->
+  <!---- Vendor JS Files ---->
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/vendor/php-email-form/validate.js"></script>
   <script src="../assets/vendor/aos/aos.js"></script>
@@ -478,7 +477,7 @@ function abrirPDFModal(rutaPDF) {
   <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
-  <!-- Main JS File -->
+  <!---- Main JS File ---->
   <script src="../assets/js/main.js"></script>
 
 </body>

@@ -318,7 +318,6 @@
 
 </footer>
 
-
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -360,7 +359,6 @@
   gap: 10px;
 }
 
-/* Estilo base de los botones flotantes */
 .float-btn {
   background-color: #0d6efd;
   color: white;
@@ -382,7 +380,6 @@
   transform: scale(1.1);
 }
 
-/* Por defecto los botones están visibles */
 #btn-add-user,
 #btn-add-doc {
   opacity: 1;
@@ -390,7 +387,6 @@
   transform: translateY(0);
 }
 
-/* Solo se reposicionan cuando aparece la flecha */
 .show-scroll .floating-buttons {
   bottom: 90px;
 }
@@ -446,10 +442,8 @@
             #formAddDoc .file-preview { margin-top:12px; text-align:center; display:none; }
             #formAddDoc .file-preview img { width:80px; height:80px; object-fit:contain; }
             #formAddDoc .file-name { margin-top:6px; font-size:14px; font-weight:bold; color:#555; }
-            /* botones junto a selects */
             .small-btn { padding:6px 8px; border-radius:6px; border:1px solid #0d6efd; background:#fff; color:#0d6efd; cursor:pointer; }
             .small-btn:hover { background:#e7f0ff; }
-            /* ajustar espaciado modal */
             .modal-body { padding:18px; }
           </style>
 
@@ -524,17 +518,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalEl = document.getElementById('modalAddDoc');
   const modalAddDoc = new bootstrap.Modal(modalEl);
 
-  // abrir modal con flotante
   btnAddDoc?.addEventListener('click', () => modalAddDoc.show());
 
-  // DOM elements
   const selectCategoria = document.getElementById('categoria');
   const selectSeccion = document.getElementById('seccion');
   const selectSubseccion = document.getElementById('subseccion');
   const nuevaSeccionInput = document.getElementById('nuevaSeccionInput');
   const nuevaSubseccionInput = document.getElementById('nuevaSubseccionInput');
 
-  // attach & preview
   const btnAdjuntarModal = document.getElementById('btnAdjuntarModal');
   const archivoAdjuntoModal = document.getElementById('archivoAdjuntoModal');
   const filePreviewModal = document.getElementById('filePreviewModal');
@@ -542,12 +533,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileNameModal = document.getElementById('fileNameModal');
   const urlPreview = document.getElementById('urlPreview');
 
-  // Secciones desde Blade (todas las secciones)
   const todasLasSecciones = @json($secciones);
 
-  // --- Funciones para actualizar selects ---
   function cargarSeccionesParaCategoria(categoriaNumero) {
-    // Secciones top-level para la categoria (seccionPadreID == null)
     selectSeccion.innerHTML = '<option value="">-- Selecciona una sección --</option>';
     selectSubseccion.innerHTML = '<option value="">Selecciona una sección para ver las sub-secciones</option>';
     nuevaSeccionInput.style.display = 'none';
@@ -568,7 +556,6 @@ document.addEventListener('DOMContentLoaded', () => {
       selectSeccion.appendChild(opt);
     });
 
-    // opción para agregar
     const agregarOpt = document.createElement('option');
     agregarOpt.value = 'agregar';
     agregarOpt.textContent = '-- Agregar otra sección --';
@@ -585,7 +572,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     if (seccionNumero === 'agregar') {
-      // si eligieron "agregar" para sección, mostrar input para nueva sección
       nuevaSeccionInput.style.display = 'block';
       selectSubseccion.innerHTML = '<option value="">Selecciona una sección para ver las sub-secciones</option>';
       return;
@@ -603,24 +589,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // opción para agregar sub-sección
     const agregarSub = document.createElement('option');
     agregarSub.value = 'agregar';
     agregarSub.textContent = '-- Agregar otra sub-sección --';
     selectSubseccion.appendChild(agregarSub);
   }
 
-  // Eventos: cuando cambia categoría -> cargar secciones
   selectCategoria.addEventListener('change', () => {
     cargarSeccionesParaCategoria(selectCategoria.value);
   });
 
-  // Evento: cuando cambia sección -> cargar subsecciones o mostrar input
   selectSeccion.addEventListener('change', () => {
     cargarSubseccionesParaSeccion(selectSeccion.value);
   });
 
-  // Evento: subseccion change -> si selecciona agregar, mostrar input
   selectSubseccion.addEventListener('change', () => {
     if (selectSubseccion.value === 'agregar') {
       nuevaSubseccionInput.style.display = 'block';
@@ -630,12 +612,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Botón agregar sección (abre prompt y crea vía AJAX) — también puede usarse con input visible
   document.getElementById('btn-add-seccion').addEventListener('click', async () => {
     const categoriaID = selectCategoria.value;
     if (!categoriaID) { alert('Primero selecciona una categoría.'); return; }
 
-    // prefill: si se muestra el input de nueva seccion, usa su valor; sino prompt
     let nombre = nuevaSeccionInput.style.display === 'block' ? nuevaSeccionInput.value.trim() : '';
     if (!nombre) nombre = prompt('Ingrese el nombre de la nueva sección:');
     if (!nombre) return;
@@ -651,13 +631,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const data = await res.json();
       if (data.success) {
-        // añadir a todasLasSecciones para que el frontend lo tenga
         todasLasSecciones.push(data.seccion);
-        // recargar las secciones
         cargarSeccionesParaCategoria(categoriaID);
-        // seleccionar la nueva
         selectSeccion.value = data.seccion.numero;
-        // ocultar input
         nuevaSeccionInput.style.display = 'none';
         nuevaSeccionInput.value = '';
         alert('Sección agregada correctamente.');
@@ -694,9 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
       if (data.success) {
         todasLasSecciones.push(data.seccion);
-        // recargar subsecciones para la sección actual
         cargarSubseccionesParaSeccion(seccionPadreID);
-        // seleccionar la nueva sub
         selectSubseccion.value = data.seccion.numero;
         nuevaSubseccionInput.style.display = 'none';
         nuevaSubseccionInput.value = '';
@@ -740,7 +714,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fileNameModal.textContent = file.name;
     filePreviewModal.style.display = 'block';
 
-    // opcional: poner el nombre del archivo en el campo urlPreview (solo visual)
     urlPreview.value = file.name;
   });
 });
