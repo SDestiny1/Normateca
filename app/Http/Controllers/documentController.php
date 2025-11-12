@@ -1,66 +1,64 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Docs;
 use App\Models\Category;
 use App\Models\Section;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Docs;
+use Illuminate\Http\Request;
 
-class DocumentController extends Controller
+class documentController extends Controller
 {
-    public function index()
-    {
-        $categorias = Category::orderBy('nombre', 'asc')->get();
-        $secciones = Section::orderBy('nombre', 'asc')->get();
-        return view('admin.landing', compact('categorias', 'secciones'));
+    public function create() {
+        $categorias = Category::orderBy('nombre')->get();
+        $usuarios = User::orderBy('email')->get();
+        return view('documentos.create', compact('categorias', 'usuarios'));
     }
 
-    public function store(Request $request)
-    {
+    // AJAX: obtener secciones por categoría
+    public function obtenerSecciones($categoriaID) {
+        $secciones = Section::where('categoriaID', $categoriaID)
+            ->whereNull('seccionPadreID')
+            ->orderBy('nombre')->get();
+        return response()->json($secciones);
+    }
+
+    // AJAX: obtener subsecciones por sección padre
+    public function obtenerSubsecciones($seccionPadreID) {
+        $subsecciones = Section::where('seccionPadreID', $seccionPadreID)
+            ->orderBy('nombre')->get();
+        return response()->json($subsecciones);
+    }
+
+    // Guardar documento
+    public function store(Request $request) {
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'categoria_id' => 'required|exists:Categorias,id',
-            'seccion_id' => 'nullable|exists:Secciones,id',
-            'subseccion_id' => 'nullable|exists:Subsecciones,id',
-            'enlace' => 'nullable|url',
-            'archivoAdjunto' => 'nullable|file|mimes:pdf,docx,xls,xlsx,csv|max:5120'
+            'titulo' => 'required|string|max:255',
+            'url' => 'nullable|url',
+            'archivo' => 'nullable|file|max:5120',
+            'usuarioID' => 'required|integer',
+            'categoriaID' => 'required|integer',
         ]);
 
-        $documento = new Docs();
-        $documento->nombre = $request->nombre;
-        $documento->categoria_id = $request->categoria_id;
-        $documento->seccion_id = $request->seccion_id;
-        $documento->subseccion_id = $request->subseccion_id;
-        $documento->usuario_id = Auth::user()->email;
+        $codigo = uniqid("DOC_");
+        $archivo = null;
 
-        if ($request->hasFile('archivoAdjunto')) {
-            $path = $request->file('archivoAdjunto')->store('documentos', 'public');
-            $documento->urlArchivo = '/storage/' . $path;
-        } else {
-            $documento->urlArchivo = $request->enlace;
+        if ($request->hasFile('archivo')) {
+            $archivo = file_get_contents($request->file('archivo')->getRealPath());
         }
 
-        $documento->save();
+        $seccionID = $request->subseccionID ?: $request->seccionID ?: null;
 
-        return back()->with('success', 'Documento agregado correctamente.');
-    }
+        Docs::create([
+            'codigo' => $codigo,
+            'titulo' => $request->titulo,
+            'url' => $request->url,
+            'archivo' => $archivo,
+            'usuarioID' => $request->usuarioID,
+            'categoriaID' => $request->categoriaID,
+            'seccionID' => $seccionID,
+        ]);
 
-    // Endpoint para dependencias dinámicas
-    public function getSecciones($categoriaID)
-        {
-            return response()->json(
-                Section::where('categoriaID', $categoriaID)
-                    ->whereNull('seccionPadreID')
-                    ->get()
-            );
-        }
-
-    public function getSubsecciones($seccionID)
-    {
-        return response()->json(
-            Section::where('seccionPadreID', $seccionID)->get()
-        );
+        return back()->with('mensaje', '✅ Documento agregado correctamente.');
     }
 }

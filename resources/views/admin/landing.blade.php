@@ -342,9 +342,10 @@
   <button id="btn-add-user" class="float-btn" title="Agregar Usuario">
     <i class="bi bi-person-plus"></i>
   </button>
-  <button id="btn-add-doc" class="float-btn" title="Agregar Documento o URL">
-    <i class="bi bi-file-earmark-plus"></i>
-  </button>
+<button class="float-btn" title="Agregar Documento o URL"
+        data-bs-toggle="modal" data-bs-target="#modalAddDoc">
+  <i class="bi bi-file-earmark-plus"></i>
+</button>
 </div>
 
 <style>
@@ -410,101 +411,68 @@
 
 </script>
 
-<!-- Modal para agregar documento (estilo formulario dependiente) -->
-<div class="modal fade" id="modalAddDoc" tabindex="-1" aria-labelledby="modalAddDocLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-1 shadow">
-      <div class="modal-header bg-primary text-white">
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
+  <!-- Modal para agregar documento -->
+  <div class="modal fade" id="modalAddDoc" tabindex="-1" aria-labelledby="modalAddDocLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="modalAddDocLabel">Agregar Documento o URL</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
 
-      <div class="modal-body">
-        <form id="formAddDoc" action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data" style="font-family: Arial, sans-serif;">
+        <form action="{{ route('documentos.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="codigo" class="form-label">Código</label>
+              <input type="text" name="codigo" id="codigo" class="form-control" required>
+            </div>
 
-          <style>
-            /* Copiado/adaptado del estilo del formulario original solicitado */
-            #formAddDoc label { display:block; margin-top:12px; font-weight:bold; }
-            #formAddDoc input[type="text"], #formAddDoc input[type="url"], #formAddDoc select, #formAddDoc textarea {
-              width:100%;
-              padding:8px;
-              margin-top:6px;
-              border-radius:6px;
-              border:1px solid #ccc;
-              box-sizing: border-box;
-            }
-            #formAddDoc .input-group { display:flex; gap:8px; align-items:center; margin-top:6px; }
-            #formAddDoc .input-group input[type="text"] { flex:1; }
-            #formAddDoc .attach-btn {
-              padding:8px 12px; background:#28a745; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold;
-            }
-            #formAddDoc .attach-btn:hover { background:#1e7e34; }
-            #formAddDoc .file-preview { margin-top:12px; text-align:center; display:none; }
-            #formAddDoc .file-preview img { width:80px; height:80px; object-fit:contain; }
-            #formAddDoc .file-name { margin-top:6px; font-size:14px; font-weight:bold; color:#555; }
-            .small-btn { padding:6px 8px; border-radius:6px; border:1px solid #0d6efd; background:#fff; color:#0d6efd; cursor:pointer; }
-            .small-btn:hover { background:#e7f0ff; }
-            .modal-body { padding:18px; }
-          </style>
+            <div class="mb-3">
+              <label for="titulo" class="form-label">Título</label>
+              <input type="text" name="titulo" id="titulo" class="form-control" required>
+            </div>
 
-          <!-- Título -->
-          <label for="titulo">Título:</label>
-          <input type="text" name="titulo" id="titulo" required>
+            <div class="mb-3">
+              <label for="url" class="form-label">URL</label>
+              <input type="url" name="url" id="url" class="form-control" required>
+            </div>
 
-          <!-- Categoría -->
-          <label for="categoria">Categoría:</label>
-          <select id="categoria" name="categoriaID" required>
-            <option value="">-- Selecciona una categoría --</option>
-            @foreach($categorias as $cat)
-              <option value="{{ $cat->numero }}">{{ $cat->nombre }}</option>
-            @endforeach
-          </select>
+            <div class="mb-3">
+              <label for="categoriaID" class="form-label">Categoría</label>
+              <select name="categoriaID" id="categoriaID" class="form-select" required>
+                <option value="">Seleccione una categoría</option>
+                @foreach(DB::table('Categorias')->get() as $cat)
+                  <option value="{{ $cat->numero }}">{{ $cat->nombre }}</option>
+                @endforeach
+              </select>
+            </div>
 
-          <!-- Sección + botón agregar -->
-          <label for="seccion">Sección:</label>
-          <div style="display:flex; gap:8px; align-items:center;">
-            <select id="seccion" name="seccionID" style="flex:1;">
-              <option value="">Selecciona una categoría para ver las secciones</option>
-            </select>
-            <button type="button" id="btn-add-seccion" class="small-btn" title="Agregar nueva sección">
-              <i class="bi bi-plus-circle me-1"></i>Sección
-            </button>
-          </div>
-          <!-- input oculto para nueva seccion (se usa solo si se elige 'agregar' o con el botón) -->
-          <input type="text" id="nuevaSeccionInput" name="nuevaSeccion" placeholder="Escribe nueva sección" style="display:none; margin-top:8px;">
+            <div class="mb-3">
+              <label for="seccionID" class="form-label">Sección</label>
+              <select name="seccionID" id="seccionID" class="form-select">
+                <option value="">Seleccione una sección</option>
+              </select>
+            </div>
 
-          <!-- Subsección + boton agregar subseccion -->
-          <label for="subseccion">Sub-sección:</label>
-          <div style="display:flex; gap:8px; align-items:center;">
-            <select id="subseccion" name="subseccionID" style="flex:1;">
-              <option value="">Selecciona una sección para ver las sub-secciones</option>
-            </select>
-            <button type="button" id="btn-add-subseccion" class="small-btn" title="Agregar nueva sub-sección">
-              <i class="bi bi-plus-circle me-1"></i>Sub
-            </button>
-          </div>
-          <input type="text" id="nuevaSubseccionInput" name="nuevaSubseccion" placeholder="Escribe nueva sub-sección" style="display:none; margin-top:8px;">
+            <div class="mb-3">
+              <label for="subseccionID" class="form-label">Subsección (opcional)</label>
+              <select name="subseccionID" id="subseccionID" class="form-select">
+                <option value="">Seleccione una subsección</option>
+              </select>
+            </div>
 
-          <!-- URL -->
-          <label for="url">Enlace:</label>
-          <input type="url" id="url" name="url" placeholder="https://...">
+            <div class="mb-3">
+              <label for="archivo" class="form-label">Archivo (opcional)</label>
+              <input type="file" name="archivo" id="archivo" class="form-control">
+            </div>
 
-          <!-- Archivo -->
-          <label for="archivo">Archivo:</label>
-          <div class="input-group" style="margin-top:6px;">
-            <input type="text" id="urlPreview" name="urlPreview" placeholder="URL o archivo adjunto">
-            <button type="button" id="btnAdjuntarModal" class="attach-btn">Adjuntar</button>
-          </div>
-          <input type="file" id="archivoAdjuntoModal" name="archivo" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" style="display:none;">
-          <div id="filePreviewModal" class="file-preview">
-            <img id="fileIconModal" src="" alt="Archivo">
-            <div id="fileNameModal" class="file-name"></div>
+            <input type="hidden" name="usuarioID" value="{{ auth()->user()->numero ?? 1 }}">
           </div>
 
-          <!-- Botones -->
-          <div style="display:flex; gap:8px; margin-top:16px;">
-            <button type="button" class="btn btn-secondary w-50" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary w-50">Guardar</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Documento</button>
           </div>
         </form>
       </div>
@@ -512,209 +480,39 @@
   </div>
 </div>
 
+@section('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const btnAddDoc = document.getElementById('btn-add-doc');
-  const modalEl = document.getElementById('modalAddDoc');
-  const modalAddDoc = new bootstrap.Modal(modalEl);
-
-  btnAddDoc?.addEventListener('click', () => modalAddDoc.show());
-
-  const selectCategoria = document.getElementById('categoria');
-  const selectSeccion = document.getElementById('seccion');
-  const selectSubseccion = document.getElementById('subseccion');
-  const nuevaSeccionInput = document.getElementById('nuevaSeccionInput');
-  const nuevaSubseccionInput = document.getElementById('nuevaSubseccionInput');
-
-  const btnAdjuntarModal = document.getElementById('btnAdjuntarModal');
-  const archivoAdjuntoModal = document.getElementById('archivoAdjuntoModal');
-  const filePreviewModal = document.getElementById('filePreviewModal');
-  const fileIconModal = document.getElementById('fileIconModal');
-  const fileNameModal = document.getElementById('fileNameModal');
-  const urlPreview = document.getElementById('urlPreview');
-
-  const todasLasSecciones = @json($secciones);
-
-  function cargarSeccionesParaCategoria(categoriaNumero) {
-    selectSeccion.innerHTML = '<option value="">-- Selecciona una sección --</option>';
-    selectSubseccion.innerHTML = '<option value="">Selecciona una sección para ver las sub-secciones</option>';
-    nuevaSeccionInput.style.display = 'none';
-    nuevaSubseccionInput.style.display = 'none';
-    nuevaSeccionInput.value = '';
-    nuevaSubseccionInput.value = '';
-
-    if (!categoriaNumero) {
-      selectSeccion.innerHTML = '<option value="">Selecciona una categoría para ver las secciones</option>';
-      return;
-    }
-
-    const filtradas = todasLasSecciones.filter(s => String(s.categoriaID) === String(categoriaNumero) && (s.seccionPadreID === null || s.seccionPadreID === undefined));
-    filtradas.forEach(s => {
-      const opt = document.createElement('option');
-      opt.value = s.numero;
-      opt.textContent = s.nombre;
-      selectSeccion.appendChild(opt);
+$(document).ready(function(){
+    // Cuando cambia la categoría
+    $('#categoriaID').change(function(){
+        var categoriaID = $(this).val();
+        $('#seccionID').empty().append('<option value="">Cargando...</option>');
+        $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
+        if(categoriaID){
+            $.getJSON('/documentos/secciones/' + categoriaID, function(data){
+                $('#seccionID').empty().append('<option value="">Seleccione una sección</option>');
+                $.each(data, function(i, item){
+                    $('#seccionID').append('<option value="'+item.numero+'">'+item.nombre+'</option>');
+                });
+            });
+        }
     });
 
-    const agregarOpt = document.createElement('option');
-    agregarOpt.value = 'agregar';
-    agregarOpt.textContent = '-- Agregar otra sección --';
-    selectSeccion.appendChild(agregarOpt);
-  }
-
-  function cargarSubseccionesParaSeccion(seccionNumero) {
-    selectSubseccion.innerHTML = '<option value="">-- Selecciona una sub-sección --</option>';
-    nuevaSubseccionInput.style.display = 'none';
-    nuevaSubseccionInput.value = '';
-
-    if (!seccionNumero) {
-      selectSubseccion.innerHTML = '<option value="">Selecciona una sección para ver las sub-secciones</option>';
-      return;
-    }
-    if (seccionNumero === 'agregar') {
-      nuevaSeccionInput.style.display = 'block';
-      selectSubseccion.innerHTML = '<option value="">Selecciona una sección para ver las sub-secciones</option>';
-      return;
-    }
-
-    const subs = todasLasSecciones.filter(s => String(s.seccionPadreID) === String(seccionNumero));
-    if (subs.length === 0) {
-      selectSubseccion.innerHTML = '<option value="">No hay sub-secciones disponibles</option>';
-    } else {
-      subs.forEach(sub => {
-        const opt = document.createElement('option');
-        opt.value = sub.numero;
-        opt.textContent = sub.nombre;
-        selectSubseccion.appendChild(opt);
-      });
-    }
-
-    const agregarSub = document.createElement('option');
-    agregarSub.value = 'agregar';
-    agregarSub.textContent = '-- Agregar otra sub-sección --';
-    selectSubseccion.appendChild(agregarSub);
-  }
-
-  selectCategoria.addEventListener('change', () => {
-    cargarSeccionesParaCategoria(selectCategoria.value);
-  });
-
-  selectSeccion.addEventListener('change', () => {
-    cargarSubseccionesParaSeccion(selectSeccion.value);
-  });
-
-  selectSubseccion.addEventListener('change', () => {
-    if (selectSubseccion.value === 'agregar') {
-      nuevaSubseccionInput.style.display = 'block';
-    } else {
-      nuevaSubseccionInput.style.display = 'none';
-      nuevaSubseccionInput.value = '';
-    }
-  });
-
-  document.getElementById('btn-add-seccion').addEventListener('click', async () => {
-    const categoriaID = selectCategoria.value;
-    if (!categoriaID) { alert('Primero selecciona una categoría.'); return; }
-
-    let nombre = nuevaSeccionInput.style.display === 'block' ? nuevaSeccionInput.value.trim() : '';
-    if (!nombre) nombre = prompt('Ingrese el nombre de la nueva sección:');
-    if (!nombre) return;
-
-    try {
-      const res = await fetch("{{ route('admin.store') }}", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({ nombre: nombre, categoriaID: categoriaID, seccionPadreID: null })
-      });
-      const data = await res.json();
-      if (data.success) {
-        todasLasSecciones.push(data.seccion);
-        cargarSeccionesParaCategoria(categoriaID);
-        selectSeccion.value = data.seccion.numero;
-        nuevaSeccionInput.style.display = 'none';
-        nuevaSeccionInput.value = '';
-        alert('Sección agregada correctamente.');
-      } else {
-        alert('Error al guardar la sección.');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Ocurrió un error al guardar la nueva sección.');
-    }
-  });
-
-  // Botón agregar sub-seccion
-  document.getElementById('btn-add-subseccion').addEventListener('click', async () => {
-    const categoriaID = selectCategoria.value;
-    const seccionPadreID = selectSeccion.value;
-
-    if (!categoriaID) { alert('Primero selecciona una categoría.'); return; }
-    if (!seccionPadreID || seccionPadreID === 'agregar') { alert('Primero selecciona la sección donde crear la sub-sección.'); return; }
-
-    let nombre = nuevaSubseccionInput.style.display === 'block' ? nuevaSubseccionInput.value.trim() : '';
-    if (!nombre) nombre = prompt('Ingrese el nombre de la nueva sub-sección:');
-    if (!nombre) return;
-
-    try {
-      const res = await fetch("{{ route('admin.store') }}", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({ nombre: nombre, categoriaID: categoriaID, seccionPadreID: seccionPadreID })
-      });
-      const data = await res.json();
-      if (data.success) {
-        todasLasSecciones.push(data.seccion);
-        cargarSubseccionesParaSeccion(seccionPadreID);
-        selectSubseccion.value = data.seccion.numero;
-        nuevaSubseccionInput.style.display = 'none';
-        nuevaSubseccionInput.value = '';
-        alert('Sub-sección agregada correctamente.');
-      } else {
-        alert('Error al guardar la sub-sección.');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Ocurrió un error al guardar la nueva sub-sección.');
-    }
-  });
-
-  // Adjuntar archivo + vista previa
-  btnAdjuntarModal.addEventListener('click', () => archivoAdjuntoModal.click());
-
-  archivoAdjuntoModal.addEventListener('change', () => {
-    if (archivoAdjuntoModal.files.length === 0) {
-      filePreviewModal.style.display = 'none';
-      urlPreview.value = '';
-      return;
-    }
-    const file = archivoAdjuntoModal.files[0];
-    const name = file.name.toLowerCase();
-    const allowed = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx'];
-    const ok = allowed.some(ext => name.endsWith(ext));
-    if (!ok) {
-      alert('⚠️ Archivo no válido. Solo se permiten documentos.');
-      archivoAdjuntoModal.value = '';
-      filePreviewModal.style.display = 'none';
-      return;
-    }
-
-    let icon = '';
-    if (name.endsWith('.pdf')) icon = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
-    else if (name.endsWith('.doc') || name.endsWith('.docx')) icon = 'https://cdn-icons-png.flaticon.com/512/281/281760.png';
-    else if (name.endsWith('.xls') || name.endsWith('.xlsx')) icon = 'https://cdn-icons-png.flaticon.com/512/732/732220.png';
-    else icon = 'https://cdn-icons-png.flaticon.com/512/109/109612.png';
-
-    fileIconModal.src = icon;
-    fileNameModal.textContent = file.name;
-    filePreviewModal.style.display = 'block';
-
-    urlPreview.value = file.name;
-  });
+    // Cuando cambia la sección
+    $('#seccionID').change(function(){
+        var seccionPadreID = $(this).val();
+        $('#subseccionID').empty().append('<option value="">Cargando...</option>');
+        if(seccionPadreID){
+            $.getJSON('/documentos/subsecciones/' + seccionPadreID, function(data){
+                $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
+                $.each(data, function(i, item){
+                    $('#subseccionID').append('<option value="'+item.numero+'">'+item.nombre+'</option>');
+                });
+            });
+        } else {
+            $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
+        }
+    });
 });
 </script>

@@ -4,22 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Docs extends Model
-{
+class Docs extends Model {
     protected $table = 'Documentos';
     protected $primaryKey = 'codigo';
     public $incrementing = false;
     public $timestamps = false;
 
-    protected $fillable = [
-        'codigo',
-        'titulo',
-        'url',
-        'archivo',
-        'usuarioID',
-        'categoriaID',
-        'seccionID'
-    ];
+    protected $fillable = ['codigo', 'titulo', 'url', 'archivo', 'usuarioID', 'categoriaID', 'seccionID'];
+
 
     protected $casts = [
         'fechaCreacion' => 'datetime',

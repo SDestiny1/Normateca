@@ -105,10 +105,8 @@ Route::get('/procesos', function () {
     }
 })->name('procesos.index');
 
-Route::get('/admin', [documentController::class, 'index'])->name('admin.landing');
-Route::get('/admin/create', [documentController::class, 'create'])->name('admin.create');
-Route::post('/admin', [documentController::class, 'store'])->name('admin.store');
-Route::get('/admin/{codigo}', [documentController::class, 'show'])->name('admin.show');
-Route::delete('/admin/{codigo}', [documentController::class, 'destroy'])->name('admin.destroy');
+Route::get('/documentos/crear', [documentController::class, 'create'])->name('documentos.create');
+Route::post('/documentos', [documentController::class, 'store'])->name('documentos.store');
 
-Route::post('/admin', [App\Http\Controllers\SeccionController::class, 'store'])->name('admin.store');
+Route::get('/documentos/secciones/{categoriaID}', [documentController::class, 'obtenerSecciones']);
+Route::get('/documentos/subsecciones/{seccionPadreID}', [documentController::class, 'obtenerSubsecciones']);
