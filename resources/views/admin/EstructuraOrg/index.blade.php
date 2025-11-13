@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -23,99 +24,11 @@
 
   <!-- Main CSS File -->
   <link href="../../assets/css/main.css" rel="stylesheet">
-  <style>
-    :root { --brand: #0b5ed7; }
-    .hero{
-      background: radial-gradient(60% 100% at 70% 10%, rgba(13,110,253,.12), transparent 60%),
-                  linear-gradient(120deg, rgba(13,110,253,.18), rgba(102,16,242,.12));
-      border-bottom: 1px solid rgba(0,0,0,.06);
-    }
-    .list-hover .list-group-item{ transition: background-color .15s ease; }
-    .list-hover .list-group-item:hover{ background-color: rgba(13,110,253,.06); }
-    .section-anchor{ scroll-margin-top: 6rem; }
-
-    .subsection-title {
-      background-color: #f8f9fa;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-    .sub-item { padding-left: 2rem; }
-
-    .doc-container a.fw-semibold {
-      color: #0d6efd;              
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      font-weight: 600;
-      transition: color 0.2s ease;
-    }
-
-    .doc-container a.fw-semibold:hover {
-      color: #0a58ca;              
-      text-decoration: underline; 
-    }
-
-    .toggle-btn {
-      border: none; background: none; color: var(--brand);
-      font-size: 0.9rem; cursor: pointer;
-      display: flex; align-items: center; gap: 0.25rem;
-      transition: color 0.2s ease;
-    }
-    .toggle-btn:hover { color: #084298; }
-
-    .arrow { display: inline-block; transition: transform 0.3s ease; }
-    .arrow.down { transform: rotate(0deg); }
-    .arrow.up { transform: rotate(180deg); }
-
-    .collapsible { max-height: 2000px; overflow: hidden; transition: max-height 0.4s ease-in-out; }
-    .collapsible.hidden { max-height: 0; }
-
-    /* ---- Preview flotante ---- */
-    #globalPreview {
-      display: none; position: absolute; width: 360px; background: #fff; border: 1px solid #ddd;
-      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; z-index: 9999;
-    }
-    #globalPreview .doc-title { font-size: 14px; font-weight: 600; color: #1a73e8; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-    #globalPreview .doc-title::before { content: "📄"; font-size: 16px; }
-    #globalPreview .doc-frame { width: 100%; height: 200px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; }
-    #globalPreview .doc-info { font-size: 12px; color: #555; line-height: 1.4; }
-    .doc-container { cursor: pointer; }
-    .doc-meta { font-size: 14px; color: #666; margin-top: 4px; }
-
-    /* ---- Botón flotante "Volver arriba" ---- */
-.scroll-top-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  width: 50px;
-  height: 50px;
-  background-color: var(--brand);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  z-index: 1050;
-}
-.scroll-top-btn:hover {
-  background-color: #084298;
-  transform: translateY(-3px);
-}
-.scroll-top-btn i {
-  font-size: 1.3rem;
-}
-
-  </style>
 </head>
-
-
 
 <body class="index-page">
 
-    <header id="header" class="header d-flex align-items-center fixed-top">
+  <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="#" class="logo d-flex align-items-center me-auto">
@@ -126,7 +39,7 @@
         <ul>
           <li><a href="{{ route('admin.landing') }}" class="">Inicio</a></li>
         <li class="nav-item dropdown">
-          <a href="{{ route('estructura.index') }}" class="nav-link">Estructura Organizacional</a>
+          <a href="{{ route('estructura.index') }}" class="nav-link active">Estructura Organizacional</a>
         </li>
           <li class="nav-item dropdown">
             <a href="{{ route('normatividad.index') }}" class="nav-link">Normatividad</a>
@@ -148,49 +61,51 @@
 
   <main class="main">
 
-<!---- Hero Section ---->
-<section id="hero" class="hero section">
-  <img src="../../assets/img/Mesa de trabajo 1-80.jpg" alt="" class="img-fluid w-100">
-</section>
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
 
-<!---- Links rápidos ---->
-<div class="container my-5">
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-      <a class="card h-100 text-decoration-none shadow-sm" href="#procesos">
-        <div class="card-body d-flex align-items-center gap-3">
-          <i class="bi bi-diagram-3 fs-2 text-primary"></i>
-          <div>
-            <h5 class="mb-1">Procesos</h5>
-            <div class="text-secondary small">Estructura por áreas clave</div>
-          </div>
+      <img src="../../assets/img/Mesa de trabajo 1-80.jpg" alt="">
+
+    </section>
+
+    <!-- Links rapidos -->
+     <div class="container my-5">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <a class="card h-100 text-decoration-none shadow-sm" href="#">
+            <div class="card-body d-flex align-items-center gap-3">
+              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+              <div>
+                <h5 class="mb-1">--------------------</h5>
+                <div class="text-secondary small">---------------------</div>
+              </div>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
-    <div class="col">
-      <a class="card h-100 text-decoration-none shadow-sm" href="#rectoria">
-        <div class="card-body d-flex align-items-center gap-3">
-          <i class="bi bi-journal-text fs-2 text-primary"></i>
-          <div>
-            <h5 class="mb-1">Rectoría</h5>
-            <div class="text-secondary small">Funciones y responsabilidades</div>
-          </div>
+        <div class="col">
+          <a class="card h-100 text-decoration-none shadow-sm" href="">
+            <div class="card-body d-flex align-items-center gap-3">
+              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+              <div>
+                <h5 class="mb-1">-----------------------</h5>
+                <div class="text-secondary small">-------------------------</div>
+              </div>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
-    <div class="col">
-      <a class="card h-100 text-decoration-none shadow-sm" href="#direccion">
-        <div class="card-body d-flex align-items-center gap-3">
-          <i class="bi bi-diagram-3 fs-2 text-primary"></i>
-          <div>
-            <h5 class="mb-1">Dirección Académica</h5>
-            <div class="text-secondary small">Estructura por áreas clave</div>
-          </div>
+        <div class="col">
+          <a class="card h-100 text-decoration-none shadow-sm" href="">
+            <div class="card-body d-flex align-items-center gap-3">
+              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+                <div>
+                  <h5 class="mb-1">----------------------</h5>
+                  <div class="text-secondary small">------------------------</div>
+                </div>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
-  </div>
-</div>
+      </div>
+     </div>
 
 <!---- Secciones ---->
 <div class="container-fluid px-5 my-5">
@@ -461,13 +376,12 @@ function abrirPDFModal(rutaPDF) {
     </div>
   </div>
 </div>
-  <!---- Scroll Top ---->
+
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!---- Preloader ---->
   <div id="preloader"></div>
 
-  <!---- Vendor JS Files ---->
+  <!-- Vendor JS Files -->
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/vendor/php-email-form/validate.js"></script>
   <script src="../assets/vendor/aos/aos.js"></script>
@@ -477,8 +391,269 @@ function abrirPDFModal(rutaPDF) {
   <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
-  <!---- Main JS File ---->
-  <script src="../assets/js/main.js"></script>
+  <!-- Main JS File -->
+  <script src="../../assets/js/main.js"></script>
 
-</body>
-</html>
+  <!-- Botones flotantes -->
+<div class="floating-buttons">
+  <button id="btn-add-user" class="float-btn" title="Agregar Usuario">
+    <i class="bi bi-person-plus"></i>
+  </button>
+<button class="float-btn" title="Agregar Documento o URL"
+        data-bs-toggle="modal" data-bs-target="#modalAddDoc">
+  <i class="bi bi-file-earmark-plus"></i>
+</button>
+</div>
+
+<style>
+      :root { --brand: #0b5ed7; }
+    .hero{
+      background: radial-gradient(60% 100% at 70% 10%, rgba(13,110,253,.12), transparent 60%),
+                  linear-gradient(120deg, rgba(13,110,253,.18), rgba(102,16,242,.12));
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .list-hover .list-group-item{ transition: background-color .15s ease; }
+    .list-hover .list-group-item:hover{ background-color: rgba(13,110,253,.06); }
+    .section-anchor{ scroll-margin-top: 6rem; }
+
+    .subsection-title {
+      background-color: #f8f9fa;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .sub-item { padding-left: 2rem; }
+
+    .doc-container a.fw-semibold {
+      color: #0d6efd;              
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .doc-container a.fw-semibold:hover {
+      color: #0a58ca;              
+      text-decoration: underline; 
+    }
+
+    .toggle-btn {
+      border: none; background: none; color: var(--brand);
+      font-size: 0.9rem; cursor: pointer;
+      display: flex; align-items: center; gap: 0.25rem;
+      transition: color 0.2s ease;
+    }
+    .toggle-btn:hover { color: #084298; }
+
+    .arrow { display: inline-block; transition: transform 0.3s ease; }
+    .arrow.down { transform: rotate(0deg); }
+    .arrow.up { transform: rotate(180deg); }
+
+    .collapsible { max-height: 2000px; overflow: hidden; transition: max-height 0.4s ease-in-out; }
+    .collapsible.hidden { max-height: 0; }
+
+    /* ---- Preview flotante ---- */
+    #globalPreview {
+      display: none; position: absolute; width: 360px; background: #fff; border: 1px solid #ddd;
+      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; z-index: 9999;
+    }
+    #globalPreview .doc-title { font-size: 14px; font-weight: 600; color: #1a73e8; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    #globalPreview .doc-title::before { content: "📄"; font-size: 16px; }
+    #globalPreview .doc-frame { width: 100%; height: 200px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; }
+    #globalPreview .doc-info { font-size: 12px; color: #555; line-height: 1.4; }
+    .doc-container { cursor: pointer; }
+    .doc-meta { font-size: 14px; color: #666; margin-top: 4px; }
+
+    /* ---- Botón flotante "Volver arriba" ---- */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--brand);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 1050;
+}
+.scroll-top-btn:hover {
+  background-color: #084298;
+  transform: translateY(-3px);
+}
+.scroll-top-btn i {
+  font-size: 1.3rem;
+}
+
+  .floating-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
+    align-items: flex-end;
+  }
+
+  .float-btn {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+}
+
+.float-btn:hover {
+  background-color: #0b5ed7;
+  transform: scale(1.1);
+}
+
+#btn-add-user,
+#btn-add-doc {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.show-scroll .floating-buttons {
+  bottom: 90px;
+}
+
+</style>
+
+<script>
+  const scrollTopBtn = document.getElementById('scroll-top');
+  const floatingButtons = document.querySelector('.floating-buttons');
+  const body = document.body;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      scrollTopBtn.classList.add('active');
+      body.classList.add('show-scroll');
+    } else {
+      scrollTopBtn.classList.remove('active');
+      body.classList.remove('show-scroll');
+    }
+  });
+
+</script>
+
+<!-- Modal para agregar documento -->
+  <div class="modal fade" id="modalAddDoc" tabindex="-1" aria-labelledby="modalAddDocLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="modalAddDocLabel">Agregar Documento o URL</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <form action="{{ route('documentos.store') }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="codigo" class="form-label">Código</label>
+              <input type="text" name="codigo" id="codigo" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="titulo" class="form-label">Título</label>
+              <input type="text" name="titulo" id="titulo" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="url" class="form-label">URL</label>
+              <input type="url" name="url" id="url" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="categoriaID" class="form-label">Categoría</label>
+              <select name="categoriaID" id="categoriaID" class="form-select" required>
+                <option value="">Seleccione una categoría</option>
+                @foreach(DB::table('Categorias')->get() as $cat)
+                  <option value="{{ $cat->numero }}">{{ $cat->nombre }}</option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="seccionID" class="form-label">Sección</label>
+              <select name="seccionID" id="seccionID" class="form-select">
+                <option value="">Seleccione una sección</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="subseccionID" class="form-label">Subsección (opcional)</label>
+              <select name="subseccionID" id="subseccionID" class="form-select">
+                <option value="">Seleccione una subsección</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="archivo" class="form-label">Archivo (opcional)</label>
+              <input type="file" name="archivo" id="archivo" class="form-control">
+            </div>
+
+            <input type="hidden" name="usuarioID" value="{{ auth()->user()->numero ?? 1 }}">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Documento</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    // Cuando cambia la categoría
+    $('#categoriaID').change(function(){
+        var categoriaID = $(this).val();
+        $('#seccionID').empty().append('<option value="">Cargando...</option>');
+        $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
+        if(categoriaID){
+            $.getJSON('/documentos/secciones/' + categoriaID, function(data){
+                $('#seccionID').empty().append('<option value="">Seleccione una sección</option>');
+                $.each(data, function(i, item){
+                    $('#seccionID').append('<option value="'+item.numero+'">'+item.nombre+'</option>');
+                });
+            });
+        }
+    });
+
+    // Cuando cambia la sección
+    $('#seccionID').change(function(){
+        var seccionPadreID = $(this).val();
+        $('#subseccionID').empty().append('<option value="">Cargando...</option>');
+        if(seccionPadreID){
+            $.getJSON('/documentos/subsecciones/' + seccionPadreID, function(data){
+                $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
+                $.each(data, function(i, item){
+                    $('#subseccionID').append('<option value="'+item.numero+'">'+item.nombre+'</option>');
+                });
+            });
+        } else {
+            $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
+        }
+    });
+});
+</script>
