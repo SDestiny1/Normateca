@@ -16,4 +16,9 @@ class Section extends Model {
     public function subsecciones() {
         return $this->hasMany(Section::class, 'seccionPadreID');
     }
+
+    public function documentos() {
+        return $this->hasMany(Docs::class, 'seccionID');
+    }
 }
+

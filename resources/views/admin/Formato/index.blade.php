@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -19,23 +18,154 @@
   <link href="../../assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="../../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="../../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
   <!-- Main CSS File -->
   <link href="../../assets/css/main.css" rel="stylesheet">
+  <style>
+    :root { --brand: #0b5ed7; }
+    .hero{
+      background: radial-gradient(60% 100% at 70% 10%, rgba(13,110,253,.12), transparent 60%),
+                  linear-gradient(120deg, rgba(13,110,253,.18), rgba(102,16,242,.12));
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .list-hover .list-group-item{ transition: background-color .15s ease; }
+    .list-hover .list-group-item:hover{ background-color: rgba(13,110,253,.06); }
+    .section-anchor{ scroll-margin-top: 6rem; }
+
+    .subsection-title {
+      background-color: #f8f9fa;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .sub-item { padding-left: 2rem; }
+
+    .doc-container a.fw-semibold {
+      color: #0d6efd;               
+      text-decoration: underline;   
+      text-underline-offset: 2px;   
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .doc-container a.fw-semibold:hover {
+      color: #0a58ca;              
+      text-decoration: underline; 
+    }
+
+    .toggle-btn {
+      border: none; background: none; color: var(--brand);
+      font-size: 0.9rem; cursor: pointer;
+      display: flex; align-items: center; gap: 0.25rem;
+      transition: color 0.2s ease;
+    }
+    .toggle-btn:hover { color: #084298; }
+
+    .arrow { display: inline-block; transition: transform 0.3s ease; }
+    .arrow.down { transform: rotate(0deg); }
+    .arrow.up { transform: rotate(180deg); }
+
+    .collapsible { max-height: 2000px; overflow: hidden; transition: max-height 0.4s ease-in-out; }
+    .collapsible.hidden { max-height: 0; }
+
+    /* ---- Preview flotante ---- */
+    #globalPreview {
+      display: none; position: absolute; width: 360px; background: #fff; border: 1px solid #ddd;
+      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; z-index: 9999;
+    }
+    #globalPreview .doc-title { font-size: 14px; font-weight: 600; color: #1a73e8; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    #globalPreview .doc-title::before { content: "📄"; font-size: 16px; }
+    #globalPreview .doc-frame { width: 100%; height: 200px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; }
+    #globalPreview .doc-info { font-size: 12px; color: #555; line-height: 1.4; }
+    .doc-container { cursor: pointer; }
+    .doc-meta { font-size: 14px; color: #666; margin-top: 4px; }
+
+    /* ---- Botón flotante "Volver arriba" ---- */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--brand);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 1050;
+}
+.scroll-top-btn:hover {
+  background-color: #084298;
+  transform: translateY(-3px);
+}
+.scroll-top-btn i {
+  font-size: 1.3rem;
+}
+
+.floating-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
+    align-items: flex-end;
+  }
+
+  .float-btn {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+}
+
+.float-btn:hover {
+  background-color: #0b5ed7;
+  transform: scale(1.1);
+}
+
+#btn-add-user,
+#btn-add-doc {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.show-scroll .floating-buttons {
+  bottom: 90px;
+}
+
+  </style>
 </head>
 
 <body class="index-page">
 
-  <header id="header" class="header d-flex align-items-center fixed-top">
+    <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="#" class="logo d-flex align-items-center me-auto">
-        <h1 class="sitename">Normateca Institucional Admin</h1>
+        <h1 class="sitename">Normateca Institucional</h1>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="{{ route('admin.landing') }}" class="">Inicio</a></li>
+          <li><a href="{{ route('usuario.landing') }}" class="">Inicio</a></li>
         <li class="nav-item dropdown">
           <a href="{{ route('estructura.index') }}" class="nav-link">Estructura Organizacional</a>
         </li>
@@ -59,51 +189,50 @@
 
   <main class="main">
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero section">
+<!---- Hero Section ---->
+<section id="hero" class="hero section">
+  <img src="../../assets/img/Mesa de trabajo 1-80.jpg" alt="" class="img-fluid w-100">
+</section>
 
-      <img src="../../assets/img/Mesa de trabajo 1-80.jpg" alt="">
+<!---- Links rápidos ---->
+<div class="container my-5">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+      <a class="card h-100 text-decoration-none shadow-sm" href="#procesos">
+        <div class="card-body d-flex align-items-center gap-3">
+          <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+          <div>
+            <h5 class="mb-1">Procesos</h5>
+            <div class="text-secondary small">Estructura por áreas clave</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card h-100 text-decoration-none shadow-sm" href="#rectoria">
+        <div class="card-body d-flex align-items-center gap-3">
+          <i class="bi bi-journal-text fs-2 text-primary"></i>
+          <div>
+            <h5 class="mb-1">Rectoría</h5>
+            <div class="text-secondary small">Funciones y responsabilidades</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card h-100 text-decoration-none shadow-sm" href="#direccion">
+        <div class="card-body d-flex align-items-center gap-3">
+          <i class="bi bi-diagram-3 fs-2 text-primary"></i>
+          <div>
+            <h5 class="mb-1">Dirección Académica</h5>
+            <div class="text-secondary small">Estructura por áreas clave</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
 
-    </section>
-
-    <!-- Links rapidos -->
-     <div class="container my-5">
-      <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-          <a class="card h-100 text-decoration-none shadow-sm" href="#">
-            <div class="card-body d-flex align-items-center gap-3">
-              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
-              <div>
-                <h5 class="mb-1">--------------------</h5>
-                <div class="text-secondary small">---------------------</div>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col">
-          <a class="card h-100 text-decoration-none shadow-sm" href="">
-            <div class="card-body d-flex align-items-center gap-3">
-              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
-              <div>
-                <h5 class="mb-1">-----------------------</h5>
-                <div class="text-secondary small">-------------------------</div>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col">
-          <a class="card h-100 text-decoration-none shadow-sm" href="">
-            <div class="card-body d-flex align-items-center gap-3">
-              <i class="bi bi-diagram-3 fs-2 text-primary"></i>
-                <div>
-                  <h5 class="mb-1">----------------------</h5>
-                  <div class="text-secondary small">------------------------</div>
-                </div>
-            </div>
-          </a>
-        </div>
-      </div>
-     </div>
 <!---- Secciones ---->
 <div class="container-fluid px-5 my-5">
   <div id="procesos" class="section-anchor mb-5">
@@ -359,7 +488,7 @@ function abrirPDFModal(rutaPDF) {
 </script>
 
 
-<!---- Modal de vista de PDF ---->
+<!-- Modal de vista de PDF -->
 <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
@@ -373,8 +502,10 @@ function abrirPDFModal(rutaPDF) {
     </div>
   </div>
 </div>
+  <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+  <!-- Preloader -->
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
@@ -388,150 +519,20 @@ function abrirPDFModal(rutaPDF) {
   <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
   <!-- Main JS File -->
-  <script src="../../assets/js/main.js"></script>
+  <script src="../assets/js/main.js"></script>
 
-  <!-- Botones flotantes -->
-<div class="floating-buttons">
-  <button id="btn-add-user" class="float-btn" title="Agregar Usuario">
-    <i class="bi bi-person-plus"></i>
+    <!-- Botones flotantes -->
+  <div class="floating-buttons">
+    <button id="btn-add-user" class="float-btn" title="Agregar Usuario">
+      <i class="bi bi-person-plus"></i>
+    </button>
+  <button class="float-btn" title="Agregar Documento o URL"
+          data-bs-toggle="modal" data-bs-target="#modalAddDoc">
+    <i class="bi bi-file-earmark-plus"></i>
   </button>
-<button class="float-btn" title="Agregar Documento o URL"
-        data-bs-toggle="modal" data-bs-target="#modalAddDoc">
-  <i class="bi bi-file-earmark-plus"></i>
-</button>
-</div>
+  </div>
 
-<style>
-      :root { --brand: #0b5ed7; }
-    .hero{
-      background: radial-gradient(60% 100% at 70% 10%, rgba(13,110,253,.12), transparent 60%),
-                  linear-gradient(120deg, rgba(13,110,253,.18), rgba(102,16,242,.12));
-      border-bottom: 1px solid rgba(0,0,0,.06);
-    }
-    .list-hover .list-group-item{ transition: background-color .15s ease; }
-    .list-hover .list-group-item:hover{ background-color: rgba(13,110,253,.06); }
-    .section-anchor{ scroll-margin-top: 6rem; }
-
-    .subsection-title {
-      background-color: #f8f9fa;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-    .sub-item { padding-left: 2rem; }
-
-    .doc-container a.fw-semibold {
-      color: #0d6efd;              
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      font-weight: 600;
-      transition: color 0.2s ease;
-    }
-
-    .doc-container a.fw-semibold:hover {
-      color: #0a58ca;              
-      text-decoration: underline; 
-    }
-
-    .toggle-btn {
-      border: none; background: none; color: var(--brand);
-      font-size: 0.9rem; cursor: pointer;
-      display: flex; align-items: center; gap: 0.25rem;
-      transition: color 0.2s ease;
-    }
-    .toggle-btn:hover { color: #084298; }
-
-    .arrow { display: inline-block; transition: transform 0.3s ease; }
-    .arrow.down { transform: rotate(0deg); }
-    .arrow.up { transform: rotate(180deg); }
-
-    .collapsible { max-height: 2000px; overflow: hidden; transition: max-height 0.4s ease-in-out; }
-    .collapsible.hidden { max-height: 0; }
-
-    /* ---- Preview flotante ---- */
-    #globalPreview {
-      display: none; position: absolute; width: 360px; background: #fff; border: 1px solid #ddd;
-      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px; z-index: 9999;
-    }
-    #globalPreview .doc-title { font-size: 14px; font-weight: 600; color: #1a73e8; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-    #globalPreview .doc-title::before { content: "📄"; font-size: 16px; }
-    #globalPreview .doc-frame { width: 100%; height: 200px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; }
-    #globalPreview .doc-info { font-size: 12px; color: #555; line-height: 1.4; }
-    .doc-container { cursor: pointer; }
-    .doc-meta { font-size: 14px; color: #666; margin-top: 4px; }
-
-    /* ---- Botón flotante "Volver arriba" ---- */
-.scroll-top-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  width: 50px;
-  height: 50px;
-  background-color: var(--brand);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  z-index: 1050;
-}
-.scroll-top-btn:hover {
-  background-color: #084298;
-  transform: translateY(-3px);
-}
-.scroll-top-btn i {
-  font-size: 1.3rem;
-}
-
-  .floating-buttons {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 9999;
-    align-items: flex-end;
-  }
-
-  .float-btn {
-  background-color: #0d6efd;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-  transition: all 0.3s ease;
-}
-
-.float-btn:hover {
-  background-color: #0b5ed7;
-  transform: scale(1.1);
-}
-
-#btn-add-user,
-#btn-add-doc {
-  opacity: 1;
-  pointer-events: all;
-  transform: translateY(0);
-}
-
-.show-scroll .floating-buttons {
-  bottom: 90px;
-}
-
-</style>
-
-<script>
+  <script>
   const scrollTopBtn = document.getElementById('scroll-top');
   const floatingButtons = document.querySelector('.floating-buttons');
   const body = document.body;
@@ -653,3 +654,5 @@ $(document).ready(function(){
     });
 });
 </script>
+</body>
+</html>

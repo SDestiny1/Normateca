@@ -61,4 +61,6 @@ class documentController extends Controller
 
         return back()->with('mensaje', '✅ Documento agregado correctamente.');
     }
+
+    
 }

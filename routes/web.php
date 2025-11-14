@@ -41,69 +41,24 @@ Route::get('/usuario', function () {
 })->name('usuario.landing' )->middleware('rol:usuario');
 
 // Estructura organizacional
-Route::get('/estructura', function () {
-    $role = session('user')['role'] ?? null;
-
-    if ($role === 'admin') {
-        return view('admin.EstructuraOrg.index');
-    } elseif ($role === 'usuario') {
-        return view('usuario.EstructuraOrg.index');
-    } else {
-        return redirect()->route('login');
-    }
-})->name('estructura.index');
+Route::get('/estructura', [estructuraController::class, 'index'])
+    ->name('estructura.index');
 
 // Formatos
-Route::get('/formato', function () {
-    $role = session('user')['role'] ?? null;
-
-    if ($role === 'admin') {
-        return view('admin.Formato.index');
-    } elseif ($role === 'usuario') {
-        return view('usuario.Formato.index');
-    } else {
-        return redirect()->route('login');
-    }
-})->name('formatos.index');
+Route::get('/formato', [formatoController::class, 'index'])
+    ->name('formatos.index');
 
 // Indicadores
-Route::get('/indicadores', function () {
-    $role = session('user')['role'] ?? null;
-
-    if ($role === 'admin') {
-        return view('admin.Indicadores.index');
-    } elseif ($role === 'usuario') {
-        return view('usuario.Indicadores.index');
-    } else {
-        return redirect()->route('login');
-    }
-})->name('indicadores.index');
+Route::get('/indicadores', [indicadoresController::class, 'index'])
+    ->name('indicadores.index');
 
 // Normatividad
-Route::get('/normatividad', function () {
-    $role = session('user')['role'] ?? null;
-
-    if ($role === 'admin') {
-        return view('admin.Normatividad.index');
-    } elseif ($role === 'usuario') {
-        return view('usuario.Normatividad.index');
-    } else {
-        return redirect()->route('login');
-    }
-})->name('normatividad.index');
+Route::get('/normatividad', [normatividadController::class, 'index'])
+    ->name('normatividad.index');
 
 // Procesos
-Route::get('/procesos', function () {
-    $role = session('user')['role'] ?? null;
-
-    if ($role === 'admin') {
-        return view('admin.Procesos.index');
-    } elseif ($role === 'usuario') {
-        return view('usuario.Procesos.index');
-    } else {
-        return redirect()->route('login');
-    }
-})->name('procesos.index');
+Route::get('/procesos', [procesosController::class, 'index'])
+    ->name('procesos.index');
 
 Route::get('/documentos/crear', [documentController::class, 'create'])->name('documentos.create');
 Route::post('/documentos', [documentController::class, 'store'])->name('documentos.store');
