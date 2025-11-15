@@ -480,6 +480,21 @@
   </div>
 </div>
 
+  <!-- Modal para agregar usuario -->
+  <div class="" id="formAddUser">
+    <div>
+      <div>
+        <form class="" id="formUser">
+          <div>
+            <label>
+              <input type="text" placeholder="Nombre del usuario">
+            </label>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

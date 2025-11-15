@@ -1,8 +1,7 @@
 <?php
 
-use GuzzleHttp\Middleware;
+use App\Http\Controllers\usuariosController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\calendarioController;
 use App\Http\Controllers\estructuraController;
 use App\Http\Controllers\formatoController;
 use App\Http\Controllers\indicadoresController;
@@ -23,15 +22,18 @@ use App\Http\Controllers\documentController;
 |
 */
 
+// Rutas para la autenticacion de Google
 Route::get('/login', [loginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [loginController::class, 'login'])->name('login.post');
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+// Ruta del login
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// Rutas del landing page
 Route::get('/admin', function () {
     return view('admin.landing');
 })->name('admin.landing') ->middleware('rol:admin');
@@ -60,8 +62,10 @@ Route::get('/normatividad', [normatividadController::class, 'index'])
 Route::get('/procesos', [procesosController::class, 'index'])
     ->name('procesos.index');
 
+// Rutas de documentos
 Route::get('/documentos/crear', [documentController::class, 'create'])->name('documentos.create');
 Route::post('/documentos', [documentController::class, 'store'])->name('documentos.store');
-
 Route::get('/documentos/secciones/{categoriaID}', [documentController::class, 'obtenerSecciones']);
 Route::get('/documentos/subsecciones/{seccionPadreID}', [documentController::class, 'obtenerSubsecciones']);
+
+Route::post('/usuarios', [usuariosController::class, 'store'])->name('usuarios.store');
