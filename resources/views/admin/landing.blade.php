@@ -339,7 +339,7 @@
 
   <!-- Botones flotantes -->
 <div class="floating-buttons">
-  <button id="btn-add-user" class="float-btn" title="Agregar Usuario">
+  <button id="btn-add-user" class="float-btn" title="Agregar Usuario" data-bs-toggle="modal" data-bs-target="#modalAddUser">
     <i class="bi bi-person-plus"></i>
   </button>
 <button class="float-btn" title="Agregar Documento o URL"
@@ -480,15 +480,56 @@
   </div>
 </div>
 
-  <!-- Modal para agregar usuario -->
-  <div class="" id="formAddUser">
-    <div>
-      <div>
-        <form class="" id="formUser">
-          <div>
-            <label>
-              <input type="text" placeholder="Nombre del usuario">
-            </label>
+  <!-- Modal para registrar usuarios -->
+  <div class="modal fade" id="modalAddUser" tabindex="-1" aria-labelledby="modalAddUserLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="modalAddUserLabel">Registrar Usuarios</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <form action="{{ route('usuarios.store') }}" method="POST">
+          @csrf
+          <div class="modal-body">
+            @if ($errors->any())
+              <div class="alert alert-danger">
+                <ul class="mb-0">
+                  @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo electrónico</label>
+              <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="contrasena" class="form-label">Contraseña</label>
+              <input type="password" name="contrasena" id="contrasena" class="form-control" required minlength="8">
+            </div>
+
+            <div class="mb-3">
+              <label for="contrasena_confirmation" class="form-label">Confirmar contraseña</label>
+              <input type="password" name="contrasena_confirmation" id="contrasena_confirmation" class="form-control" required minlength="8">
+            </div>
+
+            <div class="mb-3">
+              <label for="rol" class="form-label">Rol</label>
+              <select name="rol" id="rol" class="form-select" required>
+                <option value="user" {{ old('rol') == 'user' ? 'selected' : '' }}>Alumno (user)</option>
+                <option value="admin" {{ old('rol') == 'admin' ? 'selected' : '' }}>Administrador</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Registrar</button>
           </div>
         </form>
       </div>
@@ -531,3 +572,6 @@ $(document).ready(function(){
     });
 });
 </script>
+
+</body>
+</html>
