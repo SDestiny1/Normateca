@@ -12,7 +12,7 @@ class usuariosController extends Controller
         $request->validate([
             'email' => 'required|string|email|max:255|unique:usuarios,email',
             'contrasena' => 'required|string|min:8|confirmed',
-            'rol' => 'required|string|in:admin,user,editor',
+            'rol' => 'required|string|in:admin,usuario',
         ]);
 
         User::create([
