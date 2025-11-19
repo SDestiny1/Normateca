@@ -35,7 +35,7 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="{{ route('usuario.landing') }}" class="">Inicio</a></li>
+          <li><a href="{{ route('usuario.landing') }}" class="nav-link active">Inicio</a></li>
         <li class="nav-item dropdown">
           <a href="{{ route('estructura.index') }}" class="nav-link">Estructura Organizacional</a>
         </li>

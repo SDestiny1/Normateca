@@ -17,6 +17,8 @@ class Docs extends Model {
         'fechaCreacion' => 'datetime',
     ];
 
+    
+
     // Relaciones
     public function usuario()
     {

@@ -51,7 +51,7 @@ class GoogleController extends Controller
             // Redirigir según rol
             if ($user->rol === 'admin') {
                 return redirect()->route('admin.landing');
-            } else {
+            } if ($user->rol === 'usuario') {
                 return redirect()->route('usuario.landing');
             }
 

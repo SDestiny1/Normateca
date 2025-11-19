@@ -70,107 +70,107 @@
       .collapsible.hidden { max-height: 0; }
 
       /* ---- Preview flotante ---- */
-#globalPreview {
-    display: none; 
-    position: fixed; /* Cambiado de absolute a fixed */
-    width: 380px; 
-    background: #fff; 
-    border: 1px solid #ddd;
-    border-radius: 12px; 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
-    padding: 15px; 
-    z-index: 9999;
-    transition: opacity 0.2s ease;
-    pointer-events: auto; /* Permitir interacción */
-}
-#globalPreview .doc-title { 
-    font-size: 14px; 
-    font-weight: 600; 
-    color: #1a73e8; 
-    margin-bottom: 12px; 
-    display: flex; 
-    align-items: center; 
-    gap: 6px; 
-    line-height: 1.3;
-}
-#globalPreview .doc-title::before { 
-    content: "📄"; 
-    font-size: 16px; 
-    flex-shrink: 0;
-}
-#globalPreview .doc-frame { 
-    width: 100%; 
-    height: 220px; 
-    border: 1px solid #e0e0e0; 
-    border-radius: 8px; 
-    margin-bottom: 12px; 
-    background: #f8f9fa;
-}
-#globalPreview .doc-info { 
-    font-size: 12px; 
-    color: #666; 
-    line-height: 1.4;
-    padding: 8px 0;
-    border-top: 1px solid #f0f0f0;
-}
+        #globalPreview {
+            display: none; 
+            position: fixed; /* Cambiado de absolute a fixed */
+            width: 380px; 
+            background: #fff; 
+            border: 1px solid #ddd;
+            border-radius: 12px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
+            padding: 15px; 
+            z-index: 9999;
+            transition: opacity 0.2s ease;
+            pointer-events: auto; /* Permitir interacción */
+        }
+        #globalPreview .doc-title { 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #1a73e8; 
+            margin-bottom: 12px; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            line-height: 1.3;
+        }
+        #globalPreview .doc-title::before { 
+            content: "📄"; 
+            font-size: 16px; 
+            flex-shrink: 0;
+        }
+        #globalPreview .doc-frame { 
+            width: 100%; 
+            height: 220px; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px; 
+            margin-bottom: 12px; 
+            background: #f8f9fa;
+        }
+        #globalPreview .doc-info { 
+            font-size: 12px; 
+            color: #666; 
+            line-height: 1.4;
+            padding: 8px 0;
+            border-top: 1px solid #f0f0f0;
+        }
 
-/* Asegurar que el contenedor del documento permita el hover correctamente */
-.doc-container { 
-    cursor: pointer; 
-    position: relative;
-    display: block;
-}
+        /* Asegurar que el contenedor del documento permita el hover correctamente */
+        .doc-container { 
+            cursor: pointer; 
+            position: relative;
+            display: block;
+        }
 
-.doc-meta {
-    font-size: 12px;
-    color: #666;
-    margin-top: 4px;
-}
+        .doc-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
 
-      /* ---- Botón flotante "Volver arriba" ---- */
-      .scroll-top-btn {
-        position: fixed;
-        bottom: 25px;
-        right: 25px;
-        width: 50px;
-        height: 50px;
-        background-color: var(--brand);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        z-index: 1050;
-      }
-      .scroll-top-btn:hover {
-        background-color: #084298;
-        transform: translateY(-3px);
-      }
-      .scroll-top-btn i {
-        font-size: 1.3rem;
-      }
+            /* ---- Botón flotante "Volver arriba" ---- */
+            .scroll-top-btn {
+                position: fixed;
+                bottom: 25px;
+                right: 25px;
+                width: 50px;
+                height: 50px;
+                background-color: var(--brand);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+                z-index: 1050;
+            }
+            .scroll-top-btn:hover {
+                background-color: #084298;
+                transform: translateY(-3px);
+            }
+            .scroll-top-btn i {
+                font-size: 1.3rem;
+            }
 
-      /* ---- Estilos responsivos para los links rápidos ---- */
-      .quick-links-container {
-        display: flex;
-        justify-content: center;
-      }
-      .quick-links-row {
-        max-width: 1200px;
-        width: 100%;
-      }
-      .quick-link-card {
-        height: 100%;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-      .quick-link-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
-      }
+            /* ---- Estilos responsivos para los links rápidos ---- */
+            .quick-links-container {
+                display: flex;
+                justify-content: center;
+            }
+            .quick-links-row {
+                max-width: 1200px;
+                width: 100%;
+            }
+            .quick-link-card {
+                height: 100%;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+            .quick-link-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
+            }
 
     </style>
 </head>
@@ -186,7 +186,7 @@
 
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="{{ route('usuario.landing') }}" class="">Inicio</a></li>
+                    <li><a href="{{ route('usuario.landing') }}" class="nav-link">Inicio</a></li>
                     <li class="nav-item dropdown">
                         <a href="{{ route('estructura.index') }}" class="nav-link active">Estructura Organizacional</a>
                     </li>
