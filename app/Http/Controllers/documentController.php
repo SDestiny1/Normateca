@@ -89,4 +89,52 @@ class documentController extends Controller
             ->header('Content-Type', $mime)
             ->header('Content-Disposition', 'inline; filename="' . $filename . '"');
     } 
+
+    // Actualizar documento (por código)
+    public function update(Request $request, $codigo)
+    {
+        $request->validate([
+            'titulo' => 'nullable|string|max:255',
+            'url' => 'nullable|url',
+            'archivo' => 'nullable|file|max:5120',
+            'categoriaID' => 'nullable|integer',
+            'usuarioID' => 'nullable|integer',
+        ]);
+
+        $doc = Docs::where('codigo', $codigo)->first();
+        if (!$doc) {
+            abort(404);
+        }
+
+        if ($request->filled('titulo')) {
+            $doc->titulo = $request->titulo;
+        }
+
+        if ($request->filled('url')) {
+            $doc->url = $request->url;
+        }
+
+        if ($request->hasFile('archivo')) {
+            $doc->archivo = file_get_contents($request->file('archivo')->getRealPath());
+        }
+
+        if ($request->filled('usuarioID')) {
+            $doc->usuarioID = $request->usuarioID;
+        }
+
+        if ($request->filled('categoriaID')) {
+            $doc->categoriaID = $request->categoriaID;
+        }
+
+        // Manejar sección/subsección si se envían
+        if ($request->filled('subseccionID')) {
+            $doc->seccionID = $request->subseccionID;
+        } elseif ($request->filled('seccionID')) {
+            $doc->seccionID = $request->seccionID;
+        }
+
+        $doc->save();
+
+        return back()->with('mensaje', '✅ Documento actualizado correctamente.');
+    }
 }

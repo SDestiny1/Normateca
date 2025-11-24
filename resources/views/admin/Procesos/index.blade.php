@@ -320,89 +320,123 @@
         </div>
 
         <!---- Secciones ---->
-        <div class="container-fluid px-5 my-5">
-            @foreach($seccionesPrincipales as $seccion)
-                <div id="{{ Str::slug($seccion->nombre) }}" class="section-anchor mb-5">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="mb-2">{{ $seccion->nombre }}</h3>
-                        <button class="toggle-btn" data-target="list{{ Str::studly($seccion->nombre) }}">
+<div class="container-fluid px-5 my-5">
+    @foreach($seccionesPrincipales as $seccion)
+        <div id="{{ Str::slug($seccion->nombre) }}" class="section-anchor mb-5">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-2">{{ $seccion->nombre }}</h3>
+                <button class="toggle-btn" data-target="list{{ Str::studly($seccion->nombre) }}">
+                    <span class="label">Ocultar</span>
+                    <i class="bi bi-chevron-down arrow down"></i>
+                </button>
+            </div>
+            <ul class="list-group list-group-flush list-hover collapsible" id="list{{ Str::studly($seccion->nombre) }}">
+                @foreach($seccion->documentos as $documento)
+    <li class="list-group-item doc-container d-flex justify-content-between align-items-start align-items-center">
+        <div>
+            <div class="d-flex align-items-center gap-2">
+                <a href="{{ $documento->url ?: '#' }}" target="_blank"
+                    class="fw-semibold text-decoration-none {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }}"
+                    data-preview="{{ $documento->urlPreview ?: ($documento->url ?: '') }}"
+                    data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
+                    data-area="{{ $documento->area ?: '' }}"
+                    data-type="{{ $documento->tipo ?: '' }}"
+                    data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}">
+                    {{ $documento->titulo }}
+                </a>
+                @if($documento->archivo)
+                    <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ $documento->archivo }}" title="Ver documento local">
+                        <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
+                    </button>
+                @endif
+            </div>
+            <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
+        </div>
+
+        <div class="d-flex align-items-center ms-3">
+            @if($documento->url && $documento->url != '#')
+                <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
+                    <i class="bi bi-link-45deg fs-5"></i>
+                </a>
+            @endif
+
+            <!-- Edit button: abre modal de edición -->
+            <button class="btn btn-sm btn-outline-secondary ms-2 edit-doc"
+                type="button"
+                data-codigo="{{ $documento->codigo }}"
+                data-titulo="{{ $documento->titulo }}"
+                data-url="{{ $documento->url }}"
+                data-usuarioid="{{ $documento->usuarioID ?? '' }}"
+                data-categoriaid="{{ $documento->categoriaID ?? '' }}"
+                data-seccionid="{{ $documento->seccionID ?? '' }}"
+                data-area="{{ $documento->area ?? '' }}"
+                data-tipo="{{ $documento->tipo ?? '' }}"
+                title="Editar documento">
+                <i class="bi bi-pencil"></i>
+            </button>
+        </div>
+    </li>
+@endforeach
+                
+                @foreach($seccion->subsecciones as $subseccion)
+                    <li class="list-group-item bg-light fw-bold text-uppercase d-flex justify-content-between align-items-center subsection-title">
+                        {{ $subseccion->nombre }}
+                        <button class="toggle-btn" data-target="sub{{ $subseccion->id }}">
                             <span class="label">Ocultar</span>
                             <i class="bi bi-chevron-down arrow down"></i>
                         </button>
-                    </div>
-                    <ul class="list-group list-group-flush list-hover collapsible" id="list{{ Str::studly($seccion->nombre) }}">
-                        @foreach($seccion->documentos as $documento)
-            <li class="list-group-item doc-container d-flex justify-content-between align-items-start">
-                <div>
-                    <div class="d-flex align-items-center gap-2">
-                        <a href="{{ $documento->url ?: '#' }}" target="_blank"
-                            class="fw-semibold text-decoration-none {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }}"
-                            data-preview="{{ $documento->urlPreview ?: ($documento->url ?: '') }}"
-                            data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
-                            data-area="{{ $documento->area ?: '' }}"
-                            data-type="{{ $documento->tipo ?: '' }}"
-                            data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}"> <!-- CORREGIDO: Sin urlencode -->
-                            {{ $documento->titulo }}
-                        </a>
-                        @if($documento->archivo)
-                            <!-- CORREGIDO: Pasar la ruta directamente sin codificar -->
-                            <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ $documento->archivo }}" title="Ver documento local">
-                                <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
-                            </button>
-                        @endif
-                    </div>
-                    <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
-                </div>
-                @if($documento->url && $documento->url != '#')
-                    <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
-                        <i class="bi bi-link-45deg fs-5"></i>
-                    </a>
-                @endif
-            </li>
-        @endforeach   
-                        @foreach($seccion->subsecciones as $subseccion)
-                            <li class="list-group-item bg-light fw-bold text-uppercase d-flex justify-content-between align-items-center subsection-title">
-                                {{ $subseccion->nombre }}
-                                <button class="toggle-btn" data-target="sub{{ $subseccion->id }}">
-                                    <span class="label">Ocultar</span>
-                                    <i class="bi bi-chevron-down arrow down"></i>
-                                </button>
-                            </li>
-                            <ul class="list-group list-group-flush subsection-items collapsible" id="sub{{ $subseccion->id }}">
-                                @foreach($subseccion->documentos as $documento)
-                                    <li class="list-group-item doc-container d-flex justify-content-between align-items-start">
-                                        <div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <a href="{{ $documento->url ?: '#' }}" target="_blank"
-                                                    class="fw-semibold text-decoration-none {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }}"
-                                                    data-preview="{{ $documento->urlPreview ?: ($documento->url ?: '') }}"
-                                                    data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
-                                                    data-area="{{ $documento->area ?: '' }}"
-                                                    data-type="{{ $documento->tipo ?: '' }}"
-                                                    data-archivo="{{ $documento->archivo ? urlencode($documento->archivo) : '' }}">
-                                                    {{ $documento->titulo }}
-                                                </a>
-                                                @if($documento->archivo)
-                                                    <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ urlencode($documento->archivo) }}" title="Ver documento local">
-                                                        <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
-                                                    </button>
-                                                @endif
-                                            </div>
-                                            <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
-                                        </div>
-                                        @if($documento->url && $documento->url != '#')
-                                            <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
-                                                <i class="bi bi-link-45deg fs-5"></i>
-                                            </a>
+                    </li>
+                    <ul class="list-group list-group-flush subsection-items collapsible" id="sub{{ $subseccion->id }}">
+                        @foreach($subseccion->documentos as $documento)
+                            <li class="list-group-item doc-container d-flex justify-content-between align-items-start align-items-center">
+                                <div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="{{ $documento->url ?: '#' }}" target="_blank"
+                                            class="fw-semibold text-decoration-none {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }}"
+                                            data-preview="{{ $documento->urlPreview ?: ($documento->url ?: '') }}"
+                                            data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
+                                            data-area="{{ $documento->area ?: '' }}"
+                                            data-type="{{ $documento->tipo ?: '' }}"
+                                            data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}">
+                                            {{ $documento->titulo }}
+                                        </a>
+                                        @if($documento->archivo)
+                                            <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ $documento->archivo }}" title="Ver documento local">
+                                                <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
+                                            </button>
                                         @endif
-                                    </li>
-                                @endforeach
-                            </ul>
+                                    </div>
+                                    <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
+                                </div>
+                                <div class="d-flex align-items-center ms-3">
+                                    @if($documento->url && $documento->url != '#')
+                                        <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
+                                            <i class="bi bi-link-45deg fs-5"></i>
+                                        </a>
+                                    @endif
+
+                                    <button class="btn btn-sm btn-outline-secondary ms-2 edit-doc"
+                                        type="button"
+                                        data-codigo="{{ $documento->codigo }}"
+                                        data-titulo="{{ $documento->titulo }}"
+                                        data-url="{{ $documento->url }}"
+                                        data-usuarioid="{{ $documento->usuarioID ?? '' }}"
+                                        data-categoriaid="{{ $documento->categoriaID ?? '' }}"
+                                        data-seccionid="{{ $documento->seccionID ?? '' }}"
+                                        data-area="{{ $documento->area ?? '' }}"
+                                        data-tipo="{{ $documento->tipo ?? '' }}"
+                                        title="Editar documento">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                </div>
+                            </li>
                         @endforeach
                     </ul>
-                </div>
-            @endforeach
+                @endforeach
+            </ul>
         </div>
+    @endforeach
+</div>
         <!---- Footer ---->
         <footer id="footer" class="footer dark-background">
 
@@ -741,6 +775,50 @@
     </div>
   </div>
     </div>
+<!-- Modal para registrar alumnos/usuarios -->
+  
+    <!-- Modal para editar documento -->
+    <div class="modal fade" id="modalEditDoc" tabindex="-1" aria-labelledby="modalEditDocLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary text-white">
+                    <h5 class="modal-title" id="modalEditDocLabel">Editar Documento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="formEditDoc" action="#" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="_method" value="PUT" id="edit_method">
+                    <input type="hidden" name="codigo" id="edit_codigo">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="edit_titulo" class="form-label">Título</label>
+                            <input type="text" name="titulo" id="edit_titulo" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="edit_url" class="form-label">URL</label>
+                            <input type="url" name="url" id="edit_url" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="edit_archivo" class="form-label">Archivo (actualizar opcional)</label>
+                            <input type="file" name="archivo" id="edit_archivo" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Si dejas el archivo vacío, el archivo almacenado no cambiará.</small>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 <!-- Modal para registrar alumnos/usuarios -->
 <div class="modal fade" id="modalAddUser" tabindex="-1" aria-labelledby="modalAddUserLabel" aria-hidden="true">
@@ -832,6 +910,40 @@ $(document).ready(function(){
             $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
         }
     });
+});
+</script>
+<script>
+// Manejo del botón de edición - rellena el modal y ajusta la acción del formulario
+document.addEventListener('click', function(e){
+    const btn = e.target.closest('.edit-doc');
+    if(!btn) return;
+
+    const codigo = btn.dataset.codigo || '';
+    const titulo = btn.dataset.titulo || '';
+    const url = btn.dataset.url || '';
+
+    // Rellenar campos del modal
+    document.getElementById('edit_codigo').value = codigo;
+    document.getElementById('edit_titulo').value = titulo;
+    document.getElementById('edit_url').value = url;
+
+    // Ajustar acción del formulario para enviar PUT a /documentos/{codigo}
+    const form = document.getElementById('formEditDoc');
+    if(form){
+        // Si la aplicación usa una ruta nombrada diferente, ajustar aquí.
+        form.action = '/documentos/' + encodeURIComponent(codigo);
+    }
+
+    // Abrir modal
+    const modalEl = document.getElementById('modalEditDoc');
+    const bsModal = new bootstrap.Modal(modalEl);
+    bsModal.show();
+});
+
+// Limpieza rápida al cerrar: vaciar campo file
+document.getElementById('modalEditDoc')?.addEventListener('hidden.bs.modal', function(){
+    const fileInput = document.getElementById('edit_archivo');
+    if(fileInput) fileInput.value = null;
 });
 </script>
 </body>
