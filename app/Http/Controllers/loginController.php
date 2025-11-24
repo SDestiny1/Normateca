@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class loginController extends Controller
 {
@@ -23,9 +24,9 @@ class loginController extends Controller
             ->where('email', $request->_id)
             ->first();
 
-        // Si no existe el usuario o la contraseña no coincide
-        if (!$user || $user->contrasena !== $request->password) {
-            return back()->withErrors(['login_error' => 'Credenciales incorrectas.']);
+        // Si no existe el usuario o la contraseña no coincide (soportando contraseñas hasheadas)
+        if (!$user || !Hash::check($request->password, $user->contrasena)) {
+            return back()->with('error', 'Credenciales incorrectas.');
         }
 
         // Guardar sesión con datos reales

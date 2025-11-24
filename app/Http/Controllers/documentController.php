@@ -62,5 +62,31 @@ class documentController extends Controller
         return back()->with('mensaje', '✅ Documento agregado correctamente.');
     }
 
-    
+    // Servir el archivo BLOB del documento para vista en iframe
+    public function archivo($codigo)
+    {
+        $doc = Docs::find($codigo);
+        if (!$doc || !$doc->archivo) {
+            abort(404);
+        }
+
+        $content = $doc->archivo;
+
+        // Intentar detectar el tipo MIME, por defecto usar application/pdf
+        $mime = 'application/pdf';
+        if (function_exists('finfo_open')) {
+            $f = finfo_open(FILEINFO_MIME_TYPE);
+            $detected = finfo_buffer($f, $content);
+            if ($detected) {
+                $mime = $detected;
+            }
+            finfo_close($f);
+        }
+
+        $filename = preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $doc->titulo ?: $codigo) . '.pdf';
+
+        return response($content, 200)
+            ->header('Content-Type', $mime)
+            ->header('Content-Disposition', 'inline; filename="' . $filename . '"');
+    } 
 }

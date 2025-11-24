@@ -67,5 +67,7 @@ Route::get('/documentos/crear', [documentController::class, 'create'])->name('do
 Route::post('/documentos', [documentController::class, 'store'])->name('documentos.store');
 Route::get('/documentos/secciones/{categoriaID}', [documentController::class, 'obtenerSecciones']);
 Route::get('/documentos/subsecciones/{seccionPadreID}', [documentController::class, 'obtenerSubsecciones']);
+// Servir archivos almacenados como BLOB
+Route::get('/documentos/archivo/{codigo}', [documentController::class, 'archivo'])->name('documento.archivo');
 
 Route::post('/usuarios', [usuariosController::class, 'store'])->name('usuarios.store');

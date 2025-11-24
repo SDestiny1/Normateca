@@ -299,12 +299,11 @@
                     data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
                     data-area="{{ $documento->area ?: '' }}"
                     data-type="{{ $documento->tipo ?: '' }}"
-                    data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}"> <!-- CORREGIDO: Sin urlencode -->
+                    data-archivo="{{ $documento->archivo ? route('documento.archivo', ['codigo' => $documento->codigo]) : '' }}"> <!-- Usar ruta que sirve el BLOB -->
                     {{ $documento->titulo }}
                 </a>
                 @if($documento->archivo)
-                    <!-- CORREGIDO: Pasar la ruta directamente sin codificar -->
-                    <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ $documento->archivo }}" title="Ver documento local">
+                    <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ route('documento.archivo', ['codigo' => $documento->codigo]) }}" title="Ver documento local">
                         <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
                     </button>
                 @endif
@@ -338,11 +337,11 @@
                                             data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
                                             data-area="{{ $documento->area ?: '' }}"
                                             data-type="{{ $documento->tipo ?: '' }}"
-                                            data-archivo="{{ $documento->archivo ? urlencode($documento->archivo) : '' }}">
+                                            data-archivo="{{ $documento->archivo ? route('documento.archivo', ['codigo' => $documento->codigo]) : '' }}">
                                             {{ $documento->titulo }}
                                         </a>
                                         @if($documento->archivo)
-                                            <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ urlencode($documento->archivo) }}" title="Ver documento local">
+                                            <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ route('documento.archivo', ['codigo' => $documento->codigo]) }}" title="Ver documento local">
                                                 <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
                                             </button>
                                         @endif
@@ -430,11 +429,9 @@
                 ruta = encoded;
             }
             
-            // Verificar que la ruta sea válida
-            if(ruta && ruta.startsWith('/')) {
+            // Si hay una ruta (absoluta o relativa), abrir el modal
+            if (ruta) {
                 abrirPDFModal(ruta);
-            } else if (ruta) {
-                console.warn('Ruta de archivo no válida:', ruta);
             }
         }
     });
@@ -497,7 +494,7 @@
 
     document.addEventListener("mouseout", e => {
         const el = e.target.closest(".doc-container a.fw-semibold");
-        if (el && !e.relatedTarget || !el.contains(e.relatedTarget)) {
+        if (el && (!e.relatedTarget || !el.contains(e.relatedTarget))) {
             previewTimeout = setTimeout(() => {
                 if (!globalPreview.matches(":hover")) {
                     globalPreview.style.display = "none";
