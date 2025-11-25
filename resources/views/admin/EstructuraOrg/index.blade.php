@@ -378,40 +378,40 @@
     </li>
 @endforeach
                 
-                @foreach($seccion->subsecciones as $subseccion)
-                    <li class="list-group-item bg-light fw-bold text-uppercase d-flex justify-content-between align-items-center subsection-title">
-                        {{ $subseccion->nombre }}
-                        <button class="toggle-btn" data-target="sub{{ $subseccion->id }}">
-                            <span class="label">Ocultar</span>
-                            <i class="bi bi-chevron-down arrow down"></i>
+@foreach($seccion->subsecciones as $subseccion)
+    <li class="list-group-item bg-light fw-bold text-uppercase d-flex justify-content-between align-items-center subsection-title">
+        {{ $subseccion->nombre }}
+    <button class="toggle-btn" data-target="sub{{ $subseccion->id }}">
+    <span class="label">Ocultar</span>
+        <i class="bi bi-chevron-down arrow down"></i>
+    </button>
+    </li>
+    <ul class="list-group list-group-flush subsection-items collapsible" id="sub{{ $subseccion->id }}">
+        @foreach($subseccion->documentos as $documento)
+            <li class="list-group-item doc-container d-flex justify-content-between align-items-start align-items-center">
+                <div>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{{ $documento->url ?: '#' }}" target="_blank"
+                        class="fw-semibold text-decoration-none {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }}"
+                        data-preview="{{ $documento->urlPreview ?: ($documento->url ?: '') }}"
+                        data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
+                        data-area="{{ $documento->area ?: '' }}"
+                        data-type="{{ $documento->tipo ?: '' }}"
+                        data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}">
+                        {{ $documento->titulo }}
+                    </a>
+                    @if($documento->archivo)
+                        <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ $documento->archivo }}" title="Ver documento local">
+                            <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
                         </button>
-                    </li>
-                    <ul class="list-group list-group-flush subsection-items collapsible" id="sub{{ $subseccion->id }}">
-                        @foreach($subseccion->documentos as $documento)
-                            <li class="list-group-item doc-container d-flex justify-content-between align-items-start align-items-center">
-                                <div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <a href="{{ $documento->url ?: '#' }}" target="_blank"
-                                            class="fw-semibold text-decoration-none {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }}"
-                                            data-preview="{{ $documento->urlPreview ?: ($documento->url ?: '') }}"
-                                            data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
-                                            data-area="{{ $documento->area ?: '' }}"
-                                            data-type="{{ $documento->tipo ?: '' }}"
-                                            data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}">
-                                            {{ $documento->titulo }}
-                                        </a>
-                                        @if($documento->archivo)
-                                            <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ $documento->archivo }}" title="Ver documento local">
-                                                <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
-                                            </button>
-                                        @endif
-                                    </div>
-                                    <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
-                                </div>
-                                <div class="d-flex align-items-center ms-3">
-                                    @if($documento->url && $documento->url != '#')
-                                        <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
-                                            <i class="bi bi-link-45deg fs-5"></i>
+                    @endif
+                        </div>
+                    <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
+                        </div>
+                    <div class="d-flex align-items-center ms-3">
+                        @if($documento->url && $documento->url != '#')
+                            <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
+                                <i class="bi bi-link-45deg fs-5"></i>
                                         </a>
                                     @endif
 

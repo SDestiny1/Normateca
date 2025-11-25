@@ -124,7 +124,7 @@
       <div class="container section-title" data-aos="fade-up">
         <h2>Sobre CESUN Universidad</h2>
         <p>Mision y Vision</p>
-      </div><!-- End Section Title -->
+      </div>
 
       <div class="container">
 
@@ -137,7 +137,7 @@
                 <span>Somos una institución educativa que forma profesionales integrales, a través de un currículo vanguardista contribuyendo al desarrollo del entorno y la sociedad, con integridad y responsabilidad social.</span>
               </div>
             </div>
-          </div><!-- End Team Member -->
+          </div>
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="member">
@@ -146,13 +146,13 @@
                 <span>Ser una institución educativa considerada entre las mejores del Estado, con cobertura, presencia y reconocimiento nacional e internacional, a través de un currículo aplicado con un modelo vanguardista de aprendizaje en línea, generando comunidades de expertos multidisciplinarios, que propicien el crecimiento social en un contexto global.</span>
               </div>
             </div>
-          </div><!-- End Team Member -->
+          </div>
 
         </div>
 
       </div>
 
-    </section><!-- /Team Section -->
+    </section>
 
 
     <!-- Valores y principios Section -->
@@ -162,7 +162,7 @@
       <div class="container section-title" data-aos="fade-up">
         <h2>Sobre CESUN Universidad</h2>
         <p>Valores y Principios</p>
-      </div><!-- End Section Title -->
+      </div>
       
       <div class="container">
 
@@ -206,7 +206,7 @@
       <div class="container section-title" data-aos="fade-up">
         <h2>Mas sobre la Normateca</h2>
         <p>OBJETIVOS DE LA NORMATECA INTERNA</p>
-      </div><!-- End Section Title -->
+      </div>
 
       <div class="container">
 
@@ -220,7 +220,7 @@
                 <p class="description">Presentar en un medio informático de fácil accesibilidad las disposiciones administrativas internas de CESUN Universidad, debidamente organizadas.</p>
               </div>
             </div>
-          </div><!-- End Service Item -->
+          </div>
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="service-item d-flex position-relative h-100">
@@ -230,7 +230,7 @@
                 <p class="description">Favorecer el registro, difusión y actualización de las disposiciones administrativas internas.</p>
               </div>
             </div>
-          </div><!-- End Service Item -->
+          </div>
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div class="service-item d-flex position-relative h-100">
@@ -240,7 +240,7 @@
                 <p class="description">Dar a conocer al personal de CESUN Universidad las disposiciones administrativas internas vigentes, para que opinen y participen en su simplificación y, en su caso, en la desregulación, cuando proceda.</p>
               </div>
             </div>
-          </div><!-- End Service Item -->
+          </div>
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
             <div class="service-item d-flex position-relative h-100">
@@ -250,7 +250,7 @@
                 <p class="description">Promover el conocimiento y cumplimiento de las normas internas.</p>
               </div>
             </div>
-          </div><!-- End Service Item -->
+          </div>
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
             <div class="service-item d-flex position-relative h-100">
@@ -260,7 +260,7 @@
                 <p class="description">Propiciar la operación, administración y control de un registro electrónico de las disposiciones vigentes.</p>
               </div>
             </div>
-          </div><!-- End Service Item -->
+          </div>
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="600">
             <div class="service-item d-flex position-relative h-100">
@@ -270,13 +270,13 @@
                 <p class="description">Impulsar la transparencia, el acceso a la información, combatir la corrupción e incrementar la productividad del personal de CESUN Universidad mediante la consulta de disposiciones administrativas internas, por medios electrónicos.</p>
               </div>
             </div>
-          </div><!-- End Service Item -->
+          </div>
 
         </div>
 
       </div>
 
-    </section><!-- /Objectives section -->
+    </section>
 
   </main>
 
