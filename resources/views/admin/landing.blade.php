@@ -520,7 +520,7 @@
             <div class="mb-3">
               <label for="rol" class="form-label">Rol</label>
               <select name="rol" id="rol" class="form-select" required>
-                <option value="usuario" {{ old('rol') == 'usuario' ? 'selected' : '' }}>Alumno (usuario)</option>
+                <option value="usuario" {{ old('rol') == 'usuario' ? 'selected' : '' }}>Usuario</option>
                 <option value="admin" {{ old('rol') == 'admin' ? 'selected' : '' }}>Administrador</option>
               </select>
             </div>

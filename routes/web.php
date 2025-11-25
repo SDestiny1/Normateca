@@ -11,17 +11,6 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\documentController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 // Rutas para la autenticacion de Google
 Route::get('/login', [loginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [loginController::class, 'login'])->name('login.post');
@@ -67,7 +56,7 @@ Route::get('/documentos/crear', [documentController::class, 'create'])->name('do
 Route::post('/documentos', [documentController::class, 'store'])->name('documentos.store');
 Route::get('/documentos/secciones/{categoriaID}', [documentController::class, 'obtenerSecciones']);
 Route::get('/documentos/subsecciones/{seccionPadreID}', [documentController::class, 'obtenerSubsecciones']);
-// Servir archivos almacenados como BLOB
 Route::get('/documentos/archivo/{codigo}', [documentController::class, 'archivo'])->name('documento.archivo');
 
+// Rutas de usuarios
 Route::post('/usuarios', [usuariosController::class, 'store'])->name('usuarios.store');
