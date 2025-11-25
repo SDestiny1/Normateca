@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Normateca Institucional</title>
     <meta name="description" content="Plataforma para la consulta y difusión de las disposiciones administrativas internas de CESUN Universidad">
     <meta name="keywords" content="normateca, normatividad, disposiciones administrativas, CESUN Universidad, gestión de calidad, simplificación normativa">
@@ -332,30 +333,31 @@
             </div>
             <ul class="list-group list-group-flush list-hover collapsible" id="list{{ Str::studly($seccion->nombre) }}">
                 @foreach($seccion->documentos as $documento)
-    <li class="list-group-item doc-container d-flex justify-content-between align-items-start align-items-center">
+    <li class="list-group-item doc-container d-flex justify-content-between align-items-start align-items-center" data-codigo="{{ $documento->codigo }}">
         <div>
             <div class="d-flex align-items-center gap-2">
                 <a href="{{ $documento->url ?: '#' }}" target="_blank"
-                    class="fw-semibold text-decoration-none {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }}"
+                    class="fw-semibold text-decoration-none doc-link {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }} {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'text-muted' : '' }}"
                     data-preview="{{ $documento->urlPreview ?: ($documento->url ?: '') }}"
                     data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
                     data-area="{{ $documento->area ?: '' }}"
                     data-type="{{ $documento->tipo ?: '' }}"
-                    data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}">
+                    data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}"
+                    data-activo="{{ $documento->estado ?? 'activo' }}">
                     {{ $documento->titulo }}
                 </a>
                 @if($documento->archivo)
-                    <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ $documento->archivo }}" title="Ver documento local">
-                        <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
+                    <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ route('documento.archivo', ['codigo' => $documento->codigo]) }}" title="Ver documento local" {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'disabled' : '' }}>
+                        <i class="bi bi-file-earmark-text fs-5 doc-pdf-icon {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'text-muted' : 'text-primary' }}"></i>
                     </button>
                 @endif
             </div>
-            <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
+            <div class="doc-meta {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'text-muted' : '' }}">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
         </div>
 
         <div class="d-flex align-items-center ms-3">
             @if($documento->url && $documento->url != '#')
-                <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
+                <a href="{{ $documento->url }}" target="_blank" class="doc-external-link {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'text-muted' : 'text-secondary' }} ms-2" title="Abrir documento" {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'disabled' : '' }}>
                     <i class="bi bi-link-45deg fs-5"></i>
                 </a>
             @endif
@@ -374,44 +376,64 @@
                 title="Editar documento">
                 <i class="bi bi-pencil"></i>
             </button>
+
+            <!-- Toggle Active button: desactiva/activa el documento -->
+            <button class="btn btn-sm btn-outline-warning ms-2 toggle-activo"
+                type="button"
+                data-codigo="{{ $documento->codigo }}"
+                data-titulo="{{ $documento->titulo }}"
+                data-activo="{{ $documento->estado ?? 'activo' }}"
+                title="{{ ($documento->estado ?? 'activo') === 'desactivo' ? 'Activar documento' : 'Desactivar documento' }}">
+                <i class="bi {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'bi-eye' : 'bi-eye-slash' }}"></i>
+            </button>
+
+            <!-- Delete button: elimina el documento -->
+            <button class="btn btn-sm btn-outline-danger ms-2 delete-doc"
+                type="button"
+                data-codigo="{{ $documento->codigo }}"
+                data-titulo="{{ $documento->titulo }}"
+                title="Eliminar documento">>
+                <i class="bi bi-trash"></i>
+            </button>
         </div>
     </li>
 @endforeach
                 
-                @foreach($seccion->subsecciones as $subseccion)
-                    <li class="list-group-item bg-light fw-bold text-uppercase d-flex justify-content-between align-items-center subsection-title">
-                        {{ $subseccion->nombre }}
-                        <button class="toggle-btn" data-target="sub{{ $subseccion->id }}">
-                            <span class="label">Ocultar</span>
-                            <i class="bi bi-chevron-down arrow down"></i>
+@foreach($seccion->subsecciones as $subseccion)
+    <li class="list-group-item bg-light fw-bold text-uppercase d-flex justify-content-between align-items-center subsection-title">
+        {{ $subseccion->nombre }}
+    <button class="toggle-btn" data-target="sub{{ $subseccion->id }}">
+    <span class="label">Ocultar</span>
+        <i class="bi bi-chevron-down arrow down"></i>
+    </button>
+    </li>
+    <ul class="list-group list-group-flush subsection-items collapsible" id="sub{{ $subseccion->id }}">
+        @foreach($subseccion->documentos as $documento)
+            <li class="list-group-item doc-container d-flex justify-content-between align-items-start align-items-center">
+                <div>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{{ $documento->url ?: '#' }}" target="_blank"
+                        class="fw-semibold text-decoration-none doc-link {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }} {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'text-muted' : '' }}"
+                        data-preview="{{ $documento->urlPreview ?: ($documento->url ?: '') }}"
+                        data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
+                        data-area="{{ $documento->area ?: '' }}"
+                        data-type="{{ $documento->tipo ?: '' }}"
+                        data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}"
+                        data-activo="{{ $documento->estado ?? 'activo' }}">
+                        {{ $documento->titulo }}
+                    </a>
+                    @if($documento->archivo)
+                        <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ route('documento.archivo', ['codigo' => $documento->codigo]) }}" title="Ver documento local" {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'disabled' : '' }}>
+                            <i class="bi bi-file-earmark-text fs-5 doc-pdf-icon {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'text-muted' : 'text-primary' }}"></i>
                         </button>
-                    </li>
-                    <ul class="list-group list-group-flush subsection-items collapsible" id="sub{{ $subseccion->id }}">
-                        @foreach($subseccion->documentos as $documento)
-                            <li class="list-group-item doc-container d-flex justify-content-between align-items-start align-items-center">
-                                <div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <a href="{{ $documento->url ?: '#' }}" target="_blank"
-                                            class="fw-semibold text-decoration-none {{ $documento->url && $documento->url != '#' ? '' : 'text-muted' }}"
-                                            data-preview="{{ $documento->urlPreview ?: ($documento->url ?: '') }}"
-                                            data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
-                                            data-area="{{ $documento->area ?: '' }}"
-                                            data-type="{{ $documento->tipo ?: '' }}"
-                                            data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}">
-                                            {{ $documento->titulo }}
-                                        </a>
-                                        @if($documento->archivo)
-                                            <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ $documento->archivo }}" title="Ver documento local">
-                                                <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
-                                            </button>
-                                        @endif
-                                    </div>
-                                    <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
-                                </div>
-                                <div class="d-flex align-items-center ms-3">
-                                    @if($documento->url && $documento->url != '#')
-                                        <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
-                                            <i class="bi bi-link-45deg fs-5"></i>
+                    @endif
+                        </div>
+                    <div class="doc-meta {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'text-muted' : '' }}">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
+                        </div>
+                    <div class="d-flex align-items-center ms-3">
+                        @if($documento->url && $documento->url != '#')
+                            <a href="{{ $documento->url }}" target="_blank" class="doc-external-link {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'text-muted' : 'text-secondary' }} ms-2" title="Abrir documento" {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'disabled' : '' }}>
+                                <i class="bi bi-link-45deg fs-5"></i>
                                         </a>
                                     @endif
 
@@ -427,6 +449,25 @@
                                         data-tipo="{{ $documento->tipo ?? '' }}"
                                         title="Editar documento">
                                         <i class="bi bi-pencil"></i>
+                                    </button>
+
+                                    <!-- Toggle Active button: desactiva/activa el documento -->
+                                    <button class="btn btn-sm btn-outline-warning ms-2 toggle-activo"
+                                        type="button"
+                                        data-codigo="{{ $documento->codigo }}"
+                                        data-titulo="{{ $documento->titulo }}"
+                                        data-activo="{{ $documento->estado ?? 'activo' }}"
+                                        title="{{ ($documento->estado ?? 'activo') === 'desactivo' ? 'Activar documento' : 'Desactivar documento' }}">
+                                        <i class="bi {{ ($documento->estado ?? 'activo') === 'desactivo' ? 'bi-eye' : 'bi-eye-slash' }}"></i>
+                                    </button>
+
+                                    <!-- Delete button: elimina el documento -->
+                                    <button class="btn btn-sm btn-outline-danger ms-2 delete-doc"
+                                        type="button"
+                                        data-codigo="{{ $documento->codigo }}"
+                                        data-titulo="{{ $documento->titulo }}"
+                                        title="Eliminar documento">
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
                             </li>
@@ -493,6 +534,12 @@
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('.open-pdf');
         if(btn){
+            // Verificar si el documento está desactivado
+            if(btn.disabled) {
+                alert('No puedes ver documentos desactivados');
+                return;
+            }
+
             const encoded = btn.dataset.archivo || '';
             
             // CORRECCIÓN: Verificar si está codificado antes de decodificar
@@ -505,11 +552,11 @@
                 ruta = encoded;
             }
             
-            // Verificar que la ruta sea válida
-            if(ruta && ruta.startsWith('/')) {
+            // Verificar que la ruta sea válida (no vacía)
+            if(ruta && ruta.trim() !== '') {
                 abrirPDFModal(ruta);
-            } else if (ruta) {
-                console.warn('Ruta de archivo no válida:', ruta);
+            } else if (!ruta) {
+                console.warn('No hay ruta de archivo disponible');
             }
         }
     });
@@ -521,6 +568,11 @@
     document.addEventListener("mouseover", e => {
         const el = e.target.closest(".doc-container a.fw-semibold");
         if (el) {
+            // No mostrar preview si el documento está desactivado
+            if(el.dataset.activo === 'desactivo') {
+                return;
+            }
+
             clearTimeout(previewTimeout);
             
             let previewURL = el.dataset.preview;
@@ -572,7 +624,8 @@
 
     document.addEventListener("mouseout", e => {
         const el = e.target.closest(".doc-container a.fw-semibold");
-        if (el && !e.relatedTarget || !el.contains(e.relatedTarget)) {
+        if (!el) return;
+        if (!e.relatedTarget || !el.contains(e.relatedTarget)) {
             previewTimeout = setTimeout(() => {
                 if (!globalPreview.matches(":hover")) {
                     globalPreview.style.display = "none";
@@ -616,13 +669,8 @@
         
         const viewer = document.getElementById('pdfViewer');
         
-        // CORRECCIÓN: Asegurar que la ruta sea absoluta
-        let rutaFinal = rutaPDF;
-        if (rutaPDF && !rutaPDF.startsWith('http') && !rutaPDF.startsWith('/')) {
-            rutaFinal = '/' + rutaPDF;
-        }
-        
-        viewer.src = rutaFinal;
+        // La ruta viene del route helper, ya está completa
+        viewer.src = rutaPDF;
 
         const modalEl = document.getElementById('pdfModal');
         const bsModal = new bootstrap.Modal(modalEl);
@@ -876,7 +924,6 @@
     </div>
 </div>
 
-@section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -912,6 +959,23 @@ $(document).ready(function(){
     });
 });
 </script>
+<!-- Confirm modal (reutilizable) -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">¿Confirmar acción?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="confirmModalConfirmBtn" class="btn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 // Manejo del botón de edición - rellena el modal y ajusta la acción del formulario
 document.addEventListener('click', function(e){
@@ -945,6 +1009,188 @@ document.getElementById('modalEditDoc')?.addEventListener('hidden.bs.modal', fun
     const fileInput = document.getElementById('edit_archivo');
     if(fileInput) fileInput.value = null;
 });
+
+/* ------------------ Confirmación con modal reutilizable ------------------ */
+// Preparar modal (ver HTML al final del documento)
+const confirmModalEl = document.getElementById('confirmModal');
+const confirmModal = confirmModalEl ? new bootstrap.Modal(confirmModalEl) : null;
+const confirmTitle = confirmModalEl?.querySelector('.modal-title');
+const confirmBody = confirmModalEl?.querySelector('.modal-body');
+const confirmBtn = confirmModalEl?.querySelector('#confirmModalConfirmBtn');
+
+function openConfirmModal(options){
+    // options: { type: 'toggle'|'delete', codigo, titulo, activo }
+    if(!confirmModalEl) return;
+    const { type, codigo, titulo, activo } = options;
+
+    if(type === 'toggle'){
+        const will = activo ? 'DESACTIVAR' : 'ACTIVAR';
+        confirmTitle.textContent = will + ' documento';
+        confirmBody.textContent = `¿Está seguro de que desea ${will.toLowerCase()} el documento "${titulo}"?`;
+        confirmBtn.classList.remove('btn-danger');
+        confirmBtn.classList.add('btn-warning');
+        confirmBtn.textContent = activo ? 'Desactivar' : 'Activar';
+    } else if(type === 'delete'){
+        confirmTitle.textContent = 'Eliminar documento';
+        confirmBody.textContent = `¿Está seguro de que desea ELIMINAR PERMANENTEMENTE el documento "${titulo}"? Esta acción no se puede deshacer.`;
+        confirmBtn.classList.remove('btn-warning');
+        confirmBtn.classList.add('btn-danger');
+        confirmBtn.textContent = 'Eliminar';
+    }
+
+    // Guardar datos en el botón de confirmar
+    confirmBtn.dataset.type = type;
+    confirmBtn.dataset.codigo = codigo;
+    confirmBtn.dataset.activo = activo ? '1' : '0';
+
+    confirmModal.show();
+}
+
+// Manejo de clicks en botones que requieren confirmación
+document.addEventListener('click', function(e){
+    const toggleBtn = e.target.closest('.toggle-activo');
+    if(toggleBtn){
+        const codigo = toggleBtn.dataset.codigo || '';
+        const titulo = toggleBtn.dataset.titulo || '';
+        const activo = toggleBtn.dataset.activo === 'true' || toggleBtn.dataset.activo === '1';
+        openConfirmModal({ type: 'toggle', codigo, titulo, activo });
+        return;
+    }
+
+    const delBtn = e.target.closest('.delete-doc');
+    if(delBtn){
+        const codigo = delBtn.dataset.codigo || '';
+        const titulo = delBtn.dataset.titulo || '';
+        openConfirmModal({ type: 'delete', codigo, titulo });
+        return;
+    }
+});
+
+// Acción al confirmar en el modal
+confirmBtn?.addEventListener('click', function(){
+    const type = this.dataset.type;
+    const codigo = this.dataset.codigo;
+
+    if(!codigo) {
+        confirmModal.hide();
+        return;
+    }
+
+    if(type === 'toggle'){
+        // AJAX toggle: enviar POST y actualizar DOM sin recargar
+        const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        fetch('/documentos/' + encodeURIComponent(codigo) + '/toggle-activo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({})
+        }).then(res => res.json())
+        .then(data => {
+            if(!data || !data.success) {
+                console.error('Error response:', data);
+                alert('Error al cambiar estado: ' + (data?.mensaje || 'Error desconocido'));
+                return;
+            }
+            const activo = data.activo; // 'activo' o 'desactivo'
+            const isActive = activo === 'activo';
+
+            // Encontrar el <li> correspondiente
+            const li = document.querySelector('li.list-group-item[data-codigo="' + codigo + '"]');
+            if(li){
+                // Actualizar link principal
+                const docLink = li.querySelector('a.fw-semibold.doc-link');
+                if(docLink){
+                    docLink.dataset.activo = activo;
+                    if(isActive){
+                        docLink.classList.remove('text-muted');
+                    } else {
+                        docLink.classList.add('text-muted');
+                    }
+                }
+
+                // Actualizar icono PDF
+                const openPdfBtn = li.querySelector('.open-pdf');
+                const openPdfIcon = li.querySelector('.open-pdf i.doc-pdf-icon');
+                if(openPdfBtn){
+                    openPdfBtn.disabled = !isActive;
+                }
+                if(openPdfIcon){
+                    if(isActive){
+                        openPdfIcon.classList.remove('text-muted');
+                        openPdfIcon.classList.add('text-primary');
+                    } else {
+                        openPdfIcon.classList.remove('text-primary');
+                        openPdfIcon.classList.add('text-muted');
+                    }
+                }
+
+                // Actualizar meta
+                const meta = li.querySelector('.doc-meta');
+                if(meta){
+                    if(isActive){
+                        meta.classList.remove('text-muted');
+                    } else {
+                        meta.classList.add('text-muted');
+                    }
+                }
+
+                // Actualizar link externo
+                const externalLink = li.querySelector('a.doc-external-link');
+                if(externalLink){
+                    externalLink.disabled = !isActive;
+                    if(isActive){
+                        externalLink.classList.remove('text-muted');
+                        externalLink.classList.add('text-secondary');
+                    } else {
+                        externalLink.classList.remove('text-secondary');
+                        externalLink.classList.add('text-muted');
+                    }
+                }
+
+                // Actualizar botón toggle
+                const toggleBtn = li.querySelector('.toggle-activo');
+                if(toggleBtn){
+                    toggleBtn.dataset.activo = activo;
+                    const icon = toggleBtn.querySelector('i');
+                    if(icon){
+                        icon.classList.toggle('bi-eye', !isActive);
+                        icon.classList.toggle('bi-eye-slash', isActive);
+                    }
+                    toggleBtn.title = isActive ? 'Desactivar documento' : 'Activar documento';
+                }
+            }
+        }).catch(err => {
+            console.error('Fetch error:', err);
+            alert('Error al cambiar estado: ' + err.message);
+        });
+
+    } else if(type === 'delete'){
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/documentos/' + encodeURIComponent(codigo);
+
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        form.appendChild(csrfInput);
+
+        const methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    confirmModal.hide();
+});
+
 </script>
 </body>
 </html>

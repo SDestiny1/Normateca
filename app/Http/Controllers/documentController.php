@@ -137,4 +137,52 @@ class documentController extends Controller
 
         return back()->with('mensaje', '✅ Documento actualizado correctamente.');
     }
+
+    // Eliminar documento (por código)
+    public function destroy($codigo)
+    {
+        $doc = Docs::where('codigo', $codigo)->first();
+        if (!$doc) {
+            abort(404);
+        }
+
+        $titulo = $doc->titulo;
+        $doc->delete();
+
+        return back()->with('mensaje', '✅ Documento "' . $titulo . '" eliminado correctamente.');
+    }
+
+    // Desactivar/Activar documento
+    public function toggleActivo(Request $request, $codigo)
+    {
+        try {
+            $doc = Docs::where('codigo', $codigo)->first();
+            if (!$doc) {
+                if ($request->expectsJson()) {
+                    return response()->json(['success' => false, 'mensaje' => 'Documento no encontrado'], 404);
+                }
+                abort(404);
+            }
+
+            // Cambiar entre 'activo' y 'desactivo' - manejar diferentes valores posibles
+            $nuevoEstado = ($doc->estado === 'activo' || $doc->estado === '1' || $doc->estado === true) ? 'desactivo' : 'activo';
+            $doc->estado = $nuevoEstado;
+            $doc->save();
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'activo' => $doc->estado,
+                    'mensaje' => 'Documento "' . $doc->titulo . '" ' . $doc->estado . ' correctamente.'
+                ]);
+            }
+
+            return back()->with('mensaje', '✅ Documento "' . $doc->titulo . '" ' . $doc->estado . ' correctamente.');
+        } catch (\Exception $e) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'mensaje' => 'Error: ' . $e->getMessage()], 500);
+            }
+            return back()->with('error', 'Error al cambiar estado: ' . $e->getMessage());
+        }
+    }
 }

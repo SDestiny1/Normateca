@@ -10,7 +10,7 @@ class Docs extends Model {
     public $incrementing = false;
     public $timestamps = false;
 
-    protected $fillable = ['codigo', 'titulo', 'url', 'archivo', 'usuarioID', 'categoriaID', 'seccionID'];
+    protected $fillable = ['codigo', 'titulo', 'url', 'archivo', 'usuarioID', 'categoriaID', 'seccionID', 'estado'];
 
 
     protected $casts = [

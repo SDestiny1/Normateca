@@ -54,6 +54,9 @@ Route::get('/procesos', [procesosController::class, 'index'])
 // Rutas de documentos
 Route::get('/documentos/crear', [documentController::class, 'create'])->name('documentos.create');
 Route::post('/documentos', [documentController::class, 'store'])->name('documentos.store');
+Route::put('/documentos/{codigo}', [documentController::class, 'update'])->name('documentos.update');
+Route::delete('/documentos/{codigo}', [documentController::class, 'destroy'])->name('documentos.destroy');
+Route::post('/documentos/{codigo}/toggle-activo', [documentController::class, 'toggleActivo'])->name('documentos.toggleActivo');
 Route::get('/documentos/secciones/{categoriaID}', [documentController::class, 'obtenerSecciones']);
 Route::get('/documentos/subsecciones/{seccionPadreID}', [documentController::class, 'obtenerSubsecciones']);
 Route::get('/documentos/archivo/{codigo}', [documentController::class, 'archivo'])->name('documento.archivo');
