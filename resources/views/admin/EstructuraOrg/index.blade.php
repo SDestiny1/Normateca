@@ -1006,7 +1006,7 @@ document.getElementById('modalEditDoc')?.addEventListener('hidden.bs.modal', fun
 });
 
 /* ------------------ Confirmación con modal reutilizable ------------------ */
-// Preparar modal (ver HTML al final del documento)
+// Preparar modal
 const confirmModalEl = document.getElementById('confirmModal');
 const confirmModal = confirmModalEl ? new bootstrap.Modal(confirmModalEl) : null;
 const confirmTitle = confirmModalEl?.querySelector('.modal-title');
@@ -1014,7 +1014,6 @@ const confirmBody = confirmModalEl?.querySelector('.modal-body');
 const confirmBtn = confirmModalEl?.querySelector('#confirmModalConfirmBtn');
 
 function openConfirmModal(options){
-    // options: { type: 'toggle'|'delete', codigo, titulo, activo }
     if(!confirmModalEl) return;
     const { type, codigo, titulo, activo } = options;
 
@@ -1089,10 +1088,10 @@ confirmBtn?.addEventListener('click', function(){
                 alert('Error al cambiar estado: ' + (data?.mensaje || 'Error desconocido'));
                 return;
             }
-            const activo = data.activo; // 'activo' o 'desactivo'
+            const activo = data.activo;
             const isActive = activo === 'activo';
 
-            // Encontrar el <li> correspondiente
+            // Encontrar el correspondiente
             const li = document.querySelector('li.list-group-item[data-codigo="' + codigo + '"]');
             if(li){
                 // Actualizar link principal
