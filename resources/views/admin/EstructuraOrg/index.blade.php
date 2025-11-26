@@ -73,7 +73,7 @@
       /* ---- Preview flotante ---- */
         #globalPreview {
           display: none; 
-          position: fixed; /* Cambiado de absolute a fixed */
+          position: fixed;
           width: 380px; 
           background: #fff; 
           border: 1px solid #ddd;
@@ -82,7 +82,7 @@
           padding: 15px; 
           z-index: 9999;
           transition: opacity 0.2s ease;
-          pointer-events: auto; /* Permitir interacción */
+          pointer-events: auto;
       }
       #globalPreview .doc-title { 
           font-size: 14px; 
@@ -115,7 +115,6 @@
           border-top: 1px solid #f0f0f0;
       }
 
-      /* Asegurar que el contenedor del documento permita el hover correctamente */
       .doc-container { 
           cursor: pointer; 
           position: relative;
@@ -128,7 +127,6 @@
           margin-top: 4px;
       }
 
-      /* ---- Botón flotante "Volver arriba" ---- */
       .scroll-top-btn {
         position: fixed;
         bottom: 25px;
@@ -155,7 +153,6 @@
         font-size: 1.3rem;
       }
 
-      /* ---- Estilos responsivos para los links rápidos ---- */
       .quick-links-container {
         display: flex;
         justify-content: center;
@@ -561,7 +558,7 @@
         }
     });
 
-    /* ------------------ Preview flotante MEJORADO - Posición fija respecto al viewport ------------------ */
+    /* ------------------ Preview flotanteS - Posición fija respecto al viewport ------------------ */
     const globalPreview = document.getElementById("globalPreview");
     let previewTimeout;
 
@@ -589,18 +586,18 @@
                 globalPreview.querySelector(".doc-info").textContent =
                     (el.dataset.area || "") + (el.dataset.type ? " · " + el.dataset.type : "");
                 
-                // Usar posición FIJA respecto al viewport
+                // Usar posición fija respecto al viewport
                 const rect = el.getBoundingClientRect();
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
                 
-                // Calcular posición FIJA (respecto a la ventana visible)
-                let leftPosition = rect.right + 10; // 10px a la derecha del elemento
+                // Calcular posición fija
+                let leftPosition = rect.right + 10;
                 let topPosition = rect.top;
                 
                 // Si no cabe a la derecha, mostrar a la izquierda
                 if (leftPosition + 380 > viewportWidth) {
-                    leftPosition = rect.left - 390; // 380px + 10px de margen
+                    leftPosition = rect.left - 390;
                 }
                 
                 // Asegurar que no se salga por los bordes horizontales
@@ -669,7 +666,6 @@
         
         const viewer = document.getElementById('pdfViewer');
         
-        // La ruta viene del route helper, ya está completa
         viewer.src = rutaPDF;
 
         const modalEl = document.getElementById('pdfModal');
@@ -823,7 +819,6 @@
     </div>
   </div>
     </div>
-<!-- Modal para registrar alumnos/usuarios -->
   
     <!-- Modal para editar documento -->
     <div class="modal fade" id="modalEditDoc" tabindex="-1" aria-labelledby="modalEditDocLabel" aria-hidden="true">

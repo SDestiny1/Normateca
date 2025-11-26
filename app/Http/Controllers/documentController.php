@@ -57,6 +57,7 @@ class documentController extends Controller
             'usuarioID' => $request->usuarioID,
             'categoriaID' => $request->categoriaID,
             'seccionID' => $seccionID,
+            'estado' => 'activo',
         ]);
 
         return back()->with('mensaje', '✅ Documento agregado correctamente.');
