@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use App\Http\Controllers\usuariosController;
 use Illuminate\Support\Facades\Route;
@@ -25,11 +25,11 @@ Route::get('/', function () {
 // Rutas del landing page
 Route::get('/admin', function () {
     return view('admin.landing');
-})->name('admin.landing') ->middleware('rol:admin');
+})->name('admin.landing')->middleware('rol:admin');
 
 Route::get('/usuario', function () {
     return view('usuario.landing');
-})->name('usuario.landing' )->middleware('rol:usuario');
+})->name('usuario.landing')->middleware('rol:usuario');
 
 // Estructura organizacional
 Route::get('/estructura', [estructuraController::class, 'index'])
@@ -60,6 +60,22 @@ Route::post('/documentos/{codigo}/toggle-activo', [documentController::class, 't
 Route::get('/documentos/secciones/{categoriaID}', [documentController::class, 'obtenerSecciones']);
 Route::get('/documentos/subsecciones/{seccionPadreID}', [documentController::class, 'obtenerSubsecciones']);
 Route::get('/documentos/archivo/{codigo}', [documentController::class, 'archivo'])->name('documento.archivo');
+
+// Rutas para el historial de versiones
+Route::get('/documentos/{codigo}/version-history', [documentController::class, 'getVersionHistory'])->name('documentos.versionHistory');
+Route::get('/documento-versions/{id}', [documentController::class, 'viewVersion'])->name('documento.viewVersion');
+Route::get('/documento-versions/{id}/archivo', [documentController::class, 'viewVersionFile'])->name('documento.viewVersionFile');
+Route::get('/documento-versions/{id}/download', [documentController::class, 'downloadVersion'])->name('documento.downloadVersion');
+
+// RUTA PARA STREAM
+Route::get('/documento-versions/{id}/stream', [documentController::class, 'stream'])
+    ->name('documento.stream');
+
+
+// RUTA PARA DESCARGAR
+Route::get('/documento-versions/{id}/download', [documentController::class, 'download'])
+    ->name('documento.download');
+
 
 // Rutas de usuarios
 Route::post('/usuarios', [usuariosController::class, 'store'])->name('usuarios.store');
