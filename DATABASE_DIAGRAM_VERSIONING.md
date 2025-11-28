@@ -29,7 +29,7 @@
         │ archivo anterior aquí
         ↓
 ┌──────────────────────────────────────────┐
-│     DocumentVersions (NUEVA TABLA)       │
+│           DocumentVersions               │
 ├──────────────────────────────────────────┤
 │ id (PK)                                  │
 │ codigo (FK) → Documentos.codigo          │

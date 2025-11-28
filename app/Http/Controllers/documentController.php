@@ -441,7 +441,6 @@ class documentController extends Controller
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 
-
     private function isBase64($string)
     {
         return base64_encode(base64_decode($string, true)) === $string;
