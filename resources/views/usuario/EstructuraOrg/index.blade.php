@@ -310,11 +310,20 @@
             </div>
             <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
         </div>
-        @if($documento->url && $documento->url != '#')
-            <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
-                <i class="bi bi-link-45deg fs-5"></i>
-            </a>
-        @endif
+        <div class="d-flex align-items-center ms-3">
+            @if($documento->url && $documento->url != '#')
+                <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
+                    <i class="bi bi-link-45deg fs-5"></i>
+                </a>
+            @endif
+
+            <!-- Version History button: muestra el historial de versiones -->
+            <button class="btn btn-sm btn-outline-info ms-2 version-history-btn" type="button"
+                data-codigo="{{ $documento->codigo }}" data-titulo="{{ $documento->titulo }}"
+                title="Ver historial de versiones">
+                <i class="bi bi-clock-history"></i>
+            </button>
+        </div>
     </li>
 @endforeach
                 
@@ -348,11 +357,20 @@
                                     </div>
                                     <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
                                 </div>
-                                @if($documento->url && $documento->url != '#')
-                                    <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
-                                        <i class="bi bi-link-45deg fs-5"></i>
-                                    </a>
-                                @endif
+                                <div class="d-flex align-items-center ms-3">
+                                    @if($documento->url && $documento->url != '#')
+                                        <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
+                                            <i class="bi bi-link-45deg fs-5"></i>
+                                        </a>
+                                    @endif
+
+                                    <!-- Version History button: muestra el historial de versiones -->
+                                    <button class="btn btn-sm btn-outline-info ms-2 version-history-btn" type="button"
+                                        data-codigo="{{ $documento->codigo }}" data-titulo="{{ $documento->titulo }}"
+                                        title="Ver historial de versiones">
+                                        <i class="bi bi-clock-history"></i>
+                                    </button>
+                                </div>
                             </li>
                         @endforeach
                     </ul>
@@ -600,6 +618,132 @@
 
         <!-- Main JS File -->
         <script src="{{ asset('assets/js/main.js') }}"></script>
+
+        <!-- Modal para ver el historial de versiones -->
+        <div class="modal fade" id="modalVersionHistory" tabindex="-1" aria-labelledby="modalVersionHistoryLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="modalVersionHistoryLabel">Historial de Versiones</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="versionsList" style="max-height: 400px; overflow-y: auto;">
+                            <div class="text-center text-muted py-4">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="mt-2">Cargando historial...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para ver una versión anterior -->
+        <div class="modal fade" id="modalViewVersion" tabindex="-1" aria-labelledby="modalViewVersionLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="modalViewVersionLabel">Ver Versión Anterior</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div id="versionViewerToolbar" class="p-2 d-flex justify-content-end" style="gap:.5rem;">
+                            <!-- enlaces generados por JS: Descargar / Abrir en nueva pestaña -->
+                        </div>
+                        <embed id="versionViewer" src="" type="application/pdf" width="100%" height="600px" style="border:none;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            /* ================ MANEJO DEL HISTORIAL DE VERSIONES ================ */
+            document.addEventListener('click', function (e) {
+                const btn = e.target.closest('.version-history-btn');
+                if (!btn) return;
+
+                const codigo = btn.dataset.codigo || '';
+                const titulo = btn.dataset.titulo || '';
+
+                if (!codigo) return;
+
+                document.querySelector('#modalVersionHistoryLabel').textContent = 'Historial de Versiones - ' + titulo;
+
+                const modalEl = document.getElementById('modalVersionHistory');
+                const bsModal = new bootstrap.Modal(modalEl);
+                bsModal.show();
+
+                fetch(`/documentos/${encodeURIComponent(codigo)}/version-history`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data || !data.success) {
+                            document.getElementById('versionsList').innerHTML = '<div class="alert alert-warning">No hay versiones disponibles</div>';
+                            return;
+                        }
+
+                        const versiones = data.versiones || [];
+                        if (versiones.length === 0) {
+                            document.getElementById('versionsList').innerHTML = '<div class="alert alert-info">Sin versiones anteriores</div>';
+                            return;
+                        }
+
+                        let html = `<div class="alert alert-info">Total de versiones: <strong>${data.total_versiones}</strong></div><div class="list-group">`;
+
+                        versiones.forEach(v => {
+                            html += `<div class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div><h6 class="mb-1">Versión ${v.version_number}</h6><p class="mb-1 small text-muted">${v.created_at}</p><p class="mb-1 small"><strong>Usuario:</strong> ${v.usuario}</p><p class="mb-0 small"><strong>Cambios:</strong> ${v.cambios_descripcion}</p></div><div><button class="btn btn-sm btn-outline-primary view-version-btn" data-version-id="${v.id}" title="Ver archivo"><i class="bi bi-eye"></i></button><a href="/documento-versions/${v.id}/download" class="btn btn-sm btn-outline-success" title="Descargar"><i class="bi bi-download"></i></a></div></div></div>`;
+                        });
+
+                        html += '</div>';
+                        document.getElementById('versionsList').innerHTML = html;
+
+                        document.querySelectorAll('.view-version-btn').forEach(btn => {
+                            btn.addEventListener('click', function () {
+                                const versionId = this.dataset.versionId;
+                                fetch(`/documento-versions/${versionId}`)
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        if (!data || !data.success) {
+                                            alert('Error al cargar la versión');
+                                            return;
+                                        }
+
+                                        const historyModal = bootstrap.Modal.getInstance(document.getElementById('modalVersionHistory'));
+                                        if (historyModal) historyModal.hide();
+
+                                        const viewer = document.getElementById('versionViewer');
+                                        viewer.src = `/documento-versions/${versionId}/stream`;
+
+                                        document.querySelector('#modalViewVersionLabel').textContent = `${data.titulo} - Versión ${data.version_number}`;
+
+                                        const modalEl = document.getElementById('modalViewVersion');
+                                        const bsModal = new bootstrap.Modal(modalEl);
+                                        bsModal.show();
+
+                                        modalEl.addEventListener('hidden.bs.modal', function () {
+                                            viewer.src = '';
+                                        }, { once: true });
+                                    })
+                                    .catch(err => {
+                                        console.error('Error:', err);
+                                        alert('Error al cargar la versión');
+                                    });
+                            });
+                        });
+                    })
+                    .catch(err => {
+                        console.error('Error:', err);
+                        document.getElementById('versionsList').innerHTML = '<div class="alert alert-danger">Error al cargar el historial</div>';
+                    });
+            });
+        </script>
 
     </body>
 </html>

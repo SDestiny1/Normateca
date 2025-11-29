@@ -70,107 +70,107 @@
       .collapsible.hidden { max-height: 0; }
 
       /* ---- Preview flotante ---- */
-#globalPreview {
-    display: none; 
-    position: fixed; /* Cambiado de absolute a fixed */
-    width: 380px; 
-    background: #fff; 
-    border: 1px solid #ddd;
-    border-radius: 12px; 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
-    padding: 15px; 
-    z-index: 9999;
-    transition: opacity 0.2s ease;
-    pointer-events: auto; /* Permitir interacción */
-}
-#globalPreview .doc-title { 
-    font-size: 14px; 
-    font-weight: 600; 
-    color: #1a73e8; 
-    margin-bottom: 12px; 
-    display: flex; 
-    align-items: center; 
-    gap: 6px; 
-    line-height: 1.3;
-}
-#globalPreview .doc-title::before { 
-    content: "📄"; 
-    font-size: 16px; 
-    flex-shrink: 0;
-}
-#globalPreview .doc-frame { 
-    width: 100%; 
-    height: 220px; 
-    border: 1px solid #e0e0e0; 
-    border-radius: 8px; 
-    margin-bottom: 12px; 
-    background: #f8f9fa;
-}
-#globalPreview .doc-info { 
-    font-size: 12px; 
-    color: #666; 
-    line-height: 1.4;
-    padding: 8px 0;
-    border-top: 1px solid #f0f0f0;
-}
+        #globalPreview {
+            display: none; 
+            position: fixed; /* Cambiado de absolute a fixed */
+            width: 380px; 
+            background: #fff; 
+            border: 1px solid #ddd;
+            border-radius: 12px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
+            padding: 15px; 
+            z-index: 9999;
+            transition: opacity 0.2s ease;
+            pointer-events: auto; /* Permitir interacción */
+        }
+        #globalPreview .doc-title { 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #1a73e8; 
+            margin-bottom: 12px; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            line-height: 1.3;
+        }
+        #globalPreview .doc-title::before { 
+            content: "📄"; 
+            font-size: 16px; 
+            flex-shrink: 0;
+        }
+        #globalPreview .doc-frame { 
+            width: 100%; 
+            height: 220px; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px; 
+            margin-bottom: 12px; 
+            background: #f8f9fa;
+        }
+        #globalPreview .doc-info { 
+            font-size: 12px; 
+            color: #666; 
+            line-height: 1.4;
+            padding: 8px 0;
+            border-top: 1px solid #f0f0f0;
+        }
 
-/* Asegurar que el contenedor del documento permita el hover correctamente */
-.doc-container { 
-    cursor: pointer; 
-    position: relative;
-    display: block;
-}
+        /* Asegurar que el contenedor del documento permita el hover correctamente */
+        .doc-container { 
+            cursor: pointer; 
+            position: relative;
+            display: block;
+        }
 
-.doc-meta {
-    font-size: 12px;
-    color: #666;
-    margin-top: 4px;
-}
+        .doc-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
 
-      /* ---- Botón flotante "Volver arriba" ---- */
-      .scroll-top-btn {
-        position: fixed;
-        bottom: 25px;
-        right: 25px;
-        width: 50px;
-        height: 50px;
-        background-color: var(--brand);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        z-index: 1050;
-      }
-      .scroll-top-btn:hover {
-        background-color: #084298;
-        transform: translateY(-3px);
-      }
-      .scroll-top-btn i {
-        font-size: 1.3rem;
-      }
+            /* ---- Botón flotante "Volver arriba" ---- */
+            .scroll-top-btn {
+                position: fixed;
+                bottom: 25px;
+                right: 25px;
+                width: 50px;
+                height: 50px;
+                background-color: var(--brand);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+                z-index: 1050;
+            }
+            .scroll-top-btn:hover {
+                background-color: #084298;
+                transform: translateY(-3px);
+            }
+            .scroll-top-btn i {
+                font-size: 1.3rem;
+            }
 
-      /* ---- Estilos responsivos para los links rápidos ---- */
-      .quick-links-container {
-        display: flex;
-        justify-content: center;
-      }
-      .quick-links-row {
-        max-width: 1200px;
-        width: 100%;
-      }
-      .quick-link-card {
-        height: 100%;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-      .quick-link-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
-      }
+            /* ---- Estilos responsivos para los links rápidos ---- */
+            .quick-links-container {
+                display: flex;
+                justify-content: center;
+            }
+            .quick-links-row {
+                max-width: 1200px;
+                width: 100%;
+            }
+            .quick-link-card {
+                height: 100%;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+            .quick-link-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
+            }
 
     </style>
 </head>
@@ -186,12 +186,12 @@
 
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="{{ route('usuario.landing') }}" class="">Inicio</a></li>
+                    <li><a href="{{ route('usuario.landing') }}" class="nav-link">Inicio</a></li>
                     <li class="nav-item dropdown">
-                        <a href="{{ route('estructura.index') }}" class="nav-link">Estructura Organizacional</a>
+                        <a href="{{ route('estructura.index') }}" class="nav-link active">Estructura Organizacional</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a href="{{ route('normatividad.index') }}" class="nav-link active">Normatividad</a>
+                        <a href="{{ route('normatividad.index') }}" class="nav-link">Normatividad</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a href="{{ route('indicadores.index') }}" class="nav-link">Indicadores</a>
@@ -299,23 +299,31 @@
                     data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
                     data-area="{{ $documento->area ?: '' }}"
                     data-type="{{ $documento->tipo ?: '' }}"
-                    data-archivo="{{ $documento->archivo ? $documento->archivo : '' }}"> <!-- CORREGIDO: Sin urlencode -->
+                    data-archivo="{{ $documento->archivo ? route('documento.archivo', ['codigo' => $documento->codigo]) : '' }}"> <!-- Usar ruta que sirve el BLOB -->
                     {{ $documento->titulo }}
                 </a>
                 @if($documento->archivo)
-                    <!-- CORREGIDO: Pasar la ruta directamente sin codificar -->
-                    <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ $documento->archivo }}" title="Ver documento local">
+                    <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ route('documento.archivo', ['codigo' => $documento->codigo]) }}" title="Ver documento local">
                         <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
                     </button>
                 @endif
             </div>
             <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
         </div>
-        @if($documento->url && $documento->url != '#')
-            <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
-                <i class="bi bi-link-45deg fs-5"></i>
-            </a>
-        @endif
+        <div class="d-flex align-items-center ms-3">
+            @if($documento->url && $documento->url != '#')
+                <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
+                    <i class="bi bi-link-45deg fs-5"></i>
+                </a>
+            @endif
+
+            <!-- Version History button: muestra el historial de versiones -->
+            <button class="btn btn-sm btn-outline-info ms-2 version-history-btn" type="button"
+                data-codigo="{{ $documento->codigo }}" data-titulo="{{ $documento->titulo }}"
+                title="Ver historial de versiones">
+                <i class="bi bi-clock-history"></i>
+            </button>
+        </div>
     </li>
 @endforeach
                 
@@ -338,22 +346,31 @@
                                             data-edit="{{ $documento->urlEdit ?: ($documento->url ?: '') }}"
                                             data-area="{{ $documento->area ?: '' }}"
                                             data-type="{{ $documento->tipo ?: '' }}"
-                                            data-archivo="{{ $documento->archivo ? urlencode($documento->archivo) : '' }}">
+                                            data-archivo="{{ $documento->archivo ? route('documento.archivo', ['codigo' => $documento->codigo]) : '' }}">
                                             {{ $documento->titulo }}
                                         </a>
                                         @if($documento->archivo)
-                                            <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ urlencode($documento->archivo) }}" title="Ver documento local">
+                                            <button class="btn btn-sm p-0 ms-2 open-pdf" data-archivo="{{ route('documento.archivo', ['codigo' => $documento->codigo]) }}" title="Ver documento local">
                                                 <i class="bi bi-file-earmark-text fs-5 text-primary"></i>
                                             </button>
                                         @endif
                                     </div>
                                     <div class="doc-meta">{{ $documento->area ?: '' }}{{ $documento->tipo ? ' · ' . $documento->tipo : '' }}</div>
                                 </div>
-                                @if($documento->url && $documento->url != '#')
-                                    <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
-                                        <i class="bi bi-link-45deg fs-5"></i>
-                                    </a>
-                                @endif
+                                <div class="d-flex align-items-center ms-3">
+                                    @if($documento->url && $documento->url != '#')
+                                        <a href="{{ $documento->url }}" target="_blank" class="text-secondary ms-2" title="Abrir documento">
+                                            <i class="bi bi-link-45deg fs-5"></i>
+                                        </a>
+                                    @endif
+
+                                    <!-- Version History button: muestra el historial de versiones -->
+                                    <button class="btn btn-sm btn-outline-info ms-2 version-history-btn" type="button"
+                                        data-codigo="{{ $documento->codigo }}" data-titulo="{{ $documento->titulo }}"
+                                        title="Ver historial de versiones">
+                                        <i class="bi bi-clock-history"></i>
+                                    </button>
+                                </div>
                             </li>
                         @endforeach
                     </ul>
@@ -430,11 +447,9 @@
                 ruta = encoded;
             }
             
-            // Verificar que la ruta sea válida
-            if(ruta && ruta.startsWith('/')) {
+            // Si hay una ruta (absoluta o relativa), abrir el modal
+            if (ruta) {
                 abrirPDFModal(ruta);
-            } else if (ruta) {
-                console.warn('Ruta de archivo no válida:', ruta);
             }
         }
     });
@@ -497,7 +512,7 @@
 
     document.addEventListener("mouseout", e => {
         const el = e.target.closest(".doc-container a.fw-semibold");
-        if (el && !e.relatedTarget || !el.contains(e.relatedTarget)) {
+        if (el && (!e.relatedTarget || !el.contains(e.relatedTarget))) {
             previewTimeout = setTimeout(() => {
                 if (!globalPreview.matches(":hover")) {
                     globalPreview.style.display = "none";
@@ -603,6 +618,132 @@
 
         <!-- Main JS File -->
         <script src="{{ asset('assets/js/main.js') }}"></script>
+
+        <!-- Modal para ver el historial de versiones -->
+        <div class="modal fade" id="modalVersionHistory" tabindex="-1" aria-labelledby="modalVersionHistoryLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="modalVersionHistoryLabel">Historial de Versiones</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="versionsList" style="max-height: 400px; overflow-y: auto;">
+                            <div class="text-center text-muted py-4">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="mt-2">Cargando historial...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para ver una versión anterior -->
+        <div class="modal fade" id="modalViewVersion" tabindex="-1" aria-labelledby="modalViewVersionLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="modalViewVersionLabel">Ver Versión Anterior</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div id="versionViewerToolbar" class="p-2 d-flex justify-content-end" style="gap:.5rem;">
+                            <!-- enlaces generados por JS: Descargar / Abrir en nueva pestaña -->
+                        </div>
+                        <embed id="versionViewer" src="" type="application/pdf" width="100%" height="600px" style="border:none;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            /* ================ MANEJO DEL HISTORIAL DE VERSIONES ================ */
+            document.addEventListener('click', function (e) {
+                const btn = e.target.closest('.version-history-btn');
+                if (!btn) return;
+
+                const codigo = btn.dataset.codigo || '';
+                const titulo = btn.dataset.titulo || '';
+
+                if (!codigo) return;
+
+                document.querySelector('#modalVersionHistoryLabel').textContent = 'Historial de Versiones - ' + titulo;
+
+                const modalEl = document.getElementById('modalVersionHistory');
+                const bsModal = new bootstrap.Modal(modalEl);
+                bsModal.show();
+
+                fetch(`/documentos/${encodeURIComponent(codigo)}/version-history`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data || !data.success) {
+                            document.getElementById('versionsList').innerHTML = '<div class="alert alert-warning">No hay versiones disponibles</div>';
+                            return;
+                        }
+
+                        const versiones = data.versiones || [];
+                        if (versiones.length === 0) {
+                            document.getElementById('versionsList').innerHTML = '<div class="alert alert-info">Sin versiones anteriores</div>';
+                            return;
+                        }
+
+                        let html = `<div class="alert alert-info">Total de versiones: <strong>${data.total_versiones}</strong></div><div class="list-group">`;
+
+                        versiones.forEach(v => {
+                            html += `<div class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div><h6 class="mb-1">Versión ${v.version_number}</h6><p class="mb-1 small text-muted">${v.created_at}</p><p class="mb-1 small"><strong>Usuario:</strong> ${v.usuario}</p><p class="mb-0 small"><strong>Cambios:</strong> ${v.cambios_descripcion}</p></div><div><button class="btn btn-sm btn-outline-primary view-version-btn" data-version-id="${v.id}" title="Ver archivo"><i class="bi bi-eye"></i></button><a href="/documento-versions/${v.id}/download" class="btn btn-sm btn-outline-success" title="Descargar"><i class="bi bi-download"></i></a></div></div></div>`;
+                        });
+
+                        html += '</div>';
+                        document.getElementById('versionsList').innerHTML = html;
+
+                        document.querySelectorAll('.view-version-btn').forEach(btn => {
+                            btn.addEventListener('click', function () {
+                                const versionId = this.dataset.versionId;
+                                fetch(`/documento-versions/${versionId}`)
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        if (!data || !data.success) {
+                                            alert('Error al cargar la versión');
+                                            return;
+                                        }
+
+                                        const historyModal = bootstrap.Modal.getInstance(document.getElementById('modalVersionHistory'));
+                                        if (historyModal) historyModal.hide();
+
+                                        const viewer = document.getElementById('versionViewer');
+                                        viewer.src = `/documento-versions/${versionId}/stream`;
+
+                                        document.querySelector('#modalViewVersionLabel').textContent = `${data.titulo} - Versión ${data.version_number}`;
+
+                                        const modalEl = document.getElementById('modalViewVersion');
+                                        const bsModal = new bootstrap.Modal(modalEl);
+                                        bsModal.show();
+
+                                        modalEl.addEventListener('hidden.bs.modal', function () {
+                                            viewer.src = '';
+                                        }, { once: true });
+                                    })
+                                    .catch(err => {
+                                        console.error('Error:', err);
+                                        alert('Error al cargar la versión');
+                                    });
+                            });
+                        });
+                    })
+                    .catch(err => {
+                        console.error('Error:', err);
+                        document.getElementById('versionsList').innerHTML = '<div class="alert alert-danger">Error al cargar el historial</div>';
+                    });
+            });
+        </script>
 
     </body>
 </html>

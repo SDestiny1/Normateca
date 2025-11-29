@@ -118,7 +118,6 @@
         #globalPreview {
             display: none;
             position: fixed;
-            /* Cambiado de absolute a fixed */
             width: 380px;
             background: #fff;
             border: 1px solid #ddd;
@@ -128,7 +127,6 @@
             z-index: 9999;
             transition: opacity 0.2s ease;
             pointer-events: auto;
-            /* Permitir interacción */
         }
 
         #globalPreview .doc-title {
@@ -165,7 +163,6 @@
             border-top: 1px solid #f0f0f0;
         }
 
-        /* Asegurar que el contenedor del documento permita el hover correctamente */
         .doc-container {
             cursor: pointer;
             position: relative;
@@ -178,7 +175,6 @@
             margin-top: 4px;
         }
 
-        /* ---- Botón flotante "Volver arriba" ---- */
         .scroll-top-btn {
             position: fixed;
             bottom: 25px;
@@ -207,7 +203,6 @@
             font-size: 1.3rem;
         }
 
-        /* ---- Estilos responsivos para los links rápidos ---- */
         .quick-links-container {
             display: flex;
             justify-content: center;
@@ -436,6 +431,13 @@
                                         <i class="bi bi-pencil"></i>
                                     </button>
 
+                                    <!-- Version History button: muestra el historial de versiones -->
+                                    <button class="btn btn-sm btn-outline-info ms-2 version-history-btn" type="button"
+                                        data-codigo="{{ $documento->codigo }}" data-titulo="{{ $documento->titulo }}"
+                                        title="Ver historial de versiones">
+                                        <i class="bi bi-clock-history"></i>
+                                    </button>
+
                                     <!-- Toggle Active button: desactiva/activa el documento -->
                                     <button class="btn btn-sm btn-outline-warning ms-2 toggle-activo" type="button"
                                         data-codigo="{{ $documento->codigo }}" data-titulo="{{ $documento->titulo }}"
@@ -511,6 +513,13 @@
                                                 data-area="{{ $documento->area ?? '' }}" data-tipo="{{ $documento->tipo ?? '' }}"
                                                 title="Editar documento">
                                                 <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <!-- Version History button: muestra el historial de versiones -->
+                                            <button class="btn btn-sm btn-outline-info ms-2 version-history-btn" type="button"
+                                                data-codigo="{{ $documento->codigo }}" data-titulo="{{ $documento->titulo }}"
+                                                title="Ver historial de versiones">
+                                                <i class="bi bi-clock-history"></i>
                                             </button>
 
                                             <!-- Toggle Active button: desactiva/activa el documento -->
@@ -620,7 +629,7 @@
                 }
             });
 
-            /* ------------------ Preview flotante MEJORADO - Posición fija respecto al viewport ------------------ */
+            /* ------------------ Preview flotanteS - Posición fija respecto al viewport ------------------ */
             const globalPreview = document.getElementById("globalPreview");
             let previewTimeout;
 
@@ -648,18 +657,18 @@
                         globalPreview.querySelector(".doc-info").textContent =
                             (el.dataset.area || "") + (el.dataset.type ? " · " + el.dataset.type : "");
 
-                        // Usar posición FIJA respecto al viewport
+                        // Usar posición fija respecto al viewport
                         const rect = el.getBoundingClientRect();
                         const viewportWidth = window.innerWidth;
                         const viewportHeight = window.innerHeight;
 
-                        // Calcular posición FIJA (respecto a la ventana visible)
-                        let leftPosition = rect.right + 10; // 10px a la derecha del elemento
+                        // Calcular posición fija
+                        let leftPosition = rect.right + 10;
                         let topPosition = rect.top;
 
                         // Si no cabe a la derecha, mostrar a la izquierda
                         if (leftPosition + 380 > viewportWidth) {
-                            leftPosition = rect.left - 390; // 380px + 10px de margen
+                            leftPosition = rect.left - 390;
                         }
 
                         // Asegurar que no se salga por los bordes horizontales
@@ -728,7 +737,6 @@
 
                 const viewer = document.getElementById('pdfViewer');
 
-                // La ruta viene del route helper, ya está completa
                 viewer.src = rutaPDF;
 
                 const modalEl = document.getElementById('pdfModal');
@@ -884,7 +892,6 @@
             </div>
         </div>
         </div>
-        <!-- Modal para registrar alumnos/usuarios -->
 
         <!-- Modal para editar documento -->
         <div class="modal fade" id="modalEditDoc" tabindex="-1" aria-labelledby="modalEditDocLabel" aria-hidden="true">
@@ -916,6 +923,13 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="edit_cambios_descripcion" class="form-label">Descripción de cambios</label>
+                                <textarea name="cambios_descripcion" id="edit_cambios_descripcion" class="form-control"
+                                    rows="3"
+                                    placeholder="Describe qué cambios se realizaron en este documento..."></textarea>
+                            </div>
+
+                            <div class="mb-3">
                                 <small class="text-muted">Si dejas el archivo vacío, el archivo almacenado no
                                     cambiará.</small>
                             </div>
@@ -926,6 +940,51 @@
                             <button type="submit" class="btn btn-primary">Guardar cambios</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para ver el historial de versiones -->
+        <div class="modal fade" id="modalVersionHistory" tabindex="-1" aria-labelledby="modalVersionHistoryLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="modalVersionHistoryLabel">Historial de Versiones</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="versionsList" style="max-height: 400px; overflow-y: auto;">
+                            <div class="text-center text-muted py-4">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="mt-2">Cargando historial...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para ver una versión anterior -->
+        <div class="modal fade" id="modalViewVersion" tabindex="-1" aria-labelledby="modalViewVersionLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="modalViewVersionLabel">Ver Versión Anterior</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div id="versionViewerToolbar" class="p-2 d-flex justify-content-end" style="gap:.5rem;">
+                            <!-- enlaces generados por JS: Descargar / Abrir en nueva pestaña -->
+                        </div>
+                        <embed id="versionViewer" src="" type="application/pdf" width="100%" height="600px" style="border:none;" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -1078,7 +1137,7 @@
             });
 
             /* ------------------ Confirmación con modal reutilizable ------------------ */
-            // Preparar modal (ver HTML al final del documento)
+            // Preparar modal
             const confirmModalEl = document.getElementById('confirmModal');
             const confirmModal = confirmModalEl ? new bootstrap.Modal(confirmModalEl) : null;
             const confirmTitle = confirmModalEl?.querySelector('.modal-title');
@@ -1086,7 +1145,6 @@
             const confirmBtn = confirmModalEl?.querySelector('#confirmModalConfirmBtn');
 
             function openConfirmModal(options) {
-                // options: { type: 'toggle'|'delete', codigo, titulo, activo }
                 if (!confirmModalEl) return;
                 const { type, codigo, titulo, activo } = options;
 
@@ -1161,10 +1219,10 @@
                                 alert('Error al cambiar estado: ' + (data?.mensaje || 'Error desconocido'));
                                 return;
                             }
-                            const activo = data.activo; // 'activo' o 'desactivo'
+                            const activo = data.activo;
                             const isActive = activo === 'activo';
 
-                            // Encontrar el <li> correspondiente
+                            // Encontrar el correspondiente
                             const li = document.querySelector('li.list-group-item[data-codigo="' + codigo + '"]');
                             if (li) {
                                 // Actualizar link principal
@@ -1258,6 +1316,86 @@
                 confirmModal.hide();
             });
 
-</script>
+            /* ================ MANEJO DEL HISTORIAL DE VERSIONES ================ */
+            document.addEventListener('click', function (e) {
+                const btn = e.target.closest('.version-history-btn');
+                if (!btn) return;
+
+                const codigo = btn.dataset.codigo || '';
+                const titulo = btn.dataset.titulo || '';
+
+                if (!codigo) return;
+
+                document.querySelector('#modalVersionHistoryLabel').textContent = 'Historial de Versiones - ' + titulo;
+
+                const modalEl = document.getElementById('modalVersionHistory');
+                const bsModal = new bootstrap.Modal(modalEl);
+                bsModal.show();
+
+                fetch(`/documentos/${encodeURIComponent(codigo)}/version-history`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data || !data.success) {
+                            document.getElementById('versionsList').innerHTML = '<div class="alert alert-warning">No hay versiones disponibles</div>';
+                            return;
+                        }
+
+                        const versiones = data.versiones || [];
+                        if (versiones.length === 0) {
+                            document.getElementById('versionsList').innerHTML = '<div class="alert alert-info">Sin versiones anteriores</div>';
+                            return;
+                        }
+
+                        let html = `<div class="alert alert-info">Total de versiones: <strong>${data.total_versiones}</strong></div><div class="list-group">`;
+
+                        versiones.forEach(v => {
+                            html += `<div class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div><h6 class="mb-1">Versión ${v.version_number}</h6><p class="mb-1 small text-muted">${v.created_at}</p><p class="mb-1 small"><strong>Usuario:</strong> ${v.usuario}</p><p class="mb-0 small"><strong>Cambios:</strong> ${v.cambios_descripcion}</p></div><div><button class="btn btn-sm btn-outline-primary view-version-btn" data-version-id="${v.id}" title="Ver archivo"><i class="bi bi-eye"></i></button><a href="/documento-versions/${v.id}/download" class="btn btn-sm btn-outline-success" title="Descargar"><i class="bi bi-download"></i></a></div></div></div>`;
+                        });
+
+                        html += '</div>';
+                        document.getElementById('versionsList').innerHTML = html;
+
+                        document.querySelectorAll('.view-version-btn').forEach(btn => {
+                            btn.addEventListener('click', function () {
+                                const versionId = this.dataset.versionId;
+                                fetch(`/documento-versions/${versionId}`)
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        if (!data || !data.success) {
+                                            alert('Error al cargar la versión');
+                                            return;
+                                        }
+
+                                        const historyModal = bootstrap.Modal.getInstance(document.getElementById('modalVersionHistory'));
+                                        if (historyModal) historyModal.hide();
+
+                                        const viewer = document.getElementById('versionViewer');
+                                        viewer.src = `/documento-versions/${versionId}/stream`;
+
+                                        document.querySelector('#modalViewVersionLabel').textContent = `${data.titulo} - Versión ${data.version_number}`;
+
+                                        const modalEl = document.getElementById('modalViewVersion');
+                                        const bsModal = new bootstrap.Modal(modalEl);
+                                        bsModal.show();
+
+                                        modalEl.addEventListener('hidden.bs.modal', function () {
+                                            viewer.src = '';
+                                        }, { once: true });
+                                    })
+                                    .catch(err => {
+                                        console.error('Error:', err);
+                                        alert('Error al cargar la versión');
+                                    });
+                            });
+                        });
+                    })
+                    .catch(err => {
+                        console.error('Error:', err);
+                        document.getElementById('versionsList').innerHTML = '<div class="alert alert-danger">Error al cargar el historial</div>';
+                    });
+            });
+
+        </script>
 </body>
+
 </html>
