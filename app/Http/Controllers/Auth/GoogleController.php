@@ -27,16 +27,16 @@ class GoogleController extends Controller
             if (!$user) {
                 // Si no existe el usuario, dos opciones
                 // 1. Rechazar el acceso
-                // return redirect()->route('login')->withErrors(['login_error' => 'Tu cuenta no está registrada en el sistema.']);
+                return redirect()->route('login')->withErrors(['login_error' => 'Tu cuenta no está registrada en el sistema.']);
 
                 // 2. Crear el usuario automáticamente.
 
-                DB::table('Usuarios')->insert([
-                    'email' => $googleUser->getEmail(),
-                    'rol' => 'usuario',
-                    'contrasena' => '',
-                ]);
-                $user = DB::table('Usuarios')->where('email', $googleUser->getEmail())->first();
+                //     DB::table('Usuarios')->insert([
+                //         'email' => $googleUser->getEmail(),
+                //         'rol' => 'usuario',
+                //         'contrasena' => '',
+                //     ]);
+                //     $user = DB::table('Usuarios')->where('email', $googleUser->getEmail())->first();
 
             }
 
