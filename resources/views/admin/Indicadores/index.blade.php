@@ -835,6 +835,7 @@
 
                     <form action="{{ route('documentos.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="categoriaID" value="4">
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="codigo" class="form-label">Código</label>
@@ -852,27 +853,52 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="categoriaID" class="form-label">Categoría</label>
-                                <select name="categoriaID" id="categoriaID" class="form-select" required>
-                                    <option value="">Seleccione una categoría</option>
-                                    @foreach(DB::table('Categorias')->get() as $cat)
-                                        <option value="{{ $cat->numero }}">{{ $cat->nombre }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="seccionID" class="form-label">Sección</label>
-                                <select name="seccionID" id="seccionID" class="form-select">
-                                    <option value="">Seleccione una sección</option>
-                                </select>
+                                <div class="input-group">
+                                    <select name="seccionID" id="seccionID" class="form-select">
+                                        <option value="">Seleccione una sección</option>
+                                        @foreach(DB::table('Secciones')->where('categoriaID', 4)->whereNull('seccionPadreID')->get() as $sec)
+                                            <option value="{{ $sec->numero }}">{{ $sec->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button type="button" class="btn btn-outline-primary" id="btnNuevaSeccion">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                </div>
+                                <div id="nuevaSeccionContainer" class="mt-2" style="display:none;">
+                                    <div class="input-group">
+                                        <input type="text" id="inputNombreSeccion" class="form-control" placeholder="Nombre de la nueva sección">
+                                        <button type="button" class="btn btn-success" id="btnGuardarSeccion">
+                                            <i class="bi bi-check-lg"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" id="btnCancelarSeccion">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="subseccionID" class="form-label">Subsección (opcional)</label>
-                                <select name="subseccionID" id="subseccionID" class="form-select">
-                                    <option value="">Seleccione una subsección</option>
-                                </select>
+                                <div class="input-group">
+                                    <select name="subseccionID" id="subseccionID" class="form-select">
+                                        <option value="">Seleccione una subsección</option>
+                                    </select>
+                                    <button type="button" class="btn btn-outline-primary" id="btnNuevaSubseccion" disabled>
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                </div>
+                                <div id="nuevaSubseccionContainer" class="mt-2" style="display:none;">
+                                    <div class="input-group">
+                                        <input type="text" id="inputNombreSubseccion" class="form-control" placeholder="Nombre de la nueva subsección">
+                                        <button type="button" class="btn btn-success" id="btnGuardarSubseccion">
+                                            <i class="bi bi-check-lg"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" id="btnCancelarSubseccion">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="mb-3">
@@ -1053,25 +1079,15 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(document).ready(function () {
-                // Cuando cambia la categoría
-                $('#categoriaID').change(function () {
-                    var categoriaID = $(this).val();
-                    $('#seccionID').empty().append('<option value="">Cargando...</option>');
-                    $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
-                    if (categoriaID) {
-                        $.getJSON('/documentos/secciones/' + categoriaID, function (data) {
-                            $('#seccionID').empty().append('<option value="">Seleccione una sección</option>');
-                            $.each(data, function (i, item) {
-                                $('#seccionID').append('<option value="' + item.numero + '">' + item.nombre + '</option>');
-                            });
-                        });
-                    }
-                });
+                // Auto-cargar secciones al abrir el modal
+                const categoriaID = 4;
 
                 // Cuando cambia la sección
                 $('#seccionID').change(function () {
                     var seccionPadreID = $(this).val();
                     $('#subseccionID').empty().append('<option value="">Cargando...</option>');
+                    $('#btnNuevaSubseccion').prop('disabled', !seccionPadreID);
+                    
                     if (seccionPadreID) {
                         $.getJSON('/documentos/subsecciones/' + seccionPadreID, function (data) {
                             $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
@@ -1083,8 +1099,159 @@
                         $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
                     }
                 });
+
+                // Botón para mostrar campo inline de nueva sección
+                $('#btnNuevaSeccion').click(function() {
+                    $('#nuevaSeccionContainer').slideDown(200);
+                    $('#inputNombreSeccion').val('').focus();
+                });
+
+                // Botón para cancelar nueva sección
+                $('#btnCancelarSeccion').click(function() {
+                    $('#nuevaSeccionContainer').slideUp(200);
+                    $('#inputNombreSeccion').val('');
+                });
+
+                // Botón para guardar nueva sección
+                $('#btnGuardarSeccion').click(function() {
+                    const nombreSeccion = $('#inputNombreSeccion').val().trim();
+                    if (nombreSeccion === '') {
+                        mostrarAlerta('Por favor ingrese un nombre para la sección', 'warning');
+                        return;
+                    }
+                    
+                    $.ajax({
+                        url: '{{ route("documentos.crearSeccion") }}',
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            nombre: nombreSeccion,
+                            categoriaID: categoriaID
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $('#seccionID').append('<option value="' + response.seccion.numero + '">' + response.seccion.nombre + '</option>');
+                                $('#seccionID').val(response.seccion.numero);
+                                $('#nuevaSeccionContainer').slideUp(200);
+                                $('#inputNombreSeccion').val('');
+                                mostrarAlerta('Sección "' + response.seccion.nombre + '" creada correctamente', 'success');
+                                $('#seccionID').trigger('change');
+                            }
+                        },
+                        error: function() {
+                            mostrarAlerta('Error al crear la sección. Intente nuevamente.', 'danger');
+                        }
+                    });
+                });
+
+                // Botón para mostrar campo inline de nueva subsección
+                $('#btnNuevaSubseccion').click(function() {
+                    const seccionPadreID = $('#seccionID').val();
+                    if (!seccionPadreID) {
+                        mostrarAlerta('Primero seleccione una sección', 'warning');
+                        return;
+                    }
+                    
+                    $('#nuevaSubseccionContainer').slideDown(200);
+                    $('#inputNombreSubseccion').val('').focus();
+                });
+
+                // Botón para cancelar nueva subsección
+                $('#btnCancelarSubseccion').click(function() {
+                    $('#nuevaSubseccionContainer').slideUp(200);
+                    $('#inputNombreSubseccion').val('');
+                });
+
+                // Botón para guardar nueva subsección
+                $('#btnGuardarSubseccion').click(function() {
+                    const seccionPadreID = $('#seccionID').val();
+                    const nombreSubseccion = $('#inputNombreSubseccion').val().trim();
+                    
+                    if (nombreSubseccion === '') {
+                        mostrarAlerta('Por favor ingrese un nombre para la subsección', 'warning');
+                        return;
+                    }
+                    
+                    $.ajax({
+                        url: '{{ route("documentos.crearSubseccion") }}',
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            nombre: nombreSubseccion,
+                            categoriaID: categoriaID,
+                            seccionPadreID: seccionPadreID
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $('#subseccionID').append('<option value="' + response.subseccion.numero + '">' + response.subseccion.nombre + '</option>');
+                                $('#subseccionID').val(response.subseccion.numero);
+                                $('#nuevaSubseccionContainer').slideUp(200);
+                                $('#inputNombreSubseccion').val('');
+                                mostrarAlerta('Subsección "' + response.subseccion.nombre + '" creada correctamente', 'success');
+                            }
+                        },
+                        error: function() {
+                            mostrarAlerta('Error al crear la subsección. Intente nuevamente.', 'danger');
+                        }
+                    });
+                });
+
+                // Permitir crear con Enter
+                $('#inputNombreSeccion').keypress(function(e) {
+                    if (e.which === 13) {
+                        e.preventDefault();
+                        $('#btnConfirmarNuevaSeccion').click();
+                    }
+                });
+
+                $('#inputNombreSubseccion').keypress(function(e) {
+                    if (e.which === 13) {
+                        e.preventDefault();
+                        $('#btnConfirmarNuevaSubseccion').click();
+                    }
+                });
+
+                // Función para mostrar alertas mejoradas
+                function mostrarAlerta(mensaje, tipo) {
+                    const iconos = {
+                        success: 'bi-check-circle-fill',
+                        danger: 'bi-exclamation-triangle-fill',
+                        warning: 'bi-exclamation-circle-fill',
+                        info: 'bi-info-circle-fill'
+                    };
+                    
+                    const alerta = $(`
+                        <div class="alert alert-${tipo} alert-dismissible fade show shadow-lg" 
+                             role="alert" 
+                             style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px; max-width: 500px; animation: slideInRight 0.3s ease-out;">
+                            <div class="d-flex align-items-center">
+                                <i class="bi ${iconos[tipo]} me-2 fs-4"></i>
+                                <div class="flex-grow-1">${mensaje}</div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        </div>
+                    `);
+                    
+                    $('body').append(alerta);
+                    setTimeout(() => {
+                        alerta.removeClass('show');
+                        setTimeout(() => alerta.remove(), 150);
+                    }, 4000);
+                }
             });
         </script>
+        <style>
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        </style>
         <!-- Confirm modal (reutilizable) -->
         <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">

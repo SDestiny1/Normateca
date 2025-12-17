@@ -18,7 +18,6 @@ class documentController extends Controller
         return view('documentos.create', compact('categorias', 'usuarios'));
     }
 
-    // AJAX: obtener secciones por categoría
     public function obtenerSecciones($categoriaID)
     {
         $secciones = Section::where('categoriaID', $categoriaID)
@@ -27,12 +26,54 @@ class documentController extends Controller
         return response()->json($secciones);
     }
 
-    // AJAX: obtener subsecciones por sección padre
     public function obtenerSubsecciones($seccionPadreID)
     {
         $subsecciones = Section::where('seccionPadreID', $seccionPadreID)
             ->orderBy('nombre')->get();
         return response()->json($subsecciones);
+    }
+
+    // Crear nueva sección
+    public function crearSeccion(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'categoriaID' => 'required|integer',
+        ]);
+
+        $seccion = Section::create([
+            'nombre' => $request->nombre,
+            'categoriaID' => $request->categoriaID,
+            'seccionPadreID' => null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'seccion' => $seccion,
+            'message' => 'Sección creada correctamente'
+        ]);
+    }
+
+    // Crear nueva subsección
+    public function crearSubseccion(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'categoriaID' => 'required|integer',
+            'seccionPadreID' => 'required|integer',
+        ]);
+
+        $subseccion = Section::create([
+            'nombre' => $request->nombre,
+            'categoriaID' => $request->categoriaID,
+            'seccionPadreID' => $request->seccionPadreID,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'subseccion' => $subseccion,
+            'message' => 'Subsección creada correctamente'
+        ]);
     }
 
     // Guardar documento
@@ -41,7 +82,7 @@ class documentController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'url' => 'nullable|url',
-            'archivo' => 'nullable|file|max:51200',
+            'archivo' => 'nullable|file|max:51200|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,png',
             'usuarioID' => 'required|integer',
             'categoriaID' => 'required|integer',
         ]);
@@ -50,7 +91,37 @@ class documentController extends Controller
         $archivo = null;
 
         if ($request->hasFile('archivo')) {
-            $archivo = file_get_contents($request->file('archivo')->getRealPath());
+            // Validación adicional de tipo MIME real del archivo
+            $uploadedFile = $request->file('archivo');
+            $mimeType = $uploadedFile->getMimeType();
+
+            // Lista blanca estricta de tipos MIME permitidos
+            $allowedMimes = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-powerpoint',
+                'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                'text/plain',
+                'image/jpeg',
+                'image/png'
+            ];
+
+            if (!in_array($mimeType, $allowedMimes)) {
+                return back()->with('error', '⚠️ Tipo de archivo no permitido. Solo se permiten documentos PDF, Word, Excel, PowerPoint, imágenes JPG/PNG y archivos de texto.');
+            }
+
+            // Verificar que no sea un archivo ejecutable o HTML
+            $extension = strtolower($uploadedFile->getClientOriginalExtension());
+            $bannedExtensions = ['exe', 'bat', 'cmd', 'sh', 'php', 'html', 'htm', 'js', 'jar', 'vbs', 'com'];
+
+            if (in_array($extension, $bannedExtensions)) {
+                return back()->with('error', '⚠️ Extensión de archivo no permitida por razones de seguridad.');
+            }
+
+            $archivo = file_get_contents($uploadedFile->getRealPath());
         }
 
         $seccionID = $request->subseccionID ?: $request->seccionID ?: null;
@@ -103,7 +174,7 @@ class documentController extends Controller
         $request->validate([
             'titulo' => 'nullable|string|max:255',
             'url' => 'nullable|url',
-            'archivo' => 'nullable|file|max:51200',
+            'archivo' => 'nullable|file|max:51200|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,png',
             'categoriaID' => 'nullable|integer',
             'usuarioID' => 'nullable|integer',
         ]);
@@ -118,7 +189,37 @@ class documentController extends Controller
         $archivoActualizado = false;
 
         if ($request->hasFile('archivo')) {
-            $nuevoArchivo = file_get_contents($request->file('archivo')->getRealPath());
+            // Validación adicional de tipo MIME real del archivo
+            $uploadedFile = $request->file('archivo');
+            $mimeType = $uploadedFile->getMimeType();
+
+            // Lista blanca estricta de tipos MIME permitidos
+            $allowedMimes = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-powerpoint',
+                'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                'text/plain',
+                'image/jpeg',
+                'image/png'
+            ];
+
+            if (!in_array($mimeType, $allowedMimes)) {
+                return back()->with('error', '⚠️ Tipo de archivo no permitido. Solo se permiten documentos PDF, Word, Excel, PowerPoint, imágenes JPG/PNG y archivos de texto.');
+            }
+
+            // Verificar que no sea un archivo ejecutable o HTML
+            $extension = strtolower($uploadedFile->getClientOriginalExtension());
+            $bannedExtensions = ['exe', 'bat', 'cmd', 'sh', 'php', 'html', 'htm', 'js', 'jar', 'vbs', 'com'];
+
+            if (in_array($extension, $bannedExtensions)) {
+                return back()->with('error', '⚠️ Extensión de archivo no permitida por razones de seguridad.');
+            }
+
+            $nuevoArchivo = file_get_contents($uploadedFile->getRealPath());
 
             // Si el archivo cambió, guardar versión anterior
             if ($doc->archivo && $nuevoArchivo !== $doc->archivo) {

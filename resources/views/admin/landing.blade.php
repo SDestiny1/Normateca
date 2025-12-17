@@ -5,13 +5,17 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Normateca Institucional</title>
-  <meta name="description" content="Paltaforma para la consulta y difusión de las disposiciones administrativas internas de CESUN Universidad">
-  <meta name="keywords" content="normateca, normatividad, disposiciones administrativas, CESUN Universidad, gestión de calidad, simplificación normativa">
+  <meta name="description"
+    content="Paltaforma para la consulta y difusión de las disposiciones administrativas internas de CESUN Universidad">
+  <meta name="keywords"
+    content="normateca, normatividad, disposiciones administrativas, CESUN Universidad, gestión de calidad, simplificación normativa">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -36,15 +40,15 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href={{ route('admin.landing') }} class="active">Inicio</a></li>
-        <li class="nav-item dropdown">
-          <a href="{{ route('estructura.index') }}" class="nav-link">Estructura Organizacional</a>
-        </li>
+          <li class="nav-item dropdown">
+            <a href="{{ route('estructura.index') }}" class="nav-link">Estructura Organizacional</a>
+          </li>
           <li class="nav-item dropdown">
             <a href="{{ route('normatividad.index') }}" class="nav-link">Normatividad</a>
-        </li>
+          </li>
           <li class="nav-item dropdown">
             <a href="{{ route('indicadores.index') }}" class="nav-link">Indicadores</a>
-        </li>
+          </li>
           <li class="nav-item dropdown">
             <a href="{{ route('procesos.index') }}" class="nav-link">Procesos</a>
           </li>
@@ -75,12 +79,21 @@
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <h3>Introduccion</h3>
             <img src="../assets/img/about.jpg" class="img-fluid rounded-4 mb-4" alt="Gestión Estudiantil">
-            <p>En este sentido, en la Dirección Administrativa se creó el Departamento de Planeación y Gestión de Calidad, el cual tiene un mecanismo denominado Normateca Interna, cuyo objetivo es la difusión de la normatividad y disposiciones administrativas internas que se aprueben por el Rector.</p>
+            <p>En este sentido, en la Dirección Administrativa se creó el Departamento de Planeación y Gestión de
+              Calidad, el cual tiene un mecanismo denominado Normateca Interna, cuyo objetivo es la difusión de la
+              normatividad y disposiciones administrativas internas que se aprueben por el Rector.</p>
           </div>
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
             <div class="content ps-0 ps-lg-5">
               <p>
-                Desde 2019, se planteó en el Plan de Desarrollo Institucional 2020-2027, como una de las estrategias previstas el eje de Gestión Institucional con el objetivo de Implementar un Sistema de Gestión de la Calidad basado en estándares nacionales e internacionales para la acreditación y certificación institucional lo cual permitirá el desarrollar mecanismos para evitar la sobreregulación y asegurar la simplificación del marco normativo interno y de atención al estudiante; por lo que se hizo necesario contar con una herramienta de coordinación interna en cada unidad administrativa de CESUN Universidad, que contribuya a la simplificación de disposiciones administrativas que regulan la operación y funcionamiento interno de éstas.              </p>
+                Desde 2019, se planteó en el Plan de Desarrollo Institucional 2020-2027, como una de las estrategias
+                previstas el eje de Gestión Institucional con el objetivo de Implementar un Sistema de Gestión de la
+                Calidad basado en estándares nacionales e internacionales para la acreditación y certificación
+                institucional lo cual permitirá el desarrollar mecanismos para evitar la sobreregulación y asegurar la
+                simplificación del marco normativo interno y de atención al estudiante; por lo que se hizo necesario
+                contar con una herramienta de coordinación interna en cada unidad administrativa de CESUN Universidad,
+                que contribuya a la simplificación de disposiciones administrativas que regulan la operación y
+                funcionamiento interno de éstas. </p>
               <div class="position-relative mt-4">
                 <img src="../assets/img/about-2.jpg" class="img-fluid rounded-4" alt="Plataforma Educativa">
               </div>
@@ -103,13 +116,18 @@
             Que es la Normateca Interna?
           </p>
           <p>
-            La Normateca Interna es una herramienta para la difusión y consulta de las disposiciones administrativas internas que emite CESUN Universidad, aprobadas por el Rector.
+            La Normateca Interna es una herramienta para la difusión y consulta de las disposiciones administrativas
+            internas que emite CESUN Universidad, aprobadas por el Rector.
           </p>
           <p>
-            Se entiende como disposiciones administrativas internas: las políticas, lineamientos, acuerdos, normas, circulares, formatos, criterios, metodologías, instructivos, directivas, reglas y otras que normen su actividad interna, emitidas por el Rector o los titulares de las Unidades Administrativas en el ámbito de sus atribuciones.
+            Se entiende como disposiciones administrativas internas: las políticas, lineamientos, acuerdos, normas,
+            circulares, formatos, criterios, metodologías, instructivos, directivas, reglas y otras que normen su
+            actividad interna, emitidas por el Rector o los titulares de las Unidades Administrativas en el ámbito de
+            sus atribuciones.
           </p>
           <p>
-            La Normateca Interna es un portal abierto a cualquier integrante de la comunidad CESUN que quiera conocer sobre el marco normativo de CESUN Universidad.
+            La Normateca Interna es un portal abierto a cualquier integrante de la comunidad CESUN que quiera conocer
+            sobre el marco normativo de CESUN Universidad.
           </p>
         </div>
 
@@ -133,7 +151,9 @@
             <div class="member">
               <div class="member-info">
                 <h4>Mision</h4>
-                <span>Somos una institución educativa que forma profesionales integrales, a través de un currículo vanguardista contribuyendo al desarrollo del entorno y la sociedad, con integridad y responsabilidad social.</span>
+                <span>Somos una institución educativa que forma profesionales integrales, a través de un currículo
+                  vanguardista contribuyendo al desarrollo del entorno y la sociedad, con integridad y responsabilidad
+                  social.</span>
               </div>
             </div>
           </div>
@@ -142,7 +162,10 @@
             <div class="member">
               <div class="member-info">
                 <h4>Vision</h4>
-                <span>Ser una institución educativa considerada entre las mejores del Estado, con cobertura, presencia y reconocimiento nacional e internacional, a través de un currículo aplicado con un modelo vanguardista de aprendizaje en línea, generando comunidades de expertos multidisciplinarios, que propicien el crecimiento social en un contexto global.</span>
+                <span>Ser una institución educativa considerada entre las mejores del Estado, con cobertura, presencia y
+                  reconocimiento nacional e internacional, a través de un currículo aplicado con un modelo vanguardista
+                  de aprendizaje en línea, generando comunidades de expertos multidisciplinarios, que propicien el
+                  crecimiento social en un contexto global.</span>
               </div>
             </div>
           </div>
@@ -160,21 +183,26 @@
         <h2>Sobre CESUN Universidad</h2>
         <p>Valores y Principios</p>
       </div>
-      
+
       <div class="container">
 
         <div class="row gy-4">
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <h3>Integridad</h3>
-            <p>Transparencia en el comportamiento, que permite emplear de forma correcta las aptitudes y capacidades para contribuir al desarrollo del entorno y la sociedad.</p>
+            <p>Transparencia en el comportamiento, que permite emplear de forma correcta las aptitudes y capacidades
+              para contribuir al desarrollo del entorno y la sociedad.</p>
             <h3>Responsabilidad</h3>
-            <p>Cumplimiento de los derechos y obligaciones de forma congruente actuando de forma correcta, con la sociedad y su entorno</p>
+            <p>Cumplimiento de los derechos y obligaciones de forma congruente actuando de forma correcta, con la
+              sociedad y su entorno</p>
             <h3>Compromiso</h3>
-            <p>Cumplir con las obligaciones contraídas, con el propósito de lograr el desarrollo personal y profesional, de manera integral, para beneficio de su entorno y la sociedad.</p>
+            <p>Cumplir con las obligaciones contraídas, con el propósito de lograr el desarrollo personal y profesional,
+              de manera integral, para beneficio de su entorno y la sociedad.</p>
             <h3>Solidaridad</h3>
-            <p>Trabajo colaborativo con equidad y transparencia en el comportamiento , aportando sus ideas y conocimientos con el propósito de lograr el desarrollo integral, para beneficio de su entorno y la sociedad..</p>
+            <p>Trabajo colaborativo con equidad y transparencia en el comportamiento , aportando sus ideas y
+              conocimientos con el propósito de lograr el desarrollo integral, para beneficio de su entorno y la
+              sociedad..</p>
           </div>
-         <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
             <div class="content ps-0 ps-lg-5">
               <ul>
                 <li><i class="bi bi-check-circle-fill"></i> <span>Equidad</span></li>
@@ -196,7 +224,7 @@
 
     </section>
 
-        <!-- Objectives Section -->
+    <!-- Objectives Section -->
     <section id="tools" class="services-2 section light-background">
 
       <div class="container section-title" data-aos="fade-up">
@@ -212,7 +240,8 @@
               <i class="bi bi-newspaper icon flex-shrink-0"></i>
               <div>
                 <h4 class="title">Facil accesibilidad</h4>
-                <p class="description">Presentar en un medio informático de fácil accesibilidad las disposiciones administrativas internas de CESUN Universidad, debidamente organizadas.</p>
+                <p class="description">Presentar en un medio informático de fácil accesibilidad las disposiciones
+                  administrativas internas de CESUN Universidad, debidamente organizadas.</p>
               </div>
             </div>
           </div>
@@ -222,7 +251,8 @@
               <i class="bi bi-award icon flex-shrink-0"></i>
               <div>
                 <h4 class="title">Dispocisiones administrativas</h4>
-                <p class="description">Favorecer el registro, difusión y actualización de las disposiciones administrativas internas.</p>
+                <p class="description">Favorecer el registro, difusión y actualización de las disposiciones
+                  administrativas internas.</p>
               </div>
             </div>
           </div>
@@ -232,7 +262,9 @@
               <i class="bi bi-diagram-3 icon flex-shrink-0"></i>
               <div>
                 <h4 class="title">Dispocisiones vigentes</h4>
-                <p class="description">Dar a conocer al personal de CESUN Universidad las disposiciones administrativas internas vigentes, para que opinen y participen en su simplificación y, en su caso, en la desregulación, cuando proceda.</p>
+                <p class="description">Dar a conocer al personal de CESUN Universidad las disposiciones administrativas
+                  internas vigentes, para que opinen y participen en su simplificación y, en su caso, en la
+                  desregulación, cuando proceda.</p>
               </div>
             </div>
           </div>
@@ -252,7 +284,8 @@
               <i class="bi bi-graph-up icon flex-shrink-0"></i>
               <div>
                 <h4 class="title">Controles de registros</h4>
-                <p class="description">Propiciar la operación, administración y control de un registro electrónico de las disposiciones vigentes.</p>
+                <p class="description">Propiciar la operación, administración y control de un registro electrónico de
+                  las disposiciones vigentes.</p>
               </div>
             </div>
           </div>
@@ -262,7 +295,9 @@
               <i class="bi bi-shield-check icon flex-shrink-0"></i>
               <div>
                 <h4 class="title">Productividad</h4>
-                <p class="description">Impulsar la transparencia, el acceso a la información, combatir la corrupción e incrementar la productividad del personal de CESUN Universidad mediante la consulta de disposiciones administrativas internas, por medios electrónicos.</p>
+                <p class="description">Impulsar la transparencia, el acceso a la información, combatir la corrupción e
+                  incrementar la productividad del personal de CESUN Universidad mediante la consulta de disposiciones
+                  administrativas internas, por medios electrónicos.</p>
               </div>
             </div>
           </div>
@@ -275,51 +310,52 @@
 
   </main>
 
-<footer id="footer" class="footer dark-background">
+  <footer id="footer" class="footer dark-background">
 
-  <div class="container footer-top">
+    <div class="container footer-top">
 
-    <div class="row">
-      <div class="col-12 text-center footer-about">
-        <a href="#" class="logo d-flex align-items-center justify-content-center">
-          <span class="sitename">Normateca Institucional</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Coordinador y Jefe en una sola línea -->
-    <div class="row justify-content-center mt-4">
-      <div class="col-md-5 footer-links text-center">
-        <h4>Coordinador de Desarrollo Organizacional</h4>
-        <div class="footer-contact pt-3">
-          <p>Beltrán Ángel Orlando</p>
-          <p class="mt-1"><strong>Ext.</strong> <span>180</span></p>
-          <p class="mt-3"><strong>Email:</strong> <span>coord.do@cesun.edu.mx</span></p>
+      <div class="row">
+        <div class="col-12 text-center footer-about">
+          <a href="#" class="logo d-flex align-items-center justify-content-center">
+            <span class="sitename">Normateca Institucional</span>
+          </a>
         </div>
       </div>
 
-      <div class="col-md-5 footer-links text-center">
-        <h4>Jefe de Planeación y Evaluación Institucional</h4>
-        <div class="footer-contact pt-3">
-          <p>Figueroa Mascareño Mario</p>
-          <p class="mt-1"><strong>Ext.</strong> <span>179</span></p>
-          <p class="mt-3"><strong>Email:</strong> <span>planeacionyevaluacion@cesun.edu.mx</span></p>
+      <!-- Coordinador y Jefe en una sola línea -->
+      <div class="row justify-content-center mt-4">
+        <div class="col-md-5 footer-links text-center">
+          <h4>Coordinador de Desarrollo Organizacional</h4>
+          <div class="footer-contact pt-3">
+            <p>Beltrán Ángel Orlando</p>
+            <p class="mt-1"><strong>Ext.</strong> <span>180</span></p>
+            <p class="mt-3"><strong>Email:</strong> <span>coord.do@cesun.edu.mx</span></p>
+          </div>
         </div>
+
+        <div class="col-md-5 footer-links text-center">
+          <h4>Jefe de Planeación y Evaluación Institucional</h4>
+          <div class="footer-contact pt-3">
+            <p>Figueroa Mascareño Mario</p>
+            <p class="mt-1"><strong>Ext.</strong> <span>179</span></p>
+            <p class="mt-3"><strong>Email:</strong> <span>planeacionyevaluacion@cesun.edu.mx</span></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <div class="credits">
+        Departamento de Planeación y Gestión de Calidad
       </div>
     </div>
 
-  </div>
-
-  <div class="container copyright text-center mt-4">
-    <div class="credits">
-      Departamento de Planeación y Gestión de Calidad
-    </div>
-  </div>
-
-</footer>
+  </footer>
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>
@@ -338,78 +374,77 @@
   <script src="../assets/js/main.js"></script>
 
   <!-- Botones flotantes -->
-<div class="floating-buttons">
-  <button id="btn-add-user" class="float-btn" title="Agregar Usuario" data-bs-toggle="modal" data-bs-target="#modalAddUser">
-    <i class="bi bi-person-plus"></i>
-  </button>
-<button class="float-btn" title="Agregar Documento o URL"
-        data-bs-toggle="modal" data-bs-target="#modalAddDoc">
-  <i class="bi bi-file-earmark-plus"></i>
-</button>
-</div>
+  <div class="floating-buttons">
+    <button id="btn-add-user" class="float-btn" title="Agregar Usuario" data-bs-toggle="modal"
+      data-bs-target="#modalAddUser">
+      <i class="bi bi-person-plus"></i>
+    </button>
+    <button class="float-btn" title="Agregar Documento o URL" data-bs-toggle="modal" data-bs-target="#modalAddDoc">
+      <i class="bi bi-file-earmark-plus"></i>
+    </button>
+  </div>
 
-<style>
-  .floating-buttons {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-}
-
-.float-btn {
-  background-color: #0d6efd;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-  transition: all 0.3s ease;
-}
-
-.float-btn:hover {
-  background-color: #0b5ed7;
-  transform: scale(1.1);
-}
-
-#btn-add-user,
-#btn-add-doc {
-  opacity: 1;
-  pointer-events: all;
-  transform: translateY(0);
-}
-
-.show-scroll .floating-buttons {
-  bottom: 90px;
-}
-
-</style>
-
-<script>
-  const scrollTopBtn = document.getElementById('scroll-top');
-  const floatingButtons = document.querySelector('.floating-buttons');
-  const body = document.body;
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) {
-      scrollTopBtn.classList.add('active');
-      body.classList.add('show-scroll');
-    } else {
-      scrollTopBtn.classList.remove('active');
-      body.classList.remove('show-scroll');
+  <style>
+    .floating-buttons {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
     }
-  });
 
-</script>
+    .float-btn {
+      background-color: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .float-btn:hover {
+      background-color: #0b5ed7;
+      transform: scale(1.1);
+    }
+
+    #btn-add-user,
+    #btn-add-doc {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    .show-scroll .floating-buttons {
+      bottom: 90px;
+    }
+  </style>
+
+  <script>
+    const scrollTopBtn = document.getElementById('scroll-top');
+    const floatingButtons = document.querySelector('.floating-buttons');
+    const body = document.body;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        scrollTopBtn.classList.add('active');
+        body.classList.add('show-scroll');
+      } else {
+        scrollTopBtn.classList.remove('active');
+        body.classList.remove('show-scroll');
+      }
+    });
+
+  </script>
 
   <!-- Modal para agregar documento -->
   <div class="modal fade" id="modalAddDoc" tabindex="-1" aria-labelledby="modalAddDocLabel" aria-hidden="true">
@@ -450,16 +485,50 @@
 
             <div class="mb-3">
               <label for="seccionID" class="form-label">Sección</label>
-              <select name="seccionID" id="seccionID" class="form-select">
-                <option value="">Seleccione una sección</option>
-              </select>
+              <div class="input-group">
+                <select name="seccionID" id="seccionID" class="form-select">
+                  <option value="">Seleccione una sección</option>
+                </select>
+                <button type="button" class="btn btn-outline-primary" id="btnNuevaSeccion">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </div>
+              <div id="nuevaSeccionContainer" class="mt-2" style="display:none;">
+                <div class="input-group">
+                  <input type="text" id="inputNombreSeccion" class="form-control"
+                    placeholder="Nombre de la nueva sección">
+                  <button type="button" class="btn btn-success" id="btnGuardarSeccion">
+                    <i class="bi bi-check-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btnCancelarSeccion">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div class="mb-3">
               <label for="subseccionID" class="form-label">Subsección (opcional)</label>
-              <select name="subseccionID" id="subseccionID" class="form-select">
-                <option value="">Seleccione una subsección</option>
-              </select>
+              <div class="input-group">
+                <select name="subseccionID" id="subseccionID" class="form-select">
+                  <option value="">Seleccione una subsección</option>
+                </select>
+                <button type="button" class="btn btn-outline-primary" id="btnNuevaSubseccion" disabled>
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </div>
+              <div id="nuevaSubseccionContainer" class="mt-2" style="display:none;">
+                <div class="input-group">
+                  <input type="text" id="inputNombreSubseccion" class="form-control"
+                    placeholder="Nombre de la nueva subsección">
+                  <button type="button" class="btn btn-success" id="btnGuardarSubseccion">
+                    <i class="bi bi-check-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btnCancelarSubseccion">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div class="mb-3">
@@ -478,7 +547,7 @@
       </div>
     </div>
   </div>
-</div>
+  </div>
 
   <!-- Modal para registrar usuarios -->
   <div class="modal fade" id="modalAddUser" tabindex="-1" aria-labelledby="modalAddUserLabel" aria-hidden="true">
@@ -514,7 +583,8 @@
 
             <div class="mb-3">
               <label for="contrasena_confirmation" class="form-label">Confirmar contraseña</label>
-              <input type="password" name="contrasena_confirmation" id="contrasena_confirmation" class="form-control" required minlength="8">
+              <input type="password" name="contrasena_confirmation" id="contrasena_confirmation" class="form-control"
+                required minlength="8">
             </div>
 
             <div class="mb-3">
@@ -536,41 +606,148 @@
     </div>
   </div>
 
-@section('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function(){
-    // Cuando cambia la categoría
-    $('#categoriaID').change(function(){
+  @section('scripts')
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Cuando cambia la categoría
+      $('#categoriaID').change(function () {
         var categoriaID = $(this).val();
         $('#seccionID').empty().append('<option value="">Cargando...</option>');
         $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
-        if(categoriaID){
-            $.getJSON('/documentos/secciones/' + categoriaID, function(data){
-                $('#seccionID').empty().append('<option value="">Seleccione una sección</option>');
-                $.each(data, function(i, item){
-                    $('#seccionID').append('<option value="'+item.numero+'">'+item.nombre+'</option>');
-                });
-            });
-        }
-    });
+        $('#btnNuevaSeccion').prop('disabled', !categoriaID);
+        $('#btnNuevaSubseccion').prop('disabled', true);
 
-    // Cuando cambia la sección
-    $('#seccionID').change(function(){
+        if (categoriaID) {
+          $.getJSON('/documentos/secciones/' + categoriaID, function (data) {
+            $('#seccionID').empty().append('<option value="">Seleccione una sección</option>');
+            $.each(data, function (i, item) {
+              $('#seccionID').append('<option value="' + item.numero + '">' + item.nombre + '</option>');
+            });
+          });
+        } else {
+          $('#seccionID').empty().append('<option value="">Seleccione una sección</option>');
+        }
+      });
+
+      // Cuando cambia la sección
+      $('#seccionID').change(function () {
         var seccionPadreID = $(this).val();
         $('#subseccionID').empty().append('<option value="">Cargando...</option>');
-        if(seccionPadreID){
-            $.getJSON('/documentos/subsecciones/' + seccionPadreID, function(data){
-                $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
-                $.each(data, function(i, item){
-                    $('#subseccionID').append('<option value="'+item.numero+'">'+item.nombre+'</option>');
-                });
-            });
-        } else {
+        $('#btnNuevaSubseccion').prop('disabled', !seccionPadreID);
+
+        if (seccionPadreID) {
+          $.getJSON('/documentos/subsecciones/' + seccionPadreID, function (data) {
             $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
+            $.each(data, function (i, item) {
+              $('#subseccionID').append('<option value="' + item.numero + '">' + item.nombre + '</option>');
+            });
+          });
+        } else {
+          $('#subseccionID').empty().append('<option value="">Seleccione una subsección</option>');
         }
+      });
+
+      // Botón para mostrar campo inline de nueva sección
+      $('#btnNuevaSeccion').click(function () {
+        $('#nuevaSeccionContainer').slideDown(200);
+        $('#inputNombreSeccion').val('').focus();
+      });
+
+      // Botón para cancelar nueva sección
+      $('#btnCancelarSeccion').click(function () {
+        $('#nuevaSeccionContainer').slideUp(200);
+        $('#inputNombreSeccion').val('');
+      });
+
+      // Botón para guardar nueva sección
+      $('#btnGuardarSeccion').click(function () {
+        const nombreSeccion = $('#inputNombreSeccion').val().trim();
+        const categoriaID = $('#categoriaID').val();
+
+        if (nombreSeccion === '') {
+          alert('Por favor ingrese un nombre para la sección');
+          return;
+        }
+
+        $.ajax({
+          url: '{{ route("documentos.crearSeccion") }}',
+          method: 'POST',
+          data: {
+            _token: '{{ csrf_token() }}',
+            nombre: nombreSeccion,
+            categoriaID: categoriaID
+          },
+          success: function (response) {
+            if (response.success) {
+              $('#seccionID').append('<option value="' + response.seccion.numero + '">' + response.seccion.nombre + '</option>');
+              $('#seccionID').val(response.seccion.numero);
+              $('#nuevaSeccionContainer').slideUp(200);
+              $('#inputNombreSeccion').val('');
+              alert('Sección "' + response.seccion.nombre + '" creada correctamente');
+              $('#seccionID').trigger('change');
+            }
+          },
+          error: function () {
+            alert('Error al crear la sección. Intente nuevamente.');
+          }
+        });
+      });
+
+      // Botón para mostrar campo inline de nueva subsección
+      $('#btnNuevaSubseccion').click(function () {
+        const seccionPadreID = $('#seccionID').val();
+        if (!seccionPadreID) {
+          alert('Primero seleccione una sección');
+          return;
+        }
+
+        $('#nuevaSubseccionContainer').slideDown(200);
+        $('#inputNombreSubseccion').val('').focus();
+      });
+
+      // Botón para cancelar nueva subsección
+      $('#btnCancelarSubseccion').click(function () {
+        $('#nuevaSubseccionContainer').slideUp(200);
+        $('#inputNombreSubseccion').val('');
+      });
+
+      // Botón para guardar nueva subsección
+      $('#btnGuardarSubseccion').click(function () {
+        const seccionPadreID = $('#seccionID').val();
+        const categoriaID = $('#categoriaID').val();
+        const nombreSubseccion = $('#inputNombreSubseccion').val().trim();
+
+        if (nombreSubseccion === '') {
+          alert('Por favor ingrese un nombre para la subsección');
+          return;
+        }
+
+        $.ajax({
+          url: '{{ route("documentos.crearSubseccion") }}',
+          method: 'POST',
+          data: {
+            _token: '{{ csrf_token() }}',
+            nombre: nombreSubseccion,
+            categoriaID: categoriaID,
+            seccionPadreID: seccionPadreID
+          },
+          success: function (response) {
+            if (response.success) {
+              $('#subseccionID').append('<option value="' + response.subseccion.numero + '">' + response.subseccion.nombre + '</option>');
+              $('#subseccionID').val(response.subseccion.numero);
+              $('#nuevaSubseccionContainer').slideUp(200);
+              $('#inputNombreSubseccion').val('');
+              alert('Subsección "' + response.subseccion.nombre + '" creada correctamente');
+            }
+          },
+          error: function () {
+            alert('Error al crear la subsección. Intente nuevamente.');
+          }
+        });
+      });
     });
-});
-</script>
+  </script>
 </body>
+
 </html>
